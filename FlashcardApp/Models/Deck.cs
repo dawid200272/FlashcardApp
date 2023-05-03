@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FlashcardApp.Models
 {
-    public class DeckModel
+    public class Deck
     {
         private static int _deckCount = 0;
 
@@ -15,9 +15,9 @@ namespace FlashcardApp.Models
         public string Name { get; set; }
         public string? Description { get; set; } = null;
 
-        public List<CardModel> Cards { get; }
+        public List<Card> Cards { get; }
 
-        public DeckModel(string name, string? description = null, List<CardModel>? cards = null)
+        public Deck(string name, string? description = null, List<Card>? cards = null)
         {
             Id = ++_deckCount;
             Name = name;
@@ -33,28 +33,28 @@ namespace FlashcardApp.Models
             }
             else
             {
-                Cards = new List<CardModel>();
+                Cards = new List<Card>();
             }
 
             _deckCount++;
         }
 
-        public void AddCard(CardModel card)
+        public void AddCard(Card card)
         {
             Cards.Add(card);
         }
 
-        public void AddCardRange(IEnumerable<CardModel> cards)
+        public void AddCardRange(IEnumerable<Card> cards)
         {
             Cards.AddRange(cards);
         }
 
-        public void RemoveCard(CardModel card)
+        public void RemoveCard(Card card)
         {
             Cards.Remove(card);
         }
 
-        public void RemoveCardRange(IEnumerable<CardModel> cards)
+        public void RemoveCardRange(IEnumerable<Card> cards)
         {
             foreach (var card in cards)
             {

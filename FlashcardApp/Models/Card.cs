@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FlashcardApp.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FlashcardApp.Models
 {
-    public class CardModel
+    public class Card
     {
         private static int _cardCount = 0;
 
@@ -17,7 +18,7 @@ namespace FlashcardApp.Models
 
         public CardState State { get; set; }
 
-        public CardModel(string front, string back)
+        public Card(string front, string back)
         {
             ID = ++_cardCount;
 

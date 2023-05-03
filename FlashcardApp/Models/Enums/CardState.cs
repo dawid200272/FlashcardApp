@@ -1,4 +1,4 @@
-﻿namespace FlashcardApp.Models
+﻿namespace FlashcardApp.Models.Enums
 {
     public enum CardState
     {
