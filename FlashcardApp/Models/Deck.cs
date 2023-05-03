@@ -9,13 +9,14 @@ namespace FlashcardApp.Models
     public class Deck
     {
         private static int _deckCount = 0;
+        private List<Card> _cards;
 
         public int Id { get; set; }
 
         public string Name { get; set; }
         public string? Description { get; set; } = null;
 
-        public List<Card> Cards { get; }
+        public IEnumerable<Card> Cards { get => _cards; }
 
         public Deck(string name, string? description = null, List<Card>? cards = null)
         {
@@ -29,36 +30,38 @@ namespace FlashcardApp.Models
 
             if (cards is not null)
             {
-                Cards = cards;
+                _cards = cards;
             }
             else
             {
-                Cards = new List<Card>();
+                _cards = new List<Card>();
             }
 
             _deckCount++;
         }
 
+        private Deck() { }
+
         public void AddCard(Card card)
         {
-            Cards.Add(card);
+            _cards.Add(card);
         }
 
         public void AddCardRange(IEnumerable<Card> cards)
         {
-            Cards.AddRange(cards);
+            _cards.AddRange(cards);
         }
 
         public void RemoveCard(Card card)
         {
-            Cards.Remove(card);
+            _cards.Remove(card);
         }
 
         public void RemoveCardRange(IEnumerable<Card> cards)
         {
             foreach (var card in cards)
             {
-                Cards.Remove(card);
+                _cards.Remove(card);
             }
         }
     }

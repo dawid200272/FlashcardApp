@@ -16,6 +16,8 @@ namespace FlashcardApp.Models
         public string Front { get; set; }
         public string Back { get; set; }
 
+        public Deck Deck { get; set; }
+
         public CardState State { get; set; }
 
         public Card(string front, string back)
