@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlashcardApp", "FlashcardAp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashcardApp.EntityFramework", "FlashcardApp.EntityFramework\FlashcardApp.EntityFramework.csproj", "{90EA3DAF-BA05-42C3-8193-CEB0047A3615}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashcardApp.TestConsole", "FlashcardApp.TestConsole\FlashcardApp.TestConsole.csproj", "{2971EC9E-E5CB-468D-8473-6117B42C2F94}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{90EA3DAF-BA05-42C3-8193-CEB0047A3615}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90EA3DAF-BA05-42C3-8193-CEB0047A3615}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90EA3DAF-BA05-42C3-8193-CEB0047A3615}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2971EC9E-E5CB-468D-8473-6117B42C2F94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2971EC9E-E5CB-468D-8473-6117B42C2F94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2971EC9E-E5CB-468D-8473-6117B42C2F94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2971EC9E-E5CB-468D-8473-6117B42C2F94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
