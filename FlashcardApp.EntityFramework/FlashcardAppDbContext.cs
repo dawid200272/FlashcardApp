@@ -13,6 +13,8 @@ namespace FlashcardApp.EntityFramework
         public DbSet<Card> Cards { get; set; }
         public DbSet<Deck> Decks { get; set; }
 
+        public FlashcardAppDbContext(DbContextOptions options) : base(options) { }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Deck>()
@@ -20,13 +22,6 @@ namespace FlashcardApp.EntityFramework
                 .WithOne(c => c.Deck);
 
             base.OnModelCreating(modelBuilder);
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=FlashcardAppDB;Trusted_Connection=True;");
-
-            base.OnConfiguring(optionsBuilder);
         }
     }
 }

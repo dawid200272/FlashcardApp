@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace FlashcardApp.Models
 {
-    public class Deck
+    public class Deck : DomainObject
     {
         private static int _deckCount = 0;
         private List<Card> _cards;
-
-        public int Id { get; set; }
 
         public string Name { get; set; }
         public string? Description { get; set; } = null;
 
         public IEnumerable<Card> Cards { get => _cards; }
 
+        private Deck() { }
+
         public Deck(string name, string? description = null, List<Card>? cards = null)
         {
-            Id = ++_deckCount;
+            //ID = ++_deckCount;
             Name = name;
 
             if (description is not null)
@@ -39,8 +39,6 @@ namespace FlashcardApp.Models
 
             _deckCount++;
         }
-
-        private Deck() { }
 
         public void AddCard(Card card)
         {

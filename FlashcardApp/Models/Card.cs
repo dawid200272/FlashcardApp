@@ -7,11 +7,9 @@ using System.Threading.Tasks;
 
 namespace FlashcardApp.Models
 {
-    public class Card
+    public class Card : DomainObject
     {
         private static int _cardCount = 0;
-
-        public int ID { get; set; }
 
         public string Front { get; set; }
         public string Back { get; set; }
@@ -22,7 +20,7 @@ namespace FlashcardApp.Models
 
         public Card(string front, string back)
         {
-            ID = ++_cardCount;
+            //ID = ++_cardCount;
 
             Front = front;
             Back = back;
