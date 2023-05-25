@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FlashcardApp.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FlashcardApp.Models
 {
-    public class Deck : DomainObject
+    public class Deck : DomainObject, IDeckService
     {
         private static int _deckCount = 0;
         private List<Card> _cards;
@@ -61,6 +62,30 @@ namespace FlashcardApp.Models
             {
                 _cards.Remove(card);
             }
+        }
+
+        public static Task<Deck> CreateEmptyDeck(string name)
+        {
+            Deck result = new Deck(name);
+
+            return Task.FromResult(result);
+        }
+
+        public static async Task<Deck> CreateDeckWithCards(string name, List<CardTemplate> cardTemplates)
+        {
+            Deck result = new Deck(name);
+
+            foreach (var cardTemplate in cardTemplates)
+            {
+                result.AddCard(await Card.CreateCard(cardTemplate, result));
+            }
+
+            return result;
+        }
+
+        public static Task<List<Deck>> CreateDecks(List<string> names, List<CardTemplate> cards)
+        {
+            throw new NotImplementedException();
         }
     }
 }
