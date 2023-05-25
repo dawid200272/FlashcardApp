@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FlashcardApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +14,16 @@ namespace FlashcardApp
     /// </summary>
     public partial class App : Application
     {
+        private List<Deck> _decks;
+
+        public IEnumerable<Deck> Decks => _decks;
+
+        public App()
+        {
+            _decks = new List<Deck>
+            {
+                new Deck("Default")
+            };
+        }
     }
 }
