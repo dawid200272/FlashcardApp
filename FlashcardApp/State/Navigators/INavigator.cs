@@ -15,8 +15,9 @@ namespace FlashcardApp.State.Navigators
         ICommand UpdateCurrentViewModelCommand { get; }
     }
 
-    enum ViewType
+    public enum ViewType
     {
-        DeckListing
+        DeckListing,
+        CardReview
     }
 }

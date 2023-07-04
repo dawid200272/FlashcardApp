@@ -2,6 +2,7 @@
 using FlashcardApp.Domain.Models;
 using FlashcardApp.Domain.Services;
 using FlashcardApp.ViewModels;
+using FlashcardApp.ViewModels.Factories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,14 +18,16 @@ namespace FlashcardApp.State.Navigators
         private DeckCollection _deckCollection;
         private IDeckService _deckService;
 
-        public Navigator(DeckCollection deckCollection, IDeckService deckService)
+        public Navigator(DeckCollection deckCollection, IDeckService deckService, IFlashcardAppViewModelAbstractFactory viewModelFactory)
         {
             _deckCollection = deckCollection;
             _deckService = deckService;
+
+            UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(this, _deckCollection, _deckService, viewModelFactory);
         }
 
         public ViewModelBase CurrentViewModel
-        { 
+        {
             get
             {
                 return _currentViewModel;
@@ -36,7 +39,6 @@ namespace FlashcardApp.State.Navigators
             }
         }
 
-        public ICommand UpdateCurrentViewModelCommand => new UpdateCurrentViewModelCommand(this,
-            _deckCollection, _deckService);
+        public ICommand UpdateCurrentViewModelCommand { get; set; }
     }
 }

@@ -24,7 +24,6 @@ namespace FlashcardApp.ViewModels
             _deckService = deckService;
         }
 
-
         public ObservableCollection<Deck> Decks 
         { 
             get => _decks;

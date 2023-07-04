@@ -8,7 +8,7 @@ namespace FlashcardApp.Domain.Models
 {
     public class DeckCollection
     {
-        private List<Deck> _decks;
+        private List<Deck> _decks = new List<Deck>();
 
         public IEnumerable<Deck> Decks => _decks;
 
