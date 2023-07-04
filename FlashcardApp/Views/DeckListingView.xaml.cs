@@ -13,15 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FlashcardApp;
-
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
-public partial class MainWindow : Window
+namespace FlashcardApp.Views
 {
-    public MainWindow()
+    /// <summary>
+    /// Interaction logic for DeckListingView.xaml
+    /// </summary>
+    public partial class DeckListingView : UserControl
     {
-        InitializeComponent();
+        public DeckListingView()
+        {
+            InitializeComponent();
+        }
     }
 }

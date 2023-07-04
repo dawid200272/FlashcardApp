@@ -13,15 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FlashcardApp;
-
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
-public partial class MainWindow : Window
+namespace FlashcardApp.Controls
 {
-    public MainWindow()
+    /// <summary>
+    /// Interaction logic for NavigationBar.xaml
+    /// </summary>
+    public partial class NavigationBar : UserControl
     {
-        InitializeComponent();
+        public NavigationBar()
+        {
+            InitializeComponent();
+        }
     }
 }
