@@ -10,6 +10,6 @@ namespace FlashcardApp.Services
 {
     public interface ICardTemplateService
     {
-        Task<CardTemplate> CreateCardTemplate(CardTemplateType type, List<Field> fields);
+        Task<CardTemplate> CreateCardTemplate(CardTemplateType type, string front, string back);
     }
 }

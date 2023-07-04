@@ -12,5 +12,11 @@ namespace FlashcardApp.Models
         public string Front { get; set; }
         public string Back { get; set; }
         public CardTemplateType TemplateType { get; set; } = CardTemplateType.Basic;
+
+        public CardTemplate(string front, string back)
+        {
+            Front = front;
+            Back = back;
+        }
     }
 }
