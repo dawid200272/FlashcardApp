@@ -1,4 +1,6 @@
-﻿using FlashcardApp.State.Navigators;
+﻿using FlashcardApp.Models;
+using FlashcardApp.Services;
+using FlashcardApp.State.Navigators;
 using FlashcardApp.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -11,14 +13,19 @@ namespace FlashcardApp.Commands
 {
     public class UpdateCurrentViewModelCommand : ICommand
     {
-        public event EventHandler? CanExecuteChanged;
-
+        private readonly DeckCollection _deckCollection;
+        private readonly IDeckService _deckService;
         private INavigator _navigator;
 
-        public UpdateCurrentViewModelCommand(INavigator navigator)
+        public UpdateCurrentViewModelCommand(INavigator navigator, DeckCollection deckCollection,
+            IDeckService deckService)
         {
             _navigator = navigator;
+            _deckCollection = deckCollection;
+            _deckService = deckService;
         }
+
+        public event EventHandler? CanExecuteChanged;
 
         public bool CanExecute(object? parameter)
         {
@@ -32,7 +39,7 @@ namespace FlashcardApp.Commands
                 switch (viewType)
                 {
                     case ViewType.DeckListing:
-                        _navigator.CurrentViewModel = new DeckListingViewModel();
+                        _navigator.CurrentViewModel = new DeckListingViewModel(_deckCollection, _deckService);
                         break;
                     default:
                         break;

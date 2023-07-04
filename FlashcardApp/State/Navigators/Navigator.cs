@@ -1,4 +1,6 @@
 ﻿using FlashcardApp.Commands;
+using FlashcardApp.Models;
+using FlashcardApp.Services;
 using FlashcardApp.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -12,6 +14,14 @@ namespace FlashcardApp.State.Navigators
     public class Navigator : ObservableObject, INavigator
     {
         private ViewModelBase _currentViewModel;
+        private DeckCollection _deckCollection;
+        private IDeckService _deckService;
+
+        public Navigator(DeckCollection deckCollection, IDeckService deckService)
+        {
+            _deckCollection = deckCollection;
+            _deckService = deckService;
+        }
 
         public ViewModelBase CurrentViewModel
         { 
@@ -26,6 +36,7 @@ namespace FlashcardApp.State.Navigators
             }
         }
 
-        public ICommand UpdateCurrentViewModelCommand => new UpdateCurrentViewModelCommand(this);
+        public ICommand UpdateCurrentViewModelCommand => new UpdateCurrentViewModelCommand(this,
+            _deckCollection, _deckService);
     }
 }
