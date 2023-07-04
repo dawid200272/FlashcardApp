@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FlashcardApp.Models
 {
-    public class Deck : DomainObject, IDeckService
+    public class Deck : DomainObject
     {
         private static int _deckCount = 0;
         private List<Card> _cards;
@@ -21,7 +21,6 @@ namespace FlashcardApp.Models
 
         public Deck(string name, string? description = null, List<Card>? cards = null)
         {
-            //ID = ++_deckCount;
             Name = name;
 
             if (description is not null)
@@ -39,6 +38,8 @@ namespace FlashcardApp.Models
             }
 
             _deckCount++;
+
+            ID = _deckCount;
         }
 
         public void AddCard(Card card)
@@ -62,30 +63,6 @@ namespace FlashcardApp.Models
             {
                 _cards.Remove(card);
             }
-        }
-
-        public static Task<Deck> CreateEmptyDeck(string name)
-        {
-            Deck result = new Deck(name);
-
-            return Task.FromResult(result);
-        }
-
-        public static async Task<Deck> CreateDeckWithCards(string name, List<CardTemplate> cardTemplates)
-        {
-            Deck result = new Deck(name);
-
-            foreach (var cardTemplate in cardTemplates)
-            {
-                result.AddCard(await Card.CreateCard(cardTemplate, result));
-            }
-
-            return result;
-        }
-
-        public static Task<List<Deck>> CreateDecks(List<string> names, List<CardTemplate> cards)
-        {
-            throw new NotImplementedException();
         }
     }
 }

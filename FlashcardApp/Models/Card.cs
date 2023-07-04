@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FlashcardApp.Models
 {
-    public class Card : DomainObject, ICardService
+    public class Card : DomainObject
     {
         private static int _cardCount = 0;
 
@@ -24,31 +24,12 @@ namespace FlashcardApp.Models
 
         public Card(CardTemplate cardTemplate, Deck deck)
         {
-            //ID = ++_cardCount;
-
             State = CardState.newCard;
 
             CardTemplate = cardTemplate;
             _cardCount++;
-        }
 
-        public static Task<Card> CreateCard(CardTemplate cardTemplate, Deck deck)
-        {
-            Card result = new Card(cardTemplate, deck);
-
-            return Task.FromResult(result);
-        }
-
-        public static async Task<List<Card>> CreateCardsAsync(List<CardTemplate> cardTemplates, Deck deck)
-        {
-            List<Card> result = new List<Card>();
-
-            foreach (var cardTemplate in cardTemplates)
-            {
-                result.Add(await CreateCard(cardTemplate, deck));
-            }
-
-            return result;
+            ID = _cardCount;
         }
     }
 }
