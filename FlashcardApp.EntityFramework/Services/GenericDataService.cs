@@ -1,5 +1,5 @@
-﻿using FlashcardApp.Models;
-using FlashcardApp.Services;
+﻿using FlashcardApp.Domain.Models;
+using FlashcardApp.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

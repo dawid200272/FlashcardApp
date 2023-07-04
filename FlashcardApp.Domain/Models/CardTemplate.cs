@@ -1,11 +1,11 @@
-﻿using System;
+﻿using FlashcardApp.Domain.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FlashcardApp.Models.Enums;
 
-namespace FlashcardApp.Models
+namespace FlashcardApp.Domain.Models
 {
     public class CardTemplate : DomainObject
     {

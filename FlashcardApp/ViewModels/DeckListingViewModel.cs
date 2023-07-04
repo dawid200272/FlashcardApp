@@ -1,6 +1,6 @@
 ﻿using FlashcardApp.Commands;
-using FlashcardApp.Models;
-using FlashcardApp.Services;
+using FlashcardApp.Domain.Models;
+using FlashcardApp.Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

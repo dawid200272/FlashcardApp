@@ -1,4 +1,4 @@
-﻿namespace FlashcardApp.Models.Enums
+﻿namespace FlashcardApp.Domain.Models.Enums
 {
     public enum CardTemplateType
     {

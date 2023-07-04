@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlashcardApp.Services
+namespace FlashcardApp.Domain.Services
 {
     public interface IDataService<T>
     {

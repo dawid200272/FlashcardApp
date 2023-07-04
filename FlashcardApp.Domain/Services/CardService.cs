@@ -1,13 +1,13 @@
-﻿using FlashcardApp.Models;
+﻿using FlashcardApp.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlashcardApp.Services
+namespace FlashcardApp.Domain.Services
 {
-    public class CardService: ICardService
+    public class CardService : ICardService
     {
         public Task<Card> CreateCard(CardTemplate cardTemplate, Deck deck)
         {

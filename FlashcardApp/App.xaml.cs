@@ -1,4 +1,4 @@
-﻿using FlashcardApp.Models;
+﻿using FlashcardApp.Domain.Models;
 using FlashcardApp.ViewModels;
 using System;
 using System.Collections.Generic;
