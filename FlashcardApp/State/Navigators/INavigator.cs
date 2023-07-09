@@ -18,6 +18,7 @@ namespace FlashcardApp.State.Navigators
     public enum ViewType
     {
         DeckListing,
+        DeckDetails,
         CardReview
     }
 }

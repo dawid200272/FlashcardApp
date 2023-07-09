@@ -1,6 +1,7 @@
 ﻿using FlashcardApp.Commands;
 using FlashcardApp.Domain.Models;
 using FlashcardApp.Domain.Services;
+using FlashcardApp.State.Navigators;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,20 +17,39 @@ namespace FlashcardApp.ViewModels
     {
         private DeckCollection _deckCollection;
         private IDeckService _deckService;
-        private ObservableCollection<Deck> _decks => (ObservableCollection<Deck>)_deckCollection.Decks;
+        private ObservableCollection<DeckViewModel> _decks;
 
         public DeckListingViewModel(DeckCollection deckCollection, IDeckService deckService)
         {
             _deckCollection = deckCollection;
             _deckService = deckService;
+
+            var deckViewModels = new List<DeckViewModel>();
+
+            foreach (Deck deck in _deckCollection)
+            {
+                deckViewModels.Add(new DeckViewModel(deck));
+            }
+
+            _decks = new ObservableCollection<DeckViewModel>(deckViewModels);
         }
 
-        public ObservableCollection<Deck> Decks 
-        { 
-            get => _decks;
+        public ObservableCollection<DeckViewModel> Decks
+        {
+            get
+            {
+                return _decks;
+            }
+            set
+            {
+                _decks = value;
+                OnPropertyChanged();
+            }
         }
 
         public ICommand AddEmptyDeckCommand => new AddEmptyDeckCommand(this);
+
+        //public ICommand SelectDeck => new SelectDeckCommand();
 
         public async Task AddDeck(string deckName)
         {

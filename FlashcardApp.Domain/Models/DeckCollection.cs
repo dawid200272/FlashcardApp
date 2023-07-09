@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FlashcardApp.Domain.Models
 {
-    public class DeckCollection
+    public class DeckCollection : IEnumerable<Deck>
     {
         private List<Deck> _decks = new List<Deck>();
 
@@ -25,6 +26,16 @@ namespace FlashcardApp.Domain.Models
         public void Remove(Deck deck)
         {
             _decks.Remove(deck);
+        }
+
+        public IEnumerator<Deck> GetEnumerator()
+        {
+            return _decks.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

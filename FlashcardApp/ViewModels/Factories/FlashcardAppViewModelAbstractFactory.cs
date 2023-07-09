@@ -21,15 +21,12 @@ namespace FlashcardApp.ViewModels.Factories
 
         public ViewModelBase CreateViewModel(ViewType viewType)
         {
-            switch (viewType)
+            return viewType switch
             {
-                case ViewType.DeckListing:
-                    return _deckListingViewModelFactory.CreateViewModel();
-                case ViewType.CardReview:
-                    return _cardReviewViewModelFactory.CreateViewModel();
-                default:
-                    throw new ArgumentException("The ViewType does not have a ViewModel.", nameof(viewType));
-            }
+                ViewType.DeckListing => _deckListingViewModelFactory.CreateViewModel(),
+                ViewType.CardReview => _cardReviewViewModelFactory.CreateViewModel(),
+                _ => throw new ArgumentException("The ViewType does not have a ViewModel.", nameof(viewType)),
+            };
         }
     }
 }
