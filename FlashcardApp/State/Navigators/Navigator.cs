@@ -15,8 +15,8 @@ namespace FlashcardApp.State.Navigators
     public class Navigator : ObservableObject, INavigator
     {
         private ViewModelBase _currentViewModel;
-        private DeckCollection _deckCollection;
-        private IDeckService _deckService;
+        private readonly DeckCollection _deckCollection;
+        private readonly IDeckService _deckService;
 
         public Navigator(DeckCollection deckCollection, IDeckService deckService, IFlashcardAppViewModelAbstractFactory viewModelFactory)
         {

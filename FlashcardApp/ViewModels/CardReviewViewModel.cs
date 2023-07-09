@@ -10,11 +10,11 @@ namespace FlashcardApp.ViewModels
 {
     public class CardReviewViewModel : ViewModelBase
     {
-        private readonly Deck _deck;
+        private Deck _deck;
 
-        public CardReviewViewModel(Deck deck)
+        public CardReviewViewModel()
         {
-            _deck = deck;
+            ShowAnswerCommand = new ShowAnswerCommand(this);
         }
 
         private CardViewModel _currentReviewCard;
@@ -38,10 +38,12 @@ namespace FlashcardApp.ViewModels
         public bool IsLastReviewCard = false;
         public bool IsAnswerHidden = true;
 
-        public ICommand ShowAnswerCommand;
+        public ICommand ShowAnswerCommand { get; set; }
 
-        public void LoadReviewCards(int reviewCardNumber)
+        public void LoadReviewCards(Deck deck, int reviewCardNumber)
         {
+            _deck = deck;
+
             _reviewCards = new List<CardViewModel>();
 
             var cardsToReview = _deck.Cards.Take(reviewCardNumber).ToList();

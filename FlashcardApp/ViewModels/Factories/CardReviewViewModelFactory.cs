@@ -9,16 +9,9 @@ namespace FlashcardApp.ViewModels.Factories
 {
     public class CardReviewViewModelFactory : IFlashcardAppViewModelFactory<CardReviewViewModel>
     {
-        private readonly Deck _deck;
-
-        public CardReviewViewModelFactory(Deck deck)
-        {
-            _deck = deck;
-        }
-
         public CardReviewViewModel CreateViewModel()
         {
-            return new CardReviewViewModel(_deck);
+            return new CardReviewViewModel();
         }
     }
 }
