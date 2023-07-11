@@ -1,6 +1,8 @@
 ﻿using FlashcardApp.Domain.Models;
 using FlashcardApp.State.Navigators;
 using FlashcardApp.ViewModels;
+using FlashcardApp.ViewModels.Factories;
+using FlashcardApp.WPF.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,29 +12,28 @@ using System.Windows.Input;
 
 namespace FlashcardApp.Commands
 {
-    public class SelectDeckCommand : ICommand
+    public class SelectDeckCommand : CommandBase
     {
         private readonly INavigator _navigator;
+        private readonly IFlashcardAppViewModelAbstractFactory _viewModelFactory;
 
-        public SelectDeckCommand(INavigator navigator)
+        public SelectDeckCommand(INavigator navigator, IFlashcardAppViewModelAbstractFactory viewModelFactory)
         {
             _navigator = navigator;
+            _viewModelFactory = viewModelFactory;
         }
 
-        public event EventHandler? CanExecuteChanged;
-
-        public bool CanExecute(object? parameter)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Execute(object? parameter)
+        public override void Execute(object? parameter)
         {
             if (parameter is DeckViewModel deckViewModel)
             {
                 Deck deck = deckViewModel.GetDeck();
 
-                //_navigator.CurrentViewModel = _viewModelFactory.CreateViewModel(viewType);
+                DeckDetailsViewModel viewModel = (DeckDetailsViewModel)_viewModelFactory.CreateViewModel(ViewType.DeckDetails);
+
+                viewModel.LoadDeckDetailsViewModel(deck);
+                
+                _navigator.CurrentViewModel = viewModel;
             }
         }
     }

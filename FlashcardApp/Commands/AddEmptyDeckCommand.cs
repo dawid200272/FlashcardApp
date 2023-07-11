@@ -1,4 +1,5 @@
 ﻿using FlashcardApp.ViewModels;
+using FlashcardApp.WPF.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Windows.Input;
 
 namespace FlashcardApp.Commands
 {
-    public class AddEmptyDeckCommand : ICommand
+    public class AddEmptyDeckCommand : CommandBase
     {
         private readonly DeckListingViewModel _viewModel;
 
@@ -17,20 +18,12 @@ namespace FlashcardApp.Commands
             _viewModel = viewModel;
         }
 
-        public event EventHandler? CanExecuteChanged;
-
-        public bool CanExecute(object? parameter)
+        public override async void Execute(object? parameter)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Execute(object? parameter)
-        {
-            if(parameter is string deckName)
+            if (parameter is string deckName)
             {
-                _viewModel.AddDeck(deckName);
+                await _viewModel.AddDeck(deckName);
             }
-
         }
     }
 }

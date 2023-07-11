@@ -1,6 +1,7 @@
 ﻿using FlashcardApp.Domain.Models;
 using FlashcardApp.State.Navigators;
 using FlashcardApp.ViewModels;
+using FlashcardApp.WPF.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Windows.Input;
 
 namespace FlashcardApp.Commands
 {
-    public class StartCardReview : ICommand
+    public class StartCardReview : CommandBase
     {
         private readonly INavigator _navigator;
         private readonly Deck _deck;
@@ -24,14 +25,7 @@ namespace FlashcardApp.Commands
             _deck = deck;
         }
 
-        public event EventHandler? CanExecuteChanged;
-
-        public bool CanExecute(object? parameter)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Execute(object? parameter)
+        public override void Execute(object? parameter)
         {
             _navigator.UpdateCurrentViewModelCommand.Execute(ViewType.DeckDetails);
 

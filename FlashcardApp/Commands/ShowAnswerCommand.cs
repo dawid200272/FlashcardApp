@@ -1,4 +1,5 @@
 ﻿using FlashcardApp.ViewModels;
+using FlashcardApp.WPF.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Windows.Input;
 
 namespace FlashcardApp.Commands
 {
-    public class ShowAnswerCommand : ICommand
+    public class ShowAnswerCommand : CommandBase
     {
         private readonly CardReviewViewModel _viewModel;
 
@@ -17,9 +18,7 @@ namespace FlashcardApp.Commands
             _viewModel = viewModel;
         }
 
-        public event EventHandler? CanExecuteChanged;
-
-        public bool CanExecute(object? parameter)
+        public override bool CanExecute(object? parameter)
         {
             if (_viewModel.IsAnswerHidden)
             {
@@ -29,7 +28,7 @@ namespace FlashcardApp.Commands
             return false;
         }
 
-        public void Execute(object? parameter)
+        public override void Execute(object? parameter)
         {
             _viewModel.IsAnswerHidden = false;
         }
