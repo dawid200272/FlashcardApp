@@ -12,25 +12,26 @@ namespace FlashcardApp.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private IDeckService _deckService;
-        private DeckCollection _deckCollection;
-        private IFlashcardAppViewModelAbstractFactory _viewModelFactory;
+        private string _title;
 
-        public MainWindowViewModel(INavigator navigator,
-            DeckCollection deckCollection, IDeckService deckService, IFlashcardAppViewModelAbstractFactory viewModelFactory)
+        public MainWindowViewModel(INavigator navigator, string title)
         {
             Navigator = navigator;
-
-            _deckCollection = deckCollection;
-            _deckService = deckService;
-
-            _viewModelFactory = viewModelFactory;
-
-            Navigator = new Navigator(_deckCollection, _deckService, viewModelFactory);
+            _title = title;
 
             Navigator.UpdateCurrentViewModelCommand.Execute(ViewType.DeckListing);
         }
 
         public INavigator Navigator { get; set; }
+
+        public string Title
+        {
+            get => _title;
+            set
+            {
+                _title = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }
