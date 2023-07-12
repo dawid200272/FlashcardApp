@@ -24,14 +24,7 @@ namespace FlashcardApp.ViewModels
             _deckCollection = deckCollection;
             _deckService = deckService;
 
-            var deckViewModels = new List<DeckViewModel>();
-
-            foreach (Deck deck in _deckCollection)
-            {
-                deckViewModels.Add(new DeckViewModel(deck));
-            }
-
-            _decks = new ObservableCollection<DeckViewModel>(deckViewModels);
+            UpdateDecks(_deckCollection);
         }
 
         public ObservableCollection<DeckViewModel> Decks
@@ -56,7 +49,20 @@ namespace FlashcardApp.ViewModels
             Deck createdDeck = await _deckService.CreateEmptyDeck(deckName);
 
             _deckCollection.Add(createdDeck);
+
+            UpdateDecks(_deckCollection);
         }
 
+        private void UpdateDecks(DeckCollection deckCollection)
+        {
+            List<DeckViewModel> deckViewModels = new List<DeckViewModel>();
+
+            foreach (Deck deck in deckCollection)
+            {
+                deckViewModels.Add(new DeckViewModel(deck));
+            }
+
+            _decks = new ObservableCollection<DeckViewModel>(deckViewModels);
+        }
     }
 }
