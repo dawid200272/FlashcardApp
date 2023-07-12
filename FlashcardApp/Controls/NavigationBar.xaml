@@ -15,18 +15,41 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="FlashcardApp" Background="{StaticResource BrushPrimary2}"/>
+        <TextBlock Grid.Row="0" Text="FlashcardApp" Background="{StaticResource BrushPrimary2}"
+                   Visibility="Hidden"/>
 
         <Grid Grid.Row="1" Background="{StaticResource BrushPrimary1}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <RadioButton Grid.Column="0" Content="Decks" Command="{Binding UpdateCurrentViewModelCommand}" 
+            <Grid.Resources>
+
+                <Style TargetType="Button">
+                    <Setter Property="Margin" Value="5, 0"/>
+                    <Setter Property="Padding" Value="5"/>
+
+                    <Setter Property="Foreground" Value="White"/>
+
+                    <Setter Property="Background" Value="{StaticResource BrushPrimary1}"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+
+                    <!--<Style.Triggers>
+                        
+                        <Trigger
+                        
+                    </Style.Triggers>-->
+
+                </Style>
+            </Grid.Resources>
+
+            <Button Grid.Column="0" Content="Decks" Command="{Binding UpdateCurrentViewModelCommand}" 
                          CommandParameter="{x:Static nav:ViewType.DeckListing}"/>
-            <RadioButton Grid.Column="1" Content="Add new card"/>
+            <Button Grid.Column="1" Content="Add new card"/>
+            <Button Grid.Column="2" Content="Settings"/>
         </Grid>
         
     </Grid>
