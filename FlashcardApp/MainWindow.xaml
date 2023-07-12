@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlashcardApp"
         
+        xmlns:viewmodels="clr-namespace:FlashcardApp.ViewModels"
         xmlns:controls="clr-namespace:FlashcardApp.Controls"
+        
+        d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
         
         mc:Ignorable="d"
         Title="{Binding Title}" Height="450" Width="800">
