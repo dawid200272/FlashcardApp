@@ -1,5 +1,4 @@
 ﻿using FlashcardApp.ViewModels;
-using FlashcardApp.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +9,7 @@ namespace FlashcardApp.WPF.Stores
 {
     public class NavigationStore
     {
-        public event Action CurrentViewModelChanged;
+        public event Action? CurrentViewModelChanged;
 
         private ViewModelBase _currentViewModel;
 

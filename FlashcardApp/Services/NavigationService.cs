@@ -1,6 +1,5 @@
 ﻿using FlashcardApp.ViewModels;
 using FlashcardApp.WPF.Stores;
-using FlashcardApp.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
