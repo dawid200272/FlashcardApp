@@ -1,24 +1,37 @@
-﻿using FlashcardApp.Domain.Models;
+﻿using FlashcardApp.Commands;
+using FlashcardApp.Domain.Models;
 using FlashcardApp.Domain.Models.Enums;
+using FlashcardApp.State.Navigators;
+using FlashcardApp.ViewModels.Factories;
 using System.Linq;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace FlashcardApp.ViewModels
 {
     public class DeckViewModel : ViewModelBase
     {
+        private readonly INavigator _navigator;
+        private readonly IFlashcardAppViewModelAbstractFactory _viewModelFactory;
+
         private readonly Deck _deck;
 
-        public DeckViewModel(Deck deck)
+        public DeckViewModel(INavigator navigator, IFlashcardAppViewModelAbstractFactory viewModelFactory, 
+			Deck deck)
         {
-            _deck = deck;
+            _navigator = navigator;
+            _viewModelFactory = viewModelFactory;
 
+            _deck = deck;
+            
 			_name = _deck.Name;
             _description = _deck.Description;
 
             _newCardsNumber = _deck.Cards.Count(c => c.State == CardState.newCard);
-
-			_cardsNumber = _deck.Cards.Count();
+            _cardsNumber = _deck.Cards.Count();
         }
+
+        public ICommand SelectDeckCommand => new SelectDeckCommand(_navigator, _viewModelFactory, this);
 
 		private string _name;
         public string Name

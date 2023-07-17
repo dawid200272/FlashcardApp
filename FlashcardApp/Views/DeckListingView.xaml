@@ -30,7 +30,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <Style TargetType="GridViewRowPresenter">
             <Setter Property="TextBlock.Foreground" Value="White"/>
         </Style>
@@ -65,7 +65,7 @@
                         <!--DisplayMemberBinding="{Binding Name}-->
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="{Binding Name}"/>
+                                <Button Content="{Binding Name}" Command="{Binding SelectDeckCommand}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

@@ -17,24 +17,23 @@ namespace FlashcardApp.Commands
         private readonly INavigator _navigator;
         private readonly IFlashcardAppViewModelAbstractFactory _viewModelFactory;
 
-        public SelectDeckCommand(INavigator navigator, IFlashcardAppViewModelAbstractFactory viewModelFactory)
+        private readonly DeckViewModel _deckViewModel;
+
+        public SelectDeckCommand(INavigator navigator, IFlashcardAppViewModelAbstractFactory viewModelFactory, 
+            DeckViewModel deckViewModel)
         {
             _navigator = navigator;
             _viewModelFactory = viewModelFactory;
+            _deckViewModel = deckViewModel;
         }
 
         public override void Execute(object? parameter)
         {
-            if (parameter is DeckViewModel deckViewModel)
-            {
-                Deck deck = deckViewModel.GetDeck();
+            DeckDetailsViewModel viewModel = (DeckDetailsViewModel)_viewModelFactory.CreateViewModel(ViewType.DeckDetails);
 
-                DeckDetailsViewModel viewModel = (DeckDetailsViewModel)_viewModelFactory.CreateViewModel(ViewType.DeckDetails);
-
-                viewModel.LoadDeckDetailsViewModel(deck);
+            viewModel.LoadDeckDetailsViewModel(_deckViewModel);
                 
-                _navigator.CurrentViewModel = viewModel;
-            }
+            _navigator.CurrentViewModel = viewModel;
         }
     }
 }

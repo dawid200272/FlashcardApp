@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace FlashcardApp.Commands
 {
-    public class StartCardReview : CommandBase
+    public class StartCardReviewCommand : CommandBase
     {
         private readonly INavigator _navigator;
         private readonly Deck _deck;
@@ -19,7 +19,7 @@ namespace FlashcardApp.Commands
         // TODO: Move review card number to settings, maybe in a JSON file
         const int REVIEW_CARD_NUMBER = 15;
 
-        public StartCardReview(INavigator navigator, Deck deck)
+        public StartCardReviewCommand(INavigator navigator, Deck deck)
         {
             _navigator = navigator;
             _deck = deck;

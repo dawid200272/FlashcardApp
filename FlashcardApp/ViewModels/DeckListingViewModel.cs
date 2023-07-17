@@ -2,6 +2,8 @@
 using FlashcardApp.Domain.Models;
 using FlashcardApp.Domain.Services;
 using FlashcardApp.State.Navigators;
+using FlashcardApp.ViewModels.Factories;
+using FlashcardApp.WPF.Stores;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,16 +17,24 @@ namespace FlashcardApp.ViewModels
 {
     public class DeckListingViewModel : ViewModelBase
     {
-        private DeckCollection _deckCollection;
-        private IDeckService _deckService;
+        private readonly INavigator _navigator;
+        private readonly IFlashcardAppViewModelAbstractFactory _viewModelFactory;
+
+        private readonly DeckStore _deckStore;
+        private readonly IDeckService _deckService;
+
         private ObservableCollection<DeckViewModel> _decks;
 
-        public DeckListingViewModel(DeckCollection deckCollection, IDeckService deckService)
+        public DeckListingViewModel(INavigator navigator, IFlashcardAppViewModelAbstractFactory viewModelFactory, 
+            DeckStore deckStore, IDeckService deckService)
         {
-            _deckCollection = deckCollection;
+            _navigator = navigator;
+            _viewModelFactory = viewModelFactory;
+
+            _deckStore = deckStore;
             _deckService = deckService;
 
-            UpdateDecks(_deckCollection);
+            UpdateDecks(_deckStore);
         }
 
         public ObservableCollection<DeckViewModel> Decks
@@ -42,24 +52,22 @@ namespace FlashcardApp.ViewModels
 
         public ICommand AddEmptyDeckCommand => new AddEmptyDeckCommand(this);
 
-        //public ICommand SelectDeck => new SelectDeckCommand();
-
         public async Task AddDeck(string deckName)
         {
             Deck createdDeck = await _deckService.CreateEmptyDeck(deckName);
 
-            _deckCollection.Add(createdDeck);
+            await _deckStore.AddAsync(createdDeck);
 
-            UpdateDecks(_deckCollection);
+            UpdateDecks(_deckStore);
         }
 
-        private void UpdateDecks(DeckCollection deckCollection)
+        private void UpdateDecks(DeckStore deckStore)
         {
             List<DeckViewModel> deckViewModels = new List<DeckViewModel>();
 
-            foreach (Deck deck in deckCollection)
+            foreach (Deck deck in deckStore)
             {
-                deckViewModels.Add(new DeckViewModel(deck));
+                deckViewModels.Add(new DeckViewModel(_navigator, _viewModelFactory, deck));
             }
 
             _decks = new ObservableCollection<DeckViewModel>(deckViewModels);
