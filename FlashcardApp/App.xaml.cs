@@ -6,6 +6,7 @@ using FlashcardApp.State.Navigators;
 using FlashcardApp.ViewModels;
 using FlashcardApp.ViewModels.Factories;
 using FlashcardApp.WPF.Stores;
+using FlashcardApp.WPF.ViewModels.Factories;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -82,6 +83,14 @@ public partial class App : Application
                 services.GetRequiredService<IFlashcardAppViewModelFactory<DeckDetailsViewModel>>()),
                 services.GetRequiredService<DeckStore>(),
                 services.GetRequiredService<IDeckService>()
+                )
+        );
+
+        services.AddSingleton<IFlashcardAppViewModelFactory<AddCardViewModel>>((services) =>
+            new AddCardViewModelFactory(new ViewModelFactoryRenavigator<DeckListingViewModel>(
+                services.GetRequiredService<INavigator>(),
+                services.GetRequiredService<IFlashcardAppViewModelFactory<DeckListingViewModel>>()),
+                services.GetRequiredService<DeckStore>()
                 )
         );
         

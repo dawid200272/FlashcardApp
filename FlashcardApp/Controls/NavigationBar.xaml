@@ -47,8 +47,9 @@
             </Grid.Resources>
 
             <Button Grid.Column="0" Content="Decks" Command="{Binding UpdateCurrentViewModelCommand}" 
-                         CommandParameter="{x:Static nav:ViewType.DeckListing}"/>
-            <Button Grid.Column="1" Content="Add new card"/>
+                    CommandParameter="{x:Static nav:ViewType.DeckListing}"/>
+            <Button Grid.Column="1" Content="Add new card" Command="{Binding UpdateCurrentViewModelCommand}"
+                    CommandParameter="{x:Static nav:ViewType.AddCard}"/>
             <Button Grid.Column="2" Content="Settings"/>
         </Grid>
         

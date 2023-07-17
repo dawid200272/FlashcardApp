@@ -17,6 +17,7 @@ namespace FlashcardApp.State.Navigators
     {
         DeckListing,
         DeckDetails,
-        CardReview
+        CardReview,
+        AddCard
     }
 }

@@ -15,12 +15,12 @@ namespace FlashcardApp.ViewModels
 {
     public class AddCardViewModel : ViewModelBase
     {
-        private readonly INavigator _navigator;
+        private readonly IRenavigator _renavigator;
         private readonly DeckStore _deckStore;
 
-        public AddCardViewModel(INavigator navigator, DeckStore deckStore)
+        public AddCardViewModel(IRenavigator renavigator, DeckStore deckStore)
         {
-            _navigator = navigator;
+            _renavigator = renavigator;
             _deckStore = deckStore;
         }
 
