@@ -3,6 +3,7 @@ using FlashcardApp.Domain.Models;
 using FlashcardApp.Domain.Services;
 using FlashcardApp.State.Navigators;
 using FlashcardApp.ViewModels.Factories;
+using FlashcardApp.WPF.State.Navigators;
 using FlashcardApp.WPF.Stores;
 using System;
 using System.Collections.Generic;
@@ -17,19 +18,17 @@ namespace FlashcardApp.ViewModels
 {
     public class DeckListingViewModel : ViewModelBase
     {
-        private readonly INavigator _navigator;
-        private readonly IFlashcardAppViewModelAbstractFactory _viewModelFactory;
+        private readonly IReturnableRenavigator _renavigator;
 
         private readonly DeckStore _deckStore;
         private readonly IDeckService _deckService;
 
         private ObservableCollection<DeckViewModel> _decks;
 
-        public DeckListingViewModel(INavigator navigator, IFlashcardAppViewModelAbstractFactory viewModelFactory, 
+        public DeckListingViewModel(IReturnableRenavigator renavigator, 
             DeckStore deckStore, IDeckService deckService)
         {
-            _navigator = navigator;
-            _viewModelFactory = viewModelFactory;
+            _renavigator = renavigator;
 
             _deckStore = deckStore;
             _deckService = deckService;
@@ -67,7 +66,7 @@ namespace FlashcardApp.ViewModels
 
             foreach (Deck deck in deckStore)
             {
-                deckViewModels.Add(new DeckViewModel(_navigator, _viewModelFactory, deck));
+                deckViewModels.Add(new DeckViewModel(_renavigator, deck));
             }
 
             _decks = new ObservableCollection<DeckViewModel>(deckViewModels);

@@ -3,6 +3,7 @@ using FlashcardApp.State.Navigators;
 using FlashcardApp.ViewModels;
 using FlashcardApp.ViewModels.Factories;
 using FlashcardApp.WPF.Commands;
+using FlashcardApp.WPF.State.Navigators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,26 +15,21 @@ namespace FlashcardApp.Commands
 {
     public class SelectDeckCommand : CommandBase
     {
-        private readonly INavigator _navigator;
-        private readonly IFlashcardAppViewModelAbstractFactory _viewModelFactory;
-
+        private readonly IReturnableRenavigator _renavigator;
         private readonly DeckViewModel _deckViewModel;
 
-        public SelectDeckCommand(INavigator navigator, IFlashcardAppViewModelAbstractFactory viewModelFactory, 
+        public SelectDeckCommand(IReturnableRenavigator renavigator,
             DeckViewModel deckViewModel)
         {
-            _navigator = navigator;
-            _viewModelFactory = viewModelFactory;
+            _renavigator = renavigator;
             _deckViewModel = deckViewModel;
         }
 
         public override void Execute(object? parameter)
         {
-            DeckDetailsViewModel viewModel = (DeckDetailsViewModel)_viewModelFactory.CreateViewModel(ViewType.DeckDetails);
+            DeckDetailsViewModel viewModel = (DeckDetailsViewModel)_renavigator.ReturnableRenavigate();
 
             viewModel.LoadDeckDetailsViewModel(_deckViewModel);
-                
-            _navigator.CurrentViewModel = viewModel;
         }
     }
 }

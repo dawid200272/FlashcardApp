@@ -2,6 +2,7 @@
 using FlashcardApp.State.Navigators;
 using FlashcardApp.ViewModels;
 using FlashcardApp.WPF.Commands;
+using FlashcardApp.WPF.State.Navigators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,25 +14,25 @@ namespace FlashcardApp.Commands
 {
     public class StartCardReviewCommand : CommandBase
     {
-        private readonly INavigator _navigator;
-        private readonly Deck _deck;
+        private readonly IReturnableRenavigator _renavigator;
+        private readonly DeckViewModel _deckViewModel;
 
         // TODO: Move review card number to settings, maybe in a JSON file
         const int REVIEW_CARD_NUMBER = 15;
 
-        public StartCardReviewCommand(INavigator navigator, Deck deck)
+        public StartCardReviewCommand(IReturnableRenavigator renavigator, DeckViewModel deckViewModel)
         {
-            _navigator = navigator;
-            _deck = deck;
+            _renavigator = renavigator;
+            _deckViewModel = deckViewModel;
         }
 
         public override void Execute(object? parameter)
         {
-            _navigator.UpdateCurrentViewModelCommand.Execute(ViewType.DeckDetails);
+            CardReviewViewModel cardReviewViewModel = (CardReviewViewModel)_renavigator.ReturnableRenavigate();
 
-            CardReviewViewModel cardReviewViewModel = (CardReviewViewModel)_navigator.CurrentViewModel;
+            Deck deck = _deckViewModel.GetDeck();
 
-            cardReviewViewModel.LoadReviewCards(_deck, REVIEW_CARD_NUMBER);
+            cardReviewViewModel.LoadReviewCards(deck, REVIEW_CARD_NUMBER);
         }
     }
 }

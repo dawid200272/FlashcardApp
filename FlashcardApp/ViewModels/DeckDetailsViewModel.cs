@@ -1,6 +1,7 @@
 ﻿using FlashcardApp.Commands;
 using FlashcardApp.Domain.Models;
 using FlashcardApp.State.Navigators;
+using FlashcardApp.WPF.State.Navigators;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Generic;
@@ -13,17 +14,15 @@ namespace FlashcardApp.ViewModels
 {
     public class DeckDetailsViewModel : ViewModelBase
     {
-        private readonly INavigator _navigator;
+        private readonly IReturnableRenavigator _renavigator;
         private DeckViewModel _deckViewModel;
 
-        public DeckDetailsViewModel(INavigator navigator)
+        public DeckDetailsViewModel(IReturnableRenavigator renavigator)
         {
-            _navigator = navigator;
+            _renavigator = renavigator;
 
-            StartCardReviewCommand = new StartCardReviewCommand(_navigator, _deckViewModel.GetDeck());
+            StartCardReviewCommand = new StartCardReviewCommand(_renavigator, _deckViewModel);
         }
-
-        
 
         public void LoadDeckDetailsViewModel(DeckViewModel deckViewModel)
         {

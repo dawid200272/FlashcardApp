@@ -12,11 +12,16 @@ namespace FlashcardApp.ViewModels.Factories
     {
         private readonly IFlashcardAppViewModelFactory<DeckListingViewModel> _deckListingViewModelFactory;
         private readonly IFlashcardAppViewModelFactory<CardReviewViewModel> _cardReviewViewModelFactory;
+        private readonly IFlashcardAppViewModelFactory<DeckDetailsViewModel> _deckDetailsViewModelFactory;
 
-        public FlashcardAppViewModelAbstractFactory(IFlashcardAppViewModelFactory<DeckListingViewModel> deckListingViewModelFactory, IFlashcardAppViewModelFactory<CardReviewViewModel> cardReviewViewModelFactory)
+        public FlashcardAppViewModelAbstractFactory(
+            IFlashcardAppViewModelFactory<DeckListingViewModel> deckListingViewModelFactory,
+            IFlashcardAppViewModelFactory<CardReviewViewModel> cardReviewViewModelFactory,
+            IFlashcardAppViewModelFactory<DeckDetailsViewModel> deckDetailsViewModelFactory)
         {
             _deckListingViewModelFactory = deckListingViewModelFactory;
             _cardReviewViewModelFactory = cardReviewViewModelFactory;
+            _deckDetailsViewModelFactory = deckDetailsViewModelFactory;
         }
 
         public ViewModelBase CreateViewModel(ViewType viewType)
@@ -25,7 +30,9 @@ namespace FlashcardApp.ViewModels.Factories
             {
                 ViewType.DeckListing => _deckListingViewModelFactory.CreateViewModel(),
                 ViewType.CardReview => _cardReviewViewModelFactory.CreateViewModel(),
-                _ => throw new ArgumentException("The ViewType does not have a ViewModel.", nameof(viewType)),
+                ViewType.DeckDetails => _deckDetailsViewModelFactory.CreateViewModel(),
+                _ => throw new ArgumentException("The ViewType does not have a ViewModel.",
+                    nameof(viewType)),
             };
         }
     }

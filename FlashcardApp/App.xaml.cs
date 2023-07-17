@@ -37,9 +37,9 @@ public partial class App : Application
 
         if (_deckStore.Decks.Count() == 0)
         {
-        Task<Deck> task = _deckService.CreateEmptyDeck("Default");
+            Task<Deck> task = _deckService.CreateEmptyDeck("Default");
 
-        Deck defaultDeck = task.Result;
+            Deck defaultDeck = task.Result;
 
             await _deckStore.AddAsync(defaultDeck);
         }
@@ -53,7 +53,7 @@ public partial class App : Application
     private IServiceProvider CreateServiceProvider()
     {
         IServiceCollection services = new ServiceCollection();
-
+        
         string appTitle = "FlashcardApp";
 
         services.AddSingleton<ICardService, CardService>();
@@ -67,13 +67,35 @@ public partial class App : Application
         services.AddSingleton<FlashcardAppDbContextFactory>();
 
         services.AddSingleton<IFlashcardAppViewModelAbstractFactory, FlashcardAppViewModelAbstractFactory>();
-        services.AddSingleton<IFlashcardAppViewModelFactory<DeckListingViewModel>, DeckListingViewModelFactory>();
         services.AddSingleton<IFlashcardAppViewModelFactory<CardReviewViewModel>, CardReviewViewModelFactory>();
 
-        services.AddScoped<INavigator, Navigator>();
-        services.AddScoped<MainWindowViewModel>(s => new MainWindowViewModel(s.GetRequiredService<INavigator>(), appTitle));
+        services.AddSingleton<IFlashcardAppViewModelFactory<DeckDetailsViewModel>>((services) =>
+            new DeckDetailsViewModelFactory(new ViewModelFactoryRenavigator<CardReviewViewModel>(
+                services.GetRequiredService<INavigator>(),
+                services.GetRequiredService<IFlashcardAppViewModelFactory<CardReviewViewModel>>()
+                ))
+        );
 
-        services.AddScoped<MainWindow>(s => new MainWindow(s.GetRequiredService<MainWindowViewModel>()));
+        services.AddSingleton<IFlashcardAppViewModelFactory<DeckListingViewModel>>((services) =>
+            new DeckListingViewModelFactory(new ViewModelFactoryRenavigator<DeckDetailsViewModel>(
+                services.GetRequiredService<INavigator>(),
+                services.GetRequiredService<IFlashcardAppViewModelFactory<DeckDetailsViewModel>>()),
+                services.GetRequiredService<DeckStore>(),
+                services.GetRequiredService<IDeckService>()
+                )
+        );
+        
+
+        services.AddScoped<INavigator, Navigator>();
+        services.AddScoped<MainWindowViewModel>((services) =>
+            new MainWindowViewModel(services.GetRequiredService<INavigator>(),
+                services.GetRequiredService<IFlashcardAppViewModelAbstractFactory>(),
+                appTitle)
+        );
+
+        services.AddScoped<MainWindow>((services) =>
+            new MainWindow(services.GetRequiredService<MainWindowViewModel>())
+        );
 
         services.AddScoped<DeckStore>();
 
