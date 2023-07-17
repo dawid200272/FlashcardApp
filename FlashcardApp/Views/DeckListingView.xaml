@@ -31,6 +31,10 @@
             </Setter>
         </Style>
         
+        <Style TargetType="GridViewRowPresenter">
+            <Setter Property="TextBlock.Foreground" Value="White"/>
+        </Style>
+        
     </UserControl.Resources>
 
     <Grid Background="{StaticResource BrushPrimary1}">
@@ -66,9 +70,23 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Header="New cards" DisplayMemberBinding="{Binding NewCardsNumber}"/>
+                    <GridViewColumn Header="New cards">
+                        <!--DisplayMemberBinding="{Binding NewCardsNumber}-->
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding NewCardsNumber}" Foreground="White"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
-                    <GridViewColumn Header="Cards" DisplayMemberBinding="{Binding CardsNumber}"/>
+                    <GridViewColumn Header="Cards">
+                        <!--DisplayMemberBinding="{Binding CardsNumber}-->
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CardsNumber}" Foreground="White"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
                 </GridView>
                 
