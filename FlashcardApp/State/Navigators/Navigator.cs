@@ -16,11 +16,6 @@ namespace FlashcardApp.State.Navigators
     {
         private ViewModelBase _currentViewModel;
 
-        public Navigator(IFlashcardAppViewModelAbstractFactory viewModelFactory)
-        {
-            UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(this, viewModelFactory);
-        }
-
         public ViewModelBase CurrentViewModel
         {
             get
@@ -33,7 +28,5 @@ namespace FlashcardApp.State.Navigators
                 OnPropertyChanged();
             }
         }
-
-        public ICommand UpdateCurrentViewModelCommand { get; set; }
     }
 }
