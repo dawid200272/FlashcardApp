@@ -5,6 +5,7 @@ using FlashcardApp.EntityFramework.Services;
 using FlashcardApp.State.Navigators;
 using FlashcardApp.ViewModels;
 using FlashcardApp.ViewModels.Factories;
+using FlashcardApp.WPF.Stores;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -21,22 +22,27 @@ namespace FlashcardApp;
 /// </summary>
 public partial class App : Application
 {
-    private DeckCollection _decksCollection;
+    private DeckStore _deckStore;
     private IDeckService _deckService;
 
-    protected override void OnStartup(StartupEventArgs e)
+    protected override async void OnStartup(StartupEventArgs e)
     {
         IServiceProvider serviceProvider = CreateServiceProvider();
 
-        _decksCollection = serviceProvider.GetRequiredService<DeckCollection>();
+        _deckStore = serviceProvider.GetRequiredService<DeckStore>();
 
         _deckService = serviceProvider.GetRequiredService<IDeckService>();
 
+        await _deckStore.LoadDecksAsync();
+
+        if (_deckStore.Decks.Count() == 0)
+        {
         Task<Deck> task = _deckService.CreateEmptyDeck("Default");
 
         Deck defaultDeck = task.Result;
 
-        _decksCollection.Add(defaultDeck);
+            await _deckStore.AddAsync(defaultDeck);
+        }
 
         Window window = serviceProvider.GetRequiredService<MainWindow>();
         window.Show();
@@ -48,9 +54,15 @@ public partial class App : Application
     {
         IServiceCollection services = new ServiceCollection();
 
+        string appTitle = "FlashcardApp";
+
         services.AddSingleton<ICardService, CardService>();
         services.AddSingleton<ICardTemplateService, CardTemplateService>();
         services.AddSingleton<IDeckService, DeckService>();
+
+        services.AddSingleton<IDataService<Card>, GenericDataService<Card>>();
+        services.AddSingleton<IDataService<CardTemplate>, GenericDataService<CardTemplate>>();
+        services.AddSingleton<IDataService<Deck>, GenericDataService<Deck>>();
 
         services.AddSingleton<FlashcardAppDbContextFactory>();
 
@@ -59,11 +71,11 @@ public partial class App : Application
         services.AddSingleton<IFlashcardAppViewModelFactory<CardReviewViewModel>, CardReviewViewModelFactory>();
 
         services.AddScoped<INavigator, Navigator>();
-        services.AddScoped<MainWindowViewModel>();
+        services.AddScoped<MainWindowViewModel>(s => new MainWindowViewModel(s.GetRequiredService<INavigator>(), appTitle));
 
         services.AddScoped<MainWindow>(s => new MainWindow(s.GetRequiredService<MainWindowViewModel>()));
 
-        services.AddScoped<DeckCollection>();
+        services.AddScoped<DeckStore>();
 
         return services.BuildServiceProvider();
     }
