@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FlashcardApp.State.Navigators
 {
-    public class ViewModelFactoryRenavigator<TViewModel> : IReturnableRenavigator
+    public class ViewModelFactoryRenavigator<TViewModel> : IParameterRenavigator
         where TViewModel : ViewModelBase
     {
         private readonly INavigator _navigator;
@@ -31,9 +31,13 @@ namespace FlashcardApp.State.Navigators
             _navigator.CurrentViewModel = _viewModelFactory.CreateViewModel();
         }
 
-        public ViewModelBase ReturnableRenavigate()
+        public void Renavigate(Action<ViewModelBase> action)
         {
-            return _navigator.CurrentViewModel = _viewModelFactory.CreateViewModel();
+            ViewModelBase viewModel = _viewModelFactory.CreateViewModel();
+
+            action(viewModel);
+
+            _navigator.CurrentViewModel = viewModel;
         }
     }
 }

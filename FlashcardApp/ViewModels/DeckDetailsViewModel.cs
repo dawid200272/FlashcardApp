@@ -14,19 +14,19 @@ namespace FlashcardApp.ViewModels
 {
     public class DeckDetailsViewModel : ViewModelBase
     {
-        private readonly IReturnableRenavigator _renavigator;
+        private readonly IParameterRenavigator _renavigator;
         private DeckViewModel _deckViewModel;
 
-        public DeckDetailsViewModel(IReturnableRenavigator renavigator)
+        public DeckDetailsViewModel(IParameterRenavigator renavigator)
         {
             _renavigator = renavigator;
-
-            StartCardReviewCommand = new StartCardReviewCommand(_renavigator, _deckViewModel);
         }
 
         public void LoadDeckDetailsViewModel(DeckViewModel deckViewModel)
         {
             _deckViewModel = deckViewModel;
+
+            StartCardReviewCommand = new StartCardReviewCommand(_renavigator, _deckViewModel);
         }
 
         public ICommand StartCardReviewCommand { get; set; }

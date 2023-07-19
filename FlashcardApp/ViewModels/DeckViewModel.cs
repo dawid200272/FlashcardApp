@@ -12,10 +12,10 @@ namespace FlashcardApp.ViewModels
 {
     public class DeckViewModel : ViewModelBase
     {
-		private readonly IReturnableRenavigator _renavigator;
+		private readonly IParameterRenavigator _renavigator;
         private readonly Deck _deck;
 
-        public DeckViewModel(IReturnableRenavigator renavigator,
+        public DeckViewModel(IParameterRenavigator renavigator,
             Deck deck)
         {
             _renavigator = renavigator;

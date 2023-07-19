@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace FlashcardApp.WPF.State.Navigators
 {
-    public interface IReturnableRenavigator : IRenavigator
+    public interface IParameterRenavigator : IRenavigator
     {
-        ViewModelBase ReturnableRenavigate();
+        void Renavigate(Action<ViewModelBase> action);
     }
 }

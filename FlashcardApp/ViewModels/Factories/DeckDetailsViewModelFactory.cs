@@ -11,9 +11,9 @@ namespace FlashcardApp.ViewModels.Factories
 {
     public class DeckDetailsViewModelFactory : IFlashcardAppViewModelFactory<DeckDetailsViewModel>
     {
-        private readonly IReturnableRenavigator _renavigator;
+        private readonly IParameterRenavigator _renavigator;
 
-        public DeckDetailsViewModelFactory(IReturnableRenavigator renavigator)
+        public DeckDetailsViewModelFactory(IParameterRenavigator renavigator)
         {
             _renavigator = renavigator;
         }

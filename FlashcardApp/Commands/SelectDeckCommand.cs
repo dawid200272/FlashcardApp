@@ -15,10 +15,10 @@ namespace FlashcardApp.Commands
 {
     public class SelectDeckCommand : CommandBase
     {
-        private readonly IReturnableRenavigator _renavigator;
+        private readonly IParameterRenavigator _renavigator;
         private readonly DeckViewModel _deckViewModel;
 
-        public SelectDeckCommand(IReturnableRenavigator renavigator,
+        public SelectDeckCommand(IParameterRenavigator renavigator,
             DeckViewModel deckViewModel)
         {
             _renavigator = renavigator;
@@ -27,9 +27,12 @@ namespace FlashcardApp.Commands
 
         public override void Execute(object? parameter)
         {
-            DeckDetailsViewModel viewModel = (DeckDetailsViewModel)_renavigator.ReturnableRenavigate();
+            _renavigator.Renavigate((viewModelBase) =>
+            {
+                DeckDetailsViewModel viewModel = (DeckDetailsViewModel)viewModelBase;
 
-            viewModel.LoadDeckDetailsViewModel(_deckViewModel);
+                viewModel.LoadDeckDetailsViewModel(_deckViewModel);
+            });
         }
     }
 }

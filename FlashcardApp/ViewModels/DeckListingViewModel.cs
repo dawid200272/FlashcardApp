@@ -18,14 +18,14 @@ namespace FlashcardApp.ViewModels
 {
     public class DeckListingViewModel : ViewModelBase
     {
-        private readonly IReturnableRenavigator _renavigator;
+        private readonly IParameterRenavigator _renavigator;
 
         private readonly DeckStore _deckStore;
         private readonly IDeckService _deckService;
 
         private ObservableCollection<DeckViewModel> _decks;
 
-        public DeckListingViewModel(IReturnableRenavigator renavigator, 
+        public DeckListingViewModel(IParameterRenavigator renavigator, 
             DeckStore deckStore, IDeckService deckService)
         {
             _renavigator = renavigator;

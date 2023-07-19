@@ -14,13 +14,13 @@ namespace FlashcardApp.Commands
 {
     public class StartCardReviewCommand : CommandBase
     {
-        private readonly IReturnableRenavigator _renavigator;
+        private readonly IParameterRenavigator _renavigator;
         private readonly DeckViewModel _deckViewModel;
 
         // TODO: Move review card number to settings, maybe in a JSON file
         const int REVIEW_CARD_NUMBER = 15;
 
-        public StartCardReviewCommand(IReturnableRenavigator renavigator, DeckViewModel deckViewModel)
+        public StartCardReviewCommand(IParameterRenavigator renavigator, DeckViewModel deckViewModel)
         {
             _renavigator = renavigator;
             _deckViewModel = deckViewModel;
@@ -28,11 +28,14 @@ namespace FlashcardApp.Commands
 
         public override void Execute(object? parameter)
         {
-            CardReviewViewModel cardReviewViewModel = (CardReviewViewModel)_renavigator.ReturnableRenavigate();
-
             Deck deck = _deckViewModel.GetDeck();
 
-            cardReviewViewModel.LoadReviewCards(deck, REVIEW_CARD_NUMBER);
+            _renavigator.Renavigate((viewModelBase) =>
+            {
+                CardReviewViewModel viewModel = (CardReviewViewModel)viewModelBase;
+
+                viewModel.LoadReviewCards(deck, REVIEW_CARD_NUMBER);
+            });
         }
     }
 }
