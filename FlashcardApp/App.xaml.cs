@@ -5,6 +5,8 @@ using FlashcardApp.EntityFramework.Services;
 using FlashcardApp.State.Navigators;
 using FlashcardApp.ViewModels;
 using FlashcardApp.ViewModels.Factories;
+using FlashcardApp.WPF.Stores;
+using FlashcardApp.WPF.ViewModels.Factories;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -21,22 +23,27 @@ namespace FlashcardApp;
 /// </summary>
 public partial class App : Application
 {
-    private DeckCollection _decksCollection;
+    private DeckStore _deckStore;
     private IDeckService _deckService;
 
-    protected override void OnStartup(StartupEventArgs e)
+    protected override async void OnStartup(StartupEventArgs e)
     {
         IServiceProvider serviceProvider = CreateServiceProvider();
 
-        _decksCollection = serviceProvider.GetRequiredService<DeckCollection>();
+        _deckStore = serviceProvider.GetRequiredService<DeckStore>();
 
         _deckService = serviceProvider.GetRequiredService<IDeckService>();
 
-        Task<Deck> task = _deckService.CreateEmptyDeck("Default");
+        await _deckStore.LoadDecksAsync();
 
-        Deck defaultDeck = task.Result;
+        if (_deckStore.Decks.Count() == 0)
+        {
+            Task<Deck> task = _deckService.CreateEmptyDeck("Default");
 
-        _decksCollection.Add(defaultDeck);
+            Deck defaultDeck = task.Result;
+
+            await _deckStore.AddAsync(defaultDeck);
+        }
 
         Window window = serviceProvider.GetRequiredService<MainWindow>();
         window.Show();
@@ -47,23 +54,59 @@ public partial class App : Application
     private IServiceProvider CreateServiceProvider()
     {
         IServiceCollection services = new ServiceCollection();
+        
+        string appTitle = "FlashcardApp";
 
         services.AddSingleton<ICardService, CardService>();
         services.AddSingleton<ICardTemplateService, CardTemplateService>();
         services.AddSingleton<IDeckService, DeckService>();
 
+        services.AddSingleton<IDataService<Card>, GenericDataService<Card>>();
+        services.AddSingleton<IDataService<CardTemplate>, GenericDataService<CardTemplate>>();
+        services.AddSingleton<IDataService<Deck>, GenericDataService<Deck>>();
+
         services.AddSingleton<FlashcardAppDbContextFactory>();
 
         services.AddSingleton<IFlashcardAppViewModelAbstractFactory, FlashcardAppViewModelAbstractFactory>();
-        services.AddSingleton<IFlashcardAppViewModelFactory<DeckListingViewModel>, DeckListingViewModelFactory>();
         services.AddSingleton<IFlashcardAppViewModelFactory<CardReviewViewModel>, CardReviewViewModelFactory>();
 
+        services.AddSingleton<IFlashcardAppViewModelFactory<DeckDetailsViewModel>>((services) =>
+            new DeckDetailsViewModelFactory(new ViewModelFactoryRenavigator<CardReviewViewModel>(
+                services.GetRequiredService<INavigator>(),
+                services.GetRequiredService<IFlashcardAppViewModelFactory<CardReviewViewModel>>()
+                ))
+        );
+
+        services.AddSingleton<IFlashcardAppViewModelFactory<DeckListingViewModel>>((services) =>
+            new DeckListingViewModelFactory(new ViewModelFactoryRenavigator<DeckDetailsViewModel>(
+                services.GetRequiredService<INavigator>(),
+                services.GetRequiredService<IFlashcardAppViewModelFactory<DeckDetailsViewModel>>()),
+                services.GetRequiredService<DeckStore>(),
+                services.GetRequiredService<IDeckService>()
+                )
+        );
+
+        services.AddSingleton<IFlashcardAppViewModelFactory<AddCardViewModel>>((services) =>
+            new AddCardViewModelFactory(new ViewModelFactoryRenavigator<DeckListingViewModel>(
+                services.GetRequiredService<INavigator>(),
+                services.GetRequiredService<IFlashcardAppViewModelFactory<DeckListingViewModel>>()),
+                services.GetRequiredService<DeckStore>()
+                )
+        );
+        
+
         services.AddScoped<INavigator, Navigator>();
-        services.AddScoped<MainWindowViewModel>();
+        services.AddScoped<MainWindowViewModel>((services) =>
+            new MainWindowViewModel(services.GetRequiredService<INavigator>(),
+                services.GetRequiredService<IFlashcardAppViewModelAbstractFactory>(),
+                appTitle)
+        );
 
-        services.AddScoped<MainWindow>(s => new MainWindow(s.GetRequiredService<MainWindowViewModel>()));
+        services.AddScoped<MainWindow>((services) =>
+            new MainWindow(services.GetRequiredService<MainWindowViewModel>())
+        );
 
-        services.AddScoped<DeckCollection>();
+        services.AddScoped<DeckStore>();
 
         return services.BuildServiceProvider();
     }

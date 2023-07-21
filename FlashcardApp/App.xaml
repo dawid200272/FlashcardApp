@@ -16,7 +16,15 @@
             <DataTemplate DataType="{x:Type viewmodels:DeckListingViewModel}">
                 <views:DeckListingView/>
             </DataTemplate>
-            
+
+            <DataTemplate DataType="{x:Type viewmodels:DeckDetailsViewModel}">
+                <views:DeckDetailsView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodels:AddCardViewModel}">
+                <views:AddCardView/>
+            </DataTemplate>
+
         </ResourceDictionary>
         
     </Application.Resources>

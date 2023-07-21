@@ -5,19 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlashcardApp"
         
+        xmlns:viewmodels="clr-namespace:FlashcardApp.ViewModels"
         xmlns:controls="clr-namespace:FlashcardApp.Controls"
         
+        d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
+        
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="{Binding Title}" Height="450" Width="800">
+    <Grid Background="{StaticResource BrushPrimary1}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
-        <controls:NavigationBar Grid.Row="0" DataContext="{Binding Navigator}"/>
 
-        <ContentControl Grid.Row="1" Content="{Binding Navigator.CurrentViewModel}"/>
+        <controls:NavigationBar Grid.Row="0"/>
+
+        <ContentControl Grid.Row="1" Content="{Binding Navigator.CurrentViewModel}" Margin="10, 5"/>
 
     </Grid>
 </Window>
