@@ -36,11 +36,14 @@ namespace FlashcardApp.ViewModels
 
         public string? Description => _deckViewModel.Description;
 
+        public bool HasDescription => string.IsNullOrEmpty(_deckViewModel.Description);
+        public bool HasCards => CardsNumber > 0;
+
         public int NewCardsNumber => _deckViewModel.NewCardsNumber;
 
         public int CardsNumber => _deckViewModel.CardsNumber;
 
-        public void UdpateCardsInfo()
+        public void UpdateCardsInfo()
         {
             OnPropertyChanged(nameof(NewCardsNumber));
             OnPropertyChanged(nameof(CardsNumber));
