@@ -27,12 +27,38 @@ namespace FlashcardApp.ViewModels
         public ICommand AddCardCommand { get; set; }
         public ICommand CloseCommand { get; set; }
 
-        //public ICollection<CardTemplateType> CardTemplateTypes { get; set; }
+        private CardTemplateType _selectedtemplateType = CardTemplateType.Basic;
 
-        public CardTemplateType SelectedTemplateType { get; set; }
+        public CardTemplateType SelectedTemplateType
+        {
+            get => _selectedtemplateType;
+            set
+            {
+                if (_selectedtemplateType != value)
+                {
+                    _selectedtemplateType = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public ObservableCollection<string> DeckNames => new ObservableCollection<string>(GetDeckNames(_deckStore));
 
-        public ObservableCollection<Deck> Decks => new ObservableCollection<Deck>(_deckStore.Decks);
-        public Deck SelectedDeck { get; set; }
+        public Deck? SelectedDeck => GetDeckFromName(_selectedDeckName, _deckStore);
+
+        private string _selectedDeckName;
+
+        public string SelectedDeckName
+        {
+            get => _selectedDeckName;
+            set
+            {
+                if (_selectedDeckName != value)
+                {
+                    _selectedDeckName = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         private string _front;
         public string Front
@@ -43,8 +69,11 @@ namespace FlashcardApp.ViewModels
             }
             set
             {
-                _front = value;
-                OnPropertyChanged(nameof(Front));
+                if (_front != value)
+                {
+                    _front = value;
+                    OnPropertyChanged(nameof(Front));
+                }
             }
         }
 
@@ -58,10 +87,38 @@ namespace FlashcardApp.ViewModels
             }
             set
             {
-                _back = value;
-                OnPropertyChanged(nameof(Back));
+                if (_back != value)
+                {
+                    _back = value;
+                    OnPropertyChanged(nameof(Back));
+                }
             }
         }
 
+        private IEnumerable<string> GetDeckNames(DeckStore deckStore)
+        {
+            List<string> result = new List<string>();
+
+            foreach (Deck deck in deckStore)
+            {
+                result.Add(deck.Name);
+            }
+
+            return result;
+        }
+
+        public Deck? GetDeckFromName(string name, DeckStore deckStore)
+        {
+            return deckStore.Decks.FirstOrDefault(d => d.Name == name);
+        }
+
+        public void ResetForm()
+        {
+            _front = string.Empty;
+            _back = string.Empty;
+
+            OnPropertyChanged(nameof(Front));
+            OnPropertyChanged(nameof(Back));
+        }
     }
 }

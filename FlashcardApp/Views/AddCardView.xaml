@@ -4,9 +4,66 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FlashcardApp.Views"
+             
+             xmlns:viewmodels="clr-namespace:FlashcardApp.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:AddCardViewModel}"
+             
+             xmlns:conv="clr-namespace:FlashcardApp.Converters"
+             
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <conv:CardTemplateTypeConverter x:Key="CardTemplateTypeConverter"/>
+    </UserControl.Resources>
     <Grid>
-        <TextBlock Text="AddCardView" FontSize="50"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="Type" Margin="10 5"/>
+            <ComboBox ItemsSource="{Binding Source={StaticResource CardTemplateTypeConverter}, Path=Strings}"
+                      SelectedItem="{Binding SelectedTemplateType, Converter={StaticResource CardTemplateTypeConverter}}">
+                
+            </ComboBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="Deck" Margin="10 5"/>
+            <ComboBox ItemsSource="{Binding DeckNames}"
+                      SelectedItem="{Binding SelectedDeckName}">
+
+            </ComboBox>
+        </StackPanel>
+
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0 10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center">
+                <TextBlock Text="Front" HorizontalAlignment="Left"/>
+                <TextBox Text="{Binding Front}" MinWidth="450" Margin="0 10"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
+                <TextBlock Text="Back" HorizontalAlignment="Left"/>
+                <TextBox Text="{Binding Back}" MinWidth="450" Margin="0 10"/>
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Add card" Command="{Binding AddCardCommand}" Margin="10 5" Padding="10 5"/>
+            <Button Content="Close" Command="{Binding CloseCommand}" Margin="10 5" Padding="10 5"/>
+        </StackPanel>
+        
     </Grid>
 </UserControl>
