@@ -8,5 +8,10 @@
     <!--Brushes-->
     <SolidColorBrush x:Key="BrushPrimary1" Color="{StaticResource ColorPrimary1}" />
     <SolidColorBrush x:Key="BrushPrimary2" Color="{StaticResource ColorPrimary2}" />
+    
+    <!--TextBlock-->
+    <Style TargetType="TextBlock">
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
 
 </ResourceDictionary>
