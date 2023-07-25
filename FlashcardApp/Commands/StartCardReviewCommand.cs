@@ -28,13 +28,11 @@ namespace FlashcardApp.Commands
 
         public override void Execute(object? parameter)
         {
-            Deck deck = _deckViewModel.GetDeck();
-
             _renavigator.Renavigate((viewModelBase) =>
             {
                 CardReviewViewModel viewModel = (CardReviewViewModel)viewModelBase;
 
-                viewModel.LoadReviewCards(deck, REVIEW_CARD_NUMBER);
+                viewModel.LoadReviewCards(_deckViewModel, REVIEW_CARD_NUMBER);
             });
         }
     }
