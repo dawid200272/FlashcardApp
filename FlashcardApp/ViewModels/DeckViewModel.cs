@@ -30,6 +30,8 @@ namespace FlashcardApp.ViewModels
 
         public ICommand SelectDeckCommand => new SelectDeckCommand(_renavigator, this);
 
+        public Deck Deck => _deck;
+
 		private string _name;
         public string Name
 		{
@@ -39,8 +41,11 @@ namespace FlashcardApp.ViewModels
 			}
 			set
 			{
-				_name = value;
-				OnPropertyChanged();
+				if (_name != value)
+				{
+					_name = value;
+					OnPropertyChanged();
+				}
 			}
 		}
 
@@ -54,8 +59,11 @@ namespace FlashcardApp.ViewModels
 			}
 			set
 			{
-				_description = value;
-				OnPropertyChanged();
+				if (_description != value)
+				{
+					_description = value;
+					OnPropertyChanged();
+				}
 			}
 		}
 
@@ -69,8 +77,11 @@ namespace FlashcardApp.ViewModels
 			}
 			set
 			{
-				_newCardsNumber = value;
-                OnPropertyChanged();
+				if (_newCardsNumber != value)
+				{
+					_newCardsNumber = value;
+					OnPropertyChanged();
+				}
 			}
 		}
 
@@ -84,14 +95,13 @@ namespace FlashcardApp.ViewModels
 			}
 			set
 			{
-                _cardsNumber = value;
-                OnPropertyChanged();
+				if (_cardsNumber != value)
+				{
+					_cardsNumber = value;
+					OnPropertyChanged();
+				}
 			}
 		}
 
-		public Deck GetDeck()
-		{
-			return _deck;
-		}
-	}
+    }
 }
