@@ -26,6 +26,13 @@ public partial class App : Application
     private DeckStore _deckStore;
     private IDeckService _deckService;
 
+    #region Test purposes
+
+    private ICardTemplateService _cardTemplateService;
+    private ICardService _cardService;
+
+    #endregion
+
     protected override async void OnStartup(StartupEventArgs e)
     {
         IServiceProvider serviceProvider = CreateServiceProvider();
@@ -34,13 +41,29 @@ public partial class App : Application
 
         _deckService = serviceProvider.GetRequiredService<IDeckService>();
 
-        await _deckStore.LoadDecksAsync();
+        //await _deckStore.LoadDecksAsync();
 
-        if (_deckStore.Decks.Count() == 0)
+        if (!_deckStore.Decks.Any())
         {
             Task<Deck> task = _deckService.CreateEmptyDeck("Default");
 
             Deck defaultDeck = task.Result;
+
+            #region Test
+
+            _cardTemplateService = new CardTemplateService();
+            _cardService = new CardService();
+
+            CardTemplate testTemplate = await _cardTemplateService.CreateCardTemplate(
+                Domain.Models.Enums.CardTemplateType.Basic,
+                "test front",
+                "test back");
+
+            Card testCard = await _cardService.CreateCard(testTemplate, defaultDeck);
+
+            defaultDeck.AddCard(testCard);
+
+            #endregion
 
             await _deckStore.AddAsync(defaultDeck);
         }
@@ -64,6 +87,8 @@ public partial class App : Application
         services.AddSingleton<IDataService<Card>, GenericDataService<Card>>();
         services.AddSingleton<IDataService<CardTemplate>, GenericDataService<CardTemplate>>();
         services.AddSingleton<IDataService<Deck>, GenericDataService<Deck>>();
+        //TODO: solve entity framework problem
+        //services.AddSingleton<IDataService<Deck>, DeckDataService>();
 
         services.AddSingleton<FlashcardAppDbContextFactory>();
 
