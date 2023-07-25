@@ -30,7 +30,7 @@ namespace FlashcardApp.Commands
 
         public override void Execute(object? parameter)
         {
-            _viewModel.IsAnswerHidden = false;
+            _viewModel.ShowAnswer();
         }
     }
 }
