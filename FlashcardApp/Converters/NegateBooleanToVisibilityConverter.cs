@@ -17,7 +17,7 @@ namespace FlashcardApp.Converters
             {
                 if (boolValue)
                 {
-                    return Visibility.Hidden;
+                    return Visibility.Collapsed;
                 }
 
                 return Visibility.Visible;

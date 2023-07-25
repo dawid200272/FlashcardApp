@@ -93,7 +93,15 @@ public partial class App : Application
         services.AddSingleton<FlashcardAppDbContextFactory>();
 
         services.AddSingleton<IFlashcardAppViewModelAbstractFactory, FlashcardAppViewModelAbstractFactory>();
+
         services.AddSingleton<IFlashcardAppViewModelFactory<CardReviewViewModel>, CardReviewViewModelFactory>();
+
+        //services.AddSingleton<IFlashcardAppViewModelFactory<CardReviewViewModel>>((services) =>
+        //    new CardReviewViewModelFactory(new ViewModelFactoryRenavigator<DeckDetailsViewModel>(
+        //        services.GetRequiredService<INavigator>(),
+        //        services.GetRequiredService<IFlashcardAppViewModelFactory<DeckDetailsViewModel>>()
+        //        ))
+        //);
 
         services.AddSingleton<IFlashcardAppViewModelFactory<DeckDetailsViewModel>>((services) =>
             new DeckDetailsViewModelFactory(new ViewModelFactoryRenavigator<CardReviewViewModel>(

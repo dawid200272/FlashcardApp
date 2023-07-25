@@ -1,5 +1,6 @@
 ﻿using FlashcardApp.Commands;
 using FlashcardApp.Domain.Models;
+using FlashcardApp.WPF.State.Navigators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +21,12 @@ namespace FlashcardApp.ViewModels
         private bool _isLastReviewCard = false;
         private bool _isAnswerHidden = true;
         private bool _isAnswered = false;
-        public CardReviewViewModel(/*IParameterRenavigator renavigator*/)
+        private readonly IParameterRenavigator _renavigator;
 
         public CardReviewViewModel()
         {
+            //_renavigator = renavigator;
+
             ShowAnswerCommand = new ShowAnswerCommand(this);
             NextReviewCardCommand = new NextReviewCardCommand(this);
         }
@@ -39,16 +42,16 @@ namespace FlashcardApp.ViewModels
             {
                 if (_currentReviewCard != value)
                 {
-                _currentReviewCard = value;
-                OnPropertyChanged();
+                    _currentReviewCard = value;
+                    OnPropertyChanged();
+                }
             }
         }
-        }
 
-        private List<CardViewModel> _reviewCards;
 
         public ICommand ShowAnswerCommand { get; set; }
         public ICommand NextReviewCardCommand { get; set; }
+        public ICommand EndReviewCommand { get; set; }
 
         public bool IsLastReviewCard
         {

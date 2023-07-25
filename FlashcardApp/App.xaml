@@ -25,6 +25,10 @@
                 <views:AddCardView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewmodels:CardReviewViewModel}">
+                <views:CardReviewView/>
+            </DataTemplate>
+
         </ResourceDictionary>
         
     </Application.Resources>
