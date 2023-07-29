@@ -2,7 +2,7 @@
 using FlashcardApp.Domain.Models;
 using FlashcardApp.Domain.Services;
 using FlashcardApp.State.Navigators;
-using FlashcardApp.ViewModels.Factories;
+using FlashcardApp.WPF.ViewModels.Factories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +14,10 @@ namespace FlashcardApp.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private readonly IFlashcardAppViewModelAbstractFactory _viewModelFactory;
+        private readonly IFlashcardAppViewModelFactory _viewModelFactory;
         private string _title;
 
-        public MainWindowViewModel(INavigator navigator, IFlashcardAppViewModelAbstractFactory viewModelFactory, string title)
+        public MainWindowViewModel(INavigator navigator, IFlashcardAppViewModelFactory viewModelFactory, string title)
         {
             Navigator = navigator;
             _viewModelFactory = viewModelFactory;

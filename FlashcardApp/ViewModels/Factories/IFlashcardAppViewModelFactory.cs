@@ -1,13 +1,15 @@
-﻿using System;
+﻿using FlashcardApp.State.Navigators;
+using FlashcardApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlashcardApp.ViewModels.Factories
+namespace FlashcardApp.WPF.ViewModels.Factories
 {
-    public interface IFlashcardAppViewModelFactory<T> where T : ViewModelBase
+    public interface IFlashcardAppViewModelFactory
     {
-        T CreateViewModel();
+        ViewModelBase CreateViewModel(ViewType viewType);
     }
 }

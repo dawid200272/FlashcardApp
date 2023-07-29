@@ -2,8 +2,8 @@
 using FlashcardApp.Domain.Services;
 using FlashcardApp.State.Navigators;
 using FlashcardApp.ViewModels;
-using FlashcardApp.ViewModels.Factories;
 using FlashcardApp.WPF.Commands;
+using FlashcardApp.WPF.ViewModels.Factories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +16,9 @@ namespace FlashcardApp.Commands
     public class UpdateCurrentViewModelCommand : CommandBase
     {
         private readonly INavigator _navigator;
-        private readonly IFlashcardAppViewModelAbstractFactory _viewModelFactory;
+        private readonly IFlashcardAppViewModelFactory _viewModelFactory;
 
-        public UpdateCurrentViewModelCommand(INavigator navigator, IFlashcardAppViewModelAbstractFactory viewModelFactory)
+        public UpdateCurrentViewModelCommand(INavigator navigator, IFlashcardAppViewModelFactory viewModelFactory)
         {
             _navigator = navigator;
             _viewModelFactory = viewModelFactory;
