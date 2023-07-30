@@ -8,8 +8,7 @@ namespace FlashcardApp.Domain.Models;
 
 public class Deck : DomainObject
 {
-    //private static int _deckCount = 0;
-    private readonly List<Card> _cards;
+    private readonly List<Card> _cards = new List<Card>();
 
     public string Name { get; set; }
     public string? Description { get; set; } = null;
@@ -31,14 +30,6 @@ public class Deck : DomainObject
         {
             _cards = cards;
         }
-        else
-        {
-            _cards = new List<Card>();
-        }
-
-        //_deckCount++;
-
-        //ID = _deckCount;
     }
 
     public void AddCard(Card card)

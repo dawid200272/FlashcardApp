@@ -9,13 +9,14 @@ namespace FlashcardApp.Domain.Models;
 
 public class Card : DomainObject
 {
-    //private static int _cardCount = 0;
-
     public string Front => CardTemplate.Front;
     public string Back => CardTemplate.Back;
 
     public Deck Deck { get; set; }
+    public int DeckId { get; set; }
+
     public CardTemplate CardTemplate { get; set; }
+    public int CardTemplateId { get; set; }
 
     public CardState State { get; set; }
 
@@ -26,8 +27,6 @@ public class Card : DomainObject
         State = CardState.newCard;
 
         CardTemplate = cardTemplate;
-        //_cardCount++;
-
-        //ID = _cardCount;
+        Deck = deck;
     }
 }

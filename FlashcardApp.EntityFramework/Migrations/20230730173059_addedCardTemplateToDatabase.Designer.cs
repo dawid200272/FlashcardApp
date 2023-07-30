@@ -3,6 +3,7 @@ using FlashcardApp.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlashcardApp.EntityFramework.Migrations
 {
     [DbContext(typeof(FlashcardAppDbContext))]
-    partial class FlashcardAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230730173059_addedCardTemplateToDatabase")]
+    partial class addedCardTemplateToDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
