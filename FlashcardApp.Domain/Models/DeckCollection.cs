@@ -5,37 +5,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlashcardApp.Domain.Models
+namespace FlashcardApp.Domain.Models;
+
+public class DeckCollection : IEnumerable<Deck>
 {
-    public class DeckCollection : IEnumerable<Deck>
+    private List<Deck> _decks = new List<Deck>();
+
+    public IEnumerable<Deck> Decks => _decks;
+
+    public void Add(Deck deck)
     {
-        private List<Deck> _decks = new List<Deck>();
+        _decks.Add(deck);
+    }
 
-        public IEnumerable<Deck> Decks => _decks;
+    public void AddRange(IEnumerable<Deck> decks)
+    {
+        _decks.AddRange(decks);
+    }
 
-        public void Add(Deck deck)
-        {
-            _decks.Add(deck);
-        }
+    public void Remove(Deck deck)
+    {
+        _decks.Remove(deck);
+    }
 
-        public void AddRange(IEnumerable<Deck> decks)
-        {
-            _decks.AddRange(decks);
-        }
+    public IEnumerator<Deck> GetEnumerator()
+    {
+        return _decks.GetEnumerator();
+    }
 
-        public void Remove(Deck deck)
-        {
-            _decks.Remove(deck);
-        }
-
-        public IEnumerator<Deck> GetEnumerator()
-        {
-            return _decks.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }

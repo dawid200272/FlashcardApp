@@ -8,137 +8,133 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace FlashcardApp.ViewModels
+namespace FlashcardApp.ViewModels;
+
+public class CardReviewViewModel : ViewModelBase
 {
-    public class CardReviewViewModel : ViewModelBase
+    private readonly DeckViewModel _deckViewModel;
+    private Deck _deck;
+    private List<CardViewModel> _reviewCards;
+
+    private int reviewCardIndex = 0;
+
+    private bool _isLastReviewCard = false;
+    private bool _isAnswerHidden = true;
+    private bool _isAnswered = false;
+    private readonly IParameterRenavigator _renavigator;
+
+    public CardReviewViewModel()
     {
-        private readonly DeckViewModel _deckViewModel;
-        private Deck _deck;
-        private List<CardViewModel> _reviewCards;
+        //_renavigator = renavigator;
 
-        private int reviewCardIndex = 0;
+        ShowAnswerCommand = new ShowAnswerCommand(this);
+        NextReviewCardCommand = new NextReviewCardCommand(this);
+    }
 
-        private bool _isLastReviewCard = false;
-        private bool _isAnswerHidden = true;
-        private bool _isAnswered = false;
-        private readonly IParameterRenavigator _renavigator;
-
-        public CardReviewViewModel()
+    private CardViewModel _currentReviewCard;
+    public CardViewModel CurrentReviewCard
+    {
+        get => _currentReviewCard;
+        set
         {
-            //_renavigator = renavigator;
-
-            ShowAnswerCommand = new ShowAnswerCommand(this);
-            NextReviewCardCommand = new NextReviewCardCommand(this);
-        }
-
-        private CardViewModel _currentReviewCard;
-        public CardViewModel CurrentReviewCard
-        {
-            get
+            if (_currentReviewCard != value)
             {
-                return _currentReviewCard;
-            }
-            set
-            {
-                if (_currentReviewCard != value)
-                {
-                    _currentReviewCard = value;
-                    OnPropertyChanged();
-                }
+                _currentReviewCard = value;
+                OnPropertyChanged();
             }
         }
+    }
 
 
-        public ICommand ShowAnswerCommand { get; set; }
-        public ICommand NextReviewCardCommand { get; set; }
-        public ICommand EndReviewCommand { get; set; }
+    public ICommand ShowAnswerCommand { get; set; }
+    public ICommand NextReviewCardCommand { get; set; }
+    public ICommand EndReviewCommand { get; set; }
 
-        public bool IsLastReviewCard
+    public bool IsLastReviewCard
+    {
+        get => _isLastReviewCard;
+        set
         {
-            get => _isLastReviewCard;
-            set
+            if (_isLastReviewCard != value)
             {
-                if (_isLastReviewCard != value)
-                {
-                    _isLastReviewCard = value;
-                    OnPropertyChanged();
-                }
+                _isLastReviewCard = value;
+                OnPropertyChanged();
             }
         }
-        public bool IsAnswerHidden
+    }
+    public bool IsAnswerHidden
+    {
+        get => _isAnswerHidden;
+        set
         {
-            get => _isAnswerHidden;
-            set
+            if (_isAnswerHidden != value)
             {
-                if (_isAnswerHidden != value)
-                {
-                    _isAnswerHidden = value;
-                    OnPropertyChanged();
-                }
+                _isAnswerHidden = value;
+                OnPropertyChanged();
             }
         }
-        public bool IsAnswered
+    }
+    public bool IsAnswered
+    {
+        get => _isAnswered;
+        set
         {
-            get => _isAnswered;
-            set
+            if (_isAnswered != value)
             {
-                if (_isAnswered != value)
-                {
-                    _isAnswered = value;
-                    OnPropertyChanged();
-                }
+                _isAnswered = value;
+                OnPropertyChanged();
             }
         }
+    }
 
-        public void LoadReviewCards(DeckViewModel deckViewModel, int reviewCardNumber)
+    public void LoadReviewCards(DeckViewModel deckViewModel, int reviewCardNumber)
+    {
+        //EndReviewCommand = new SelectDeckCommand(_renavigator, _deckViewModel);
+
+        _deck = deckViewModel.Deck;
+
+        _reviewCards = new List<CardViewModel>();
+
+        var cardsToReview = _deck.Cards.Take(reviewCardNumber).ToList();
+
+        foreach (var card in cardsToReview)
         {
-            //EndReviewCommand = new SelectDeckCommand(_renavigator, _deckViewModel);
-
-            _deck = deckViewModel.Deck;
-
-            _reviewCards = new List<CardViewModel>();
-
-            var cardsToReview = _deck.Cards.Take(reviewCardNumber).ToList();
-
-            foreach (var card in cardsToReview)
-            {
-                _reviewCards.Add(new CardViewModel(card));
-            }
-
-            NextReviewCard();
+            _reviewCards.Add(new CardViewModel(card));
         }
 
-        public CardViewModel GetNextReviewCard()
+        NextReviewCard();
+    }
+
+    public CardViewModel GetNextReviewCard()
+    {
+        CardViewModel reviewCard = _reviewCards[reviewCardIndex];
+
+        reviewCardIndex++;
+
+        if (reviewCardIndex >= _reviewCards.Count)
         {
-            CardViewModel reviewCard = _reviewCards[reviewCardIndex];
-
-            reviewCardIndex++;
-
-            if (reviewCardIndex >= _reviewCards.Count)
-            {
-                IsLastReviewCard = true;
-            }
-
-            return reviewCard;
+            IsLastReviewCard = true;
         }
 
-        public void NextReviewCard()
+        return reviewCard;
+    }
+
+    public void NextReviewCard()
+    {
+        if (IsLastReviewCard == true)
         {
-            if (IsLastReviewCard == true)
-            {
-                return;
-            }
-
-            IsAnswerHidden = true;
-            IsAnswered = false;
-
-            _currentReviewCard = GetNextReviewCard();
-            OnPropertyChanged(nameof(CurrentReviewCard));
+            return;
         }
 
-        public void ShowAnswer()
-        {
-            IsAnswerHidden = false;
-        }
+        IsAnswerHidden = true;
+        IsAnswered = false;
+
+        _currentReviewCard = GetNextReviewCard();
+        OnPropertyChanged(nameof(CurrentReviewCard));
+    }
+
+    public void ShowAnswer()
+    {
+        IsAnswerHidden = false;
     }
 }

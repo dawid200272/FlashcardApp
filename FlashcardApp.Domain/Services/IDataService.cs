@@ -4,18 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlashcardApp.Domain.Services
+namespace FlashcardApp.Domain.Services;
+
+public interface IDataService<T>
 {
-    public interface IDataService<T>
-    {
-        Task<IEnumerable<T>> GetAll();
+    Task<IEnumerable<T>> GetAll();
 
-        Task<T> Get(int id);
+    Task<T> Get(int id);
 
-        Task<T> Create(T entity);
+    Task<T> Create(T entity);
 
-        Task<T> Update(int id, T entity);
+    Task<T> Update(int id, T entity);
 
-        Task<bool> Delete(int id);
-    }
+    Task<bool> Delete(int id);
 }

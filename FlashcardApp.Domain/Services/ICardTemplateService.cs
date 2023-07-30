@@ -6,10 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlashcardApp.Domain.Services
+namespace FlashcardApp.Domain.Services;
+
+public interface ICardTemplateService
 {
-    public interface ICardTemplateService
-    {
-        Task<CardTemplate> CreateCardTemplate(CardTemplateType type, string front, string back);
-    }
+    Task<CardTemplate> CreateCardTemplate(CardTemplateType type, string front, string back);
 }

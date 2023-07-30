@@ -1,7 +1,4 @@
-﻿using FlashcardApp.Domain.Models;
-using FlashcardApp.State.Navigators;
-using FlashcardApp.ViewModels;
-using FlashcardApp.ViewModels.Factories;
+﻿using FlashcardApp.ViewModels;
 using FlashcardApp.WPF.Commands;
 using FlashcardApp.WPF.State.Navigators;
 using System;
@@ -11,28 +8,27 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace FlashcardApp.Commands
+namespace FlashcardApp.Commands;
+
+public class SelectDeckCommand : CommandBase
 {
-    public class SelectDeckCommand : CommandBase
+    private readonly IParameterRenavigator _renavigator;
+    private readonly DeckViewModel _deckViewModel;
+
+    public SelectDeckCommand(IParameterRenavigator renavigator,
+        DeckViewModel deckViewModel)
     {
-        private readonly IParameterRenavigator _renavigator;
-        private readonly DeckViewModel _deckViewModel;
+        _renavigator = renavigator;
+        _deckViewModel = deckViewModel;
+    }
 
-        public SelectDeckCommand(IParameterRenavigator renavigator,
-            DeckViewModel deckViewModel)
+    public override void Execute(object? parameter)
+    {
+        _renavigator.Renavigate((viewModelBase) =>
         {
-            _renavigator = renavigator;
-            _deckViewModel = deckViewModel;
-        }
+            DeckDetailsViewModel viewModel = (DeckDetailsViewModel)viewModelBase;
 
-        public override void Execute(object? parameter)
-        {
-            _renavigator.Renavigate((viewModelBase) =>
-            {
-                DeckDetailsViewModel viewModel = (DeckDetailsViewModel)viewModelBase;
-
-                viewModel.LoadDeckDetailsViewModel(_deckViewModel);
-            });
-        }
+            viewModel.LoadDeckDetailsViewModel(_deckViewModel);
+        });
     }
 }

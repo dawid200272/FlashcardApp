@@ -4,64 +4,63 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlashcardApp.Domain.Models
+namespace FlashcardApp.Domain.Models;
+
+public class Deck : DomainObject
 {
-    public class Deck : DomainObject
+    //private static int _deckCount = 0;
+    private readonly List<Card> _cards;
+
+    public string Name { get; set; }
+    public string? Description { get; set; } = null;
+
+    public IEnumerable<Card> Cards { get => _cards; }
+
+    private Deck() { }
+
+    public Deck(string name, string? description = null, List<Card>? cards = null)
     {
-        private static int _deckCount = 0;
-        private List<Card> _cards;
+        Name = name;
 
-        public string Name { get; set; }
-        public string? Description { get; set; } = null;
-
-        public IEnumerable<Card> Cards { get => _cards; }
-
-        private Deck() { }
-
-        public Deck(string name, string? description = null, List<Card>? cards = null)
+        if (description is not null)
         {
-            Name = name;
-
-            if (description is not null)
-            {
-                Description = description;
-            }
-
-            if (cards is not null)
-            {
-                _cards = cards;
-            }
-            else
-            {
-                _cards = new List<Card>();
-            }
-
-            _deckCount++;
-
-            ID = _deckCount;
+            Description = description;
         }
 
-        public void AddCard(Card card)
+        if (cards is not null)
         {
-            _cards.Add(card);
+            _cards = cards;
+        }
+        else
+        {
+            _cards = new List<Card>();
         }
 
-        public void AddCardRange(IEnumerable<Card> cards)
-        {
-            _cards.AddRange(cards);
-        }
+        //_deckCount++;
 
-        public void RemoveCard(Card card)
+        //ID = _deckCount;
+    }
+
+    public void AddCard(Card card)
+    {
+        _cards.Add(card);
+    }
+
+    public void AddCardRange(IEnumerable<Card> cards)
+    {
+        _cards.AddRange(cards);
+    }
+
+    public void RemoveCard(Card card)
+    {
+        _cards.Remove(card);
+    }
+
+    public void RemoveCardRange(IEnumerable<Card> cards)
+    {
+        foreach (var card in cards)
         {
             _cards.Remove(card);
-        }
-
-        public void RemoveCardRange(IEnumerable<Card> cards)
-        {
-            foreach (var card in cards)
-            {
-                _cards.Remove(card);
-            }
         }
     }
 }

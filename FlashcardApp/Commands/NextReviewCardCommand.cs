@@ -6,20 +6,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlashcardApp.Commands
+namespace FlashcardApp.Commands;
+
+public class NextReviewCardCommand : CommandBase
 {
-    public class NextReviewCardCommand : CommandBase
+    private readonly CardReviewViewModel _viewModel;
+
+    public NextReviewCardCommand(CardReviewViewModel cardReviewViewModel)
     {
-        private readonly CardReviewViewModel _viewModel;
+        _viewModel = cardReviewViewModel;
+    }
 
-        public NextReviewCardCommand(CardReviewViewModel cardReviewViewModel)
-        {
-            _viewModel = cardReviewViewModel;
-        }
-
-        public override void Execute(object? parameter)
-        {
-            _viewModel.NextReviewCard();
-        }
+    public override void Execute(object? parameter)
+    {
+        _viewModel.NextReviewCard();
     }
 }

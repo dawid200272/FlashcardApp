@@ -74,7 +74,7 @@
                         <!--DisplayMemberBinding="{Binding NewCardsNumber}-->
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding NewCardsNumber}" Foreground="White"/>
+                                <TextBlock Text="{Binding NewCardsNumber}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -83,7 +83,7 @@
                         <!--DisplayMemberBinding="{Binding CardsNumber}-->
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding CardsNumber}" Foreground="White"/>
+                                <TextBlock Text="{Binding CardsNumber}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

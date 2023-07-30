@@ -6,18 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace FlashcardApp.State.Navigators
-{
-    public interface INavigator
-    {
-        ViewModelBase CurrentViewModel { get; set; }
-    }
+namespace FlashcardApp.State.Navigators;
 
-    public enum ViewType
-    {
-        DeckListing,
-        DeckDetails,
-        CardReview,
-        AddCard
-    }
+public interface INavigator
+{
+    ViewModelBase CurrentViewModel { get; set; }
+}
+
+public enum ViewType
+{
+    DeckListing,
+    DeckDetails,
+    CardReview,
+    AddCard
 }

@@ -10,34 +10,33 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace FlashcardApp.ViewModels
+namespace FlashcardApp.ViewModels;
+
+public class MainWindowViewModel : ViewModelBase
 {
-    public class MainWindowViewModel : ViewModelBase
+    private readonly IFlashcardAppViewModelFactory _viewModelFactory;
+    private string _title;
+
+    public MainWindowViewModel(INavigator navigator, IFlashcardAppViewModelFactory viewModelFactory, string title)
     {
-        private readonly IFlashcardAppViewModelFactory _viewModelFactory;
-        private string _title;
+        Navigator = navigator;
+        _viewModelFactory = viewModelFactory;
+        _title = title;
 
-        public MainWindowViewModel(INavigator navigator, IFlashcardAppViewModelFactory viewModelFactory, string title)
+        UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(navigator, _viewModelFactory);
+        UpdateCurrentViewModelCommand.Execute(ViewType.DeckListing);
+    }
+
+    public INavigator Navigator { get; set; }
+    public ICommand UpdateCurrentViewModelCommand { get; }
+
+    public string Title
+    {
+        get => _title;
+        set
         {
-            Navigator = navigator;
-            _viewModelFactory = viewModelFactory;
-            _title = title;
-
-            UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(navigator, _viewModelFactory);
-            UpdateCurrentViewModelCommand.Execute(ViewType.DeckListing);
-        }
-
-        public INavigator Navigator { get; set; }
-        public ICommand UpdateCurrentViewModelCommand { get; }
-
-        public string Title
-        {
-            get => _title;
-            set
-            {
-                _title = value;
-                OnPropertyChanged();
-            }
+            _title = value;
+            OnPropertyChanged();
         }
     }
 }

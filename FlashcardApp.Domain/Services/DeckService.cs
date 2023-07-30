@@ -5,39 +5,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlashcardApp.Domain.Services
+namespace FlashcardApp.Domain.Services;
+
+public class DeckService : IDeckService
 {
-    public class DeckService : IDeckService
+    private readonly ICardService _cardService;
+
+    public DeckService()
     {
-        private readonly ICardService _cardService;
+        _cardService = new CardService();
+    }
 
-        public DeckService()
+    public Task<Deck> CreateEmptyDeck(string name)
+    {
+        Deck result = new Deck(name);
+
+        return Task.FromResult(result);
+    }
+
+    public async Task<Deck> CreateDeckWithCards(string name, List<CardTemplate> cardTemplates)
+    {
+        Deck result = new Deck(name);
+
+        foreach (var cardTemplate in cardTemplates)
         {
-            _cardService = new CardService();
+            result.AddCard(await _cardService.CreateCard(cardTemplate, result));
         }
 
-        public Task<Deck> CreateEmptyDeck(string name)
-        {
-            Deck result = new Deck(name);
+        return result;
+    }
 
-            return Task.FromResult(result);
-        }
-
-        public async Task<Deck> CreateDeckWithCards(string name, List<CardTemplate> cardTemplates)
-        {
-            Deck result = new Deck(name);
-
-            foreach (var cardTemplate in cardTemplates)
-            {
-                result.AddCard(await _cardService.CreateCard(cardTemplate, result));
-            }
-
-            return result;
-        }
-
-        public Task<List<Deck>> CreateDecks(List<string> names, List<CardTemplate> cards)
-        {
-            throw new NotImplementedException();
-        }
+    public Task<List<Deck>> CreateDecks(List<string> names, List<CardTemplate> cards)
+    {
+        throw new NotImplementedException();
     }
 }

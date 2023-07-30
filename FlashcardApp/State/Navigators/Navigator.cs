@@ -1,8 +1,4 @@
-﻿using FlashcardApp.Commands;
-using FlashcardApp.Domain.Models;
-using FlashcardApp.Domain.Services;
-using FlashcardApp.ViewModels;
-using FlashcardApp.ViewModels.Factories;
+﻿using FlashcardApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,23 +6,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace FlashcardApp.State.Navigators
-{
-    public class Navigator : ObservableObject, INavigator
-    {
-        private ViewModelBase _currentViewModel;
+namespace FlashcardApp.State.Navigators;
 
-        public ViewModelBase CurrentViewModel
+public class Navigator : ObservableObject, INavigator
+{
+    private ViewModelBase _currentViewModel;
+
+    public ViewModelBase CurrentViewModel
+    {
+        get => _currentViewModel;
+        set
         {
-            get
-            {
-                return _currentViewModel;
-            }
-            set
-            {
-                _currentViewModel = value;
-                OnPropertyChanged();
-            }
+            _currentViewModel = value;
+            OnPropertyChanged();
         }
     }
 }

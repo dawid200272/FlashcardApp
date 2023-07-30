@@ -1,8 +1,6 @@
 ﻿using FlashcardApp.Commands;
 using FlashcardApp.Domain.Models;
 using FlashcardApp.Domain.Services;
-using FlashcardApp.State.Navigators;
-using FlashcardApp.ViewModels.Factories;
 using FlashcardApp.WPF.State.Navigators;
 using FlashcardApp.WPF.Stores;
 using System;
@@ -14,62 +12,58 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace FlashcardApp.ViewModels
+namespace FlashcardApp.ViewModels;
+
+public class DeckListingViewModel : ViewModelBase
 {
-    public class DeckListingViewModel : ViewModelBase
+    private readonly IParameterRenavigator _renavigator;
+
+    private readonly DeckStore _deckStore;
+    private readonly IDeckService _deckService;
+
+    private ObservableCollection<DeckViewModel> _decks;
+
+    public DeckListingViewModel(IParameterRenavigator renavigator, 
+        DeckStore deckStore, IDeckService deckService)
     {
-        private readonly IParameterRenavigator _renavigator;
+        _renavigator = renavigator;
 
-        private readonly DeckStore _deckStore;
-        private readonly IDeckService _deckService;
+        _deckStore = deckStore;
+        _deckService = deckService;
 
-        private ObservableCollection<DeckViewModel> _decks;
+        UpdateDecks(_deckStore);
+    }
 
-        public DeckListingViewModel(IParameterRenavigator renavigator, 
-            DeckStore deckStore, IDeckService deckService)
+    public ObservableCollection<DeckViewModel> Decks
+    {
+        get => _decks;
+        set
         {
-            _renavigator = renavigator;
+            _decks = value;
+            OnPropertyChanged();
+        }
+    }
 
-            _deckStore = deckStore;
-            _deckService = deckService;
+    public ICommand AddEmptyDeckCommand => new AddEmptyDeckCommand(this);
 
-            UpdateDecks(_deckStore);
+    public async Task AddDeck(string deckName)
+    {
+        Deck createdDeck = await _deckService.CreateEmptyDeck(deckName);
+
+        await _deckStore.AddAsync(createdDeck);
+
+        UpdateDecks(_deckStore);
+    }
+
+    private void UpdateDecks(DeckStore deckStore)
+    {
+        List<DeckViewModel> deckViewModels = new List<DeckViewModel>();
+
+        foreach (Deck deck in deckStore)
+        {
+            deckViewModels.Add(new DeckViewModel(_renavigator, deck));
         }
 
-        public ObservableCollection<DeckViewModel> Decks
-        {
-            get
-            {
-                return _decks;
-            }
-            set
-            {
-                _decks = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public ICommand AddEmptyDeckCommand => new AddEmptyDeckCommand(this);
-
-        public async Task AddDeck(string deckName)
-        {
-            Deck createdDeck = await _deckService.CreateEmptyDeck(deckName);
-
-            await _deckStore.AddAsync(createdDeck);
-
-            UpdateDecks(_deckStore);
-        }
-
-        private void UpdateDecks(DeckStore deckStore)
-        {
-            List<DeckViewModel> deckViewModels = new List<DeckViewModel>();
-
-            foreach (Deck deck in deckStore)
-            {
-                deckViewModels.Add(new DeckViewModel(_renavigator, deck));
-            }
-
-            _decks = new ObservableCollection<DeckViewModel>(deckViewModels);
-        }
+        _decks = new ObservableCollection<DeckViewModel>(deckViewModels);
     }
 }

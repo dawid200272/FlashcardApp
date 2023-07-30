@@ -7,30 +7,29 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace FlashcardApp.Commands
+namespace FlashcardApp.Commands;
+
+public class ShowAnswerCommand : CommandBase
 {
-    public class ShowAnswerCommand : CommandBase
+    private readonly CardReviewViewModel _viewModel;
+
+    public ShowAnswerCommand(CardReviewViewModel viewModel)
     {
-        private readonly CardReviewViewModel _viewModel;
+        _viewModel = viewModel;
+    }
 
-        public ShowAnswerCommand(CardReviewViewModel viewModel)
+    public override bool CanExecute(object? parameter)
+    {
+        if (_viewModel.IsAnswerHidden)
         {
-            _viewModel = viewModel;
+            return true;
         }
 
-        public override bool CanExecute(object? parameter)
-        {
-            if (_viewModel.IsAnswerHidden)
-            {
-                return true;
-            }
+        return false;
+    }
 
-            return false;
-        }
-
-        public override void Execute(object? parameter)
-        {
-            _viewModel.ShowAnswer();
-        }
+    public override void Execute(object? parameter)
+    {
+        _viewModel.ShowAnswer();
     }
 }

@@ -13,16 +13,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FlashcardApp.Views
+namespace FlashcardApp.Views;
+
+/// <summary>
+/// Interaction logic for AddCardView.xaml
+/// </summary>
+public partial class AddCardView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for AddCardView.xaml
-    /// </summary>
-    public partial class AddCardView : UserControl
+    public AddCardView()
     {
-        public AddCardView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

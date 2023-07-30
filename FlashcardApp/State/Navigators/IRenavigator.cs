@@ -1,9 +1,8 @@
 ﻿using FlashcardApp.ViewModels;
 
-namespace FlashcardApp.State.Navigators
+namespace FlashcardApp.State.Navigators;
+
+public interface IRenavigator
 {
-    public interface IRenavigator
-    {
-        void Renavigate();
-    }
+    void Renavigate();
 }

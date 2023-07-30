@@ -11,25 +11,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace FlashcardApp.Commands
+namespace FlashcardApp.Commands;
+
+public class UpdateCurrentViewModelCommand : CommandBase
 {
-    public class UpdateCurrentViewModelCommand : CommandBase
+    private readonly INavigator _navigator;
+    private readonly IFlashcardAppViewModelFactory _viewModelFactory;
+
+    public UpdateCurrentViewModelCommand(INavigator navigator, IFlashcardAppViewModelFactory viewModelFactory)
     {
-        private readonly INavigator _navigator;
-        private readonly IFlashcardAppViewModelFactory _viewModelFactory;
+        _navigator = navigator;
+        _viewModelFactory = viewModelFactory;
+    }
 
-        public UpdateCurrentViewModelCommand(INavigator navigator, IFlashcardAppViewModelFactory viewModelFactory)
+    public override void Execute(object? parameter)
+    {
+        if (parameter is ViewType viewType)
         {
-            _navigator = navigator;
-            _viewModelFactory = viewModelFactory;
-        }
-
-        public override void Execute(object? parameter)
-        {
-            if (parameter is ViewType viewType)
-            {
-                _navigator.CurrentViewModel = _viewModelFactory.CreateViewModel(viewType);
-            }
+            _navigator.CurrentViewModel = _viewModelFactory.CreateViewModel(viewType);
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿namespace FlashcardApp.Domain.Models.Enums
+﻿namespace FlashcardApp.Domain.Models.Enums;
+
+public enum CardState
 {
-    public enum CardState
-    {
-        newCard,
-        learning,
-        review
-    }
+    newCard,
+    learning,
+    review
 }

@@ -5,12 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlashcardApp.Domain.Services
-{
-    public interface ICardService
-    {
-        Task<Card> CreateCard(CardTemplate cardTemplate, Deck deck);
+namespace FlashcardApp.Domain.Services;
 
-        Task<List<Card>> CreateCards(List<CardTemplate> cardTemplates, Deck deck);
-    }
+public interface ICardService
+{
+    Task<Card> CreateCard(CardTemplate cardTemplate, Deck deck);
+
+    Task<List<Card>> CreateCards(List<CardTemplate> cardTemplates, Deck deck);
 }

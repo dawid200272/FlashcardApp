@@ -5,8 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlashcardApp.WPF.ViewModels
-{
-    public delegate TViewModel CreateViewModel<TViewModel>()
-        where TViewModel : ViewModelBase;
-}
+namespace FlashcardApp.WPF.ViewModels;
+
+public delegate TViewModel CreateViewModel<TViewModel>()
+    where TViewModel : ViewModelBase;

@@ -10,43 +10,42 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace FlashcardApp.ViewModels
+namespace FlashcardApp.ViewModels;
+
+public class DeckDetailsViewModel : ViewModelBase
 {
-    public class DeckDetailsViewModel : ViewModelBase
+    private readonly IParameterRenavigator _renavigator;
+    private DeckViewModel _deckViewModel;
+
+    public DeckDetailsViewModel(IParameterRenavigator renavigator)
     {
-        private readonly IParameterRenavigator _renavigator;
-        private DeckViewModel _deckViewModel;
+        _renavigator = renavigator;
+    }
 
-        public DeckDetailsViewModel(IParameterRenavigator renavigator)
-        {
-            _renavigator = renavigator;
-        }
+    public void LoadDeckDetailsViewModel(DeckViewModel deckViewModel)
+    {
+        _deckViewModel = deckViewModel;
 
-        public void LoadDeckDetailsViewModel(DeckViewModel deckViewModel)
-        {
-            _deckViewModel = deckViewModel;
+        StartCardReviewCommand = new StartCardReviewCommand(_renavigator, _deckViewModel);
+    }
 
-            StartCardReviewCommand = new StartCardReviewCommand(_renavigator, _deckViewModel);
-        }
+    public ICommand StartCardReviewCommand { get; set; }
+    public ICommand StartCardBrowsingCommand { get; set; }
 
-        public ICommand StartCardReviewCommand { get; set; }
-        public ICommand StartCardBrowsingCommand { get; set; }
+    public string Name => _deckViewModel.Name;
 
-        public string Name => _deckViewModel.Name;
+    public string? Description => _deckViewModel.Description;
 
-        public string? Description => _deckViewModel.Description;
+    public bool HasDescription => string.IsNullOrEmpty(_deckViewModel.Description);
+    public bool HasCards => CardsNumber > 0;
 
-        public bool HasDescription => string.IsNullOrEmpty(_deckViewModel.Description);
-        public bool HasCards => CardsNumber > 0;
+    public int NewCardsNumber => _deckViewModel.NewCardsNumber;
 
-        public int NewCardsNumber => _deckViewModel.NewCardsNumber;
+    public int CardsNumber => _deckViewModel.CardsNumber;
 
-        public int CardsNumber => _deckViewModel.CardsNumber;
-
-        public void UpdateCardsInfo()
-        {
-            OnPropertyChanged(nameof(NewCardsNumber));
-            OnPropertyChanged(nameof(CardsNumber));
-        }
+    public void UpdateCardsInfo()
+    {
+        OnPropertyChanged(nameof(NewCardsNumber));
+        OnPropertyChanged(nameof(CardsNumber));
     }
 }

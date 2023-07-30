@@ -10,30 +10,29 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace FlashcardApp.Commands
+namespace FlashcardApp.Commands;
+
+public class StartCardReviewCommand : CommandBase
 {
-    public class StartCardReviewCommand : CommandBase
+    private readonly IParameterRenavigator _renavigator;
+    private readonly DeckViewModel _deckViewModel;
+
+    // TODO: Move review card number to settings, maybe in a JSON file
+    const int REVIEW_CARD_NUMBER = 15;
+
+    public StartCardReviewCommand(IParameterRenavigator renavigator, DeckViewModel deckViewModel)
     {
-        private readonly IParameterRenavigator _renavigator;
-        private readonly DeckViewModel _deckViewModel;
+        _renavigator = renavigator;
+        _deckViewModel = deckViewModel;
+    }
 
-        // TODO: Move review card number to settings, maybe in a JSON file
-        const int REVIEW_CARD_NUMBER = 15;
-
-        public StartCardReviewCommand(IParameterRenavigator renavigator, DeckViewModel deckViewModel)
+    public override void Execute(object? parameter)
+    {
+        _renavigator.Renavigate((viewModelBase) =>
         {
-            _renavigator = renavigator;
-            _deckViewModel = deckViewModel;
-        }
+            CardReviewViewModel viewModel = (CardReviewViewModel)viewModelBase;
 
-        public override void Execute(object? parameter)
-        {
-            _renavigator.Renavigate((viewModelBase) =>
-            {
-                CardReviewViewModel viewModel = (CardReviewViewModel)viewModelBase;
-
-                viewModel.LoadReviewCards(_deckViewModel, REVIEW_CARD_NUMBER);
-            });
-        }
+            viewModel.LoadReviewCards(_deckViewModel, REVIEW_CARD_NUMBER);
+        });
     }
 }

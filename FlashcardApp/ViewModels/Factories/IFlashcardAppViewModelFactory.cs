@@ -6,10 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlashcardApp.WPF.ViewModels.Factories
+namespace FlashcardApp.WPF.ViewModels.Factories;
+
+public interface IFlashcardAppViewModelFactory
 {
-    public interface IFlashcardAppViewModelFactory
-    {
-        ViewModelBase CreateViewModel(ViewType viewType);
-    }
+    ViewModelBase CreateViewModel(ViewType viewType);
 }

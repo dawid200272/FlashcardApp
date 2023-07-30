@@ -7,8 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlashcardApp.WPF.Stores
-{
+namespace FlashcardApp.WPF.Stores;
+
     public class DeckStore : IEnumerable<Deck>
     {
         private readonly IDeckService _deckService;
@@ -18,7 +18,7 @@ namespace FlashcardApp.WPF.Stores
         private readonly IDataService<Card> _cardDataService;
         private readonly IDataService<CardTemplate> _cardTemplateDataService;
 
-        private List<Deck> _decks = new List<Deck>();
+    private readonly List<Deck> _decks = new List<Deck>();
 
         public DeckStore(IDeckService deckService, ICardService cardService, 
             ICardTemplateService cardTemplateService, IDataService<Deck> deckDataService, 
@@ -75,4 +75,3 @@ namespace FlashcardApp.WPF.Stores
             return GetEnumerator();
         }
     }
-}

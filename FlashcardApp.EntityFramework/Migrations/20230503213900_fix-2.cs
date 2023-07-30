@@ -2,21 +2,20 @@
 
 #nullable disable
 
-namespace FlashcardApp.EntityFramework.Migrations
+namespace FlashcardApp.EntityFramework.Migrations;
+
+/// <inheritdoc />
+public partial class fix2 : Migration
 {
     /// <inheritdoc />
-    public partial class fix2 : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
 
-        }
+    }
 
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+    /// <inheritdoc />
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
 
-        }
     }
 }

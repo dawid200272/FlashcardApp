@@ -5,27 +5,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlashcardApp.Domain.Services
+namespace FlashcardApp.Domain.Services;
+
+public class CardService : ICardService
 {
-    public class CardService : ICardService
+    public Task<Card> CreateCard(CardTemplate cardTemplate, Deck deck)
     {
-        public Task<Card> CreateCard(CardTemplate cardTemplate, Deck deck)
-        {
-            Card result = new Card(cardTemplate, deck);
+        Card result = new Card(cardTemplate, deck);
 
-            return Task.FromResult(result);
+        return Task.FromResult(result);
+    }
+
+    public async Task<List<Card>> CreateCards(List<CardTemplate> cardTemplates, Deck deck)
+    {
+        List<Card> result = new List<Card>();
+
+        foreach (var cardTemplate in cardTemplates)
+        {
+            result.Add(await CreateCard(cardTemplate, deck));
         }
 
-        public async Task<List<Card>> CreateCards(List<CardTemplate> cardTemplates, Deck deck)
-        {
-            List<Card> result = new List<Card>();
-
-            foreach (var cardTemplate in cardTemplates)
-            {
-                result.Add(await CreateCard(cardTemplate, deck));
-            }
-
-            return result;
-        }
+        return result;
     }
 }
