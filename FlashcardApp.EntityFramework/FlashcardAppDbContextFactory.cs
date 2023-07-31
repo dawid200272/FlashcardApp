@@ -10,7 +10,7 @@ namespace FlashcardApp.EntityFramework;
 
 public class FlashcardAppDbContextFactory : IDesignTimeDbContextFactory<FlashcardAppDbContext>
 {
-    public FlashcardAppDbContext CreateDbContext(string[] args = null)
+    public FlashcardAppDbContext CreateDbContext(string[]? args = null)
     {
         var options = new DbContextOptionsBuilder<FlashcardAppDbContext>();
         options.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=FlashcardAppDB;Trusted_Connection=True;");

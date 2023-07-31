@@ -1,28 +1,28 @@
 ﻿using FlashcardApp.Domain.Models;
 using FlashcardApp.Domain.Services;
-using FlashcardApp.EntityFramework.Services.Common;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FlashcardApp.EntityFramework.Services.Common;
 
 namespace FlashcardApp.EntityFramework.Services;
 
-public class GenericDataService<T> : IDataService<T>
-    where T : DomainObject
+public class DeckDataService : IDataService<Deck>
 {
     private readonly FlashcardAppDbContextFactory _contextFactory;
-    private readonly NonQueryDataService<T> _nonQueryDataService;
+    private readonly NonQueryDataService<Deck> _nonQueryDataService;
 
-    public GenericDataService(FlashcardAppDbContextFactory contextFactory)
+    public DeckDataService(FlashcardAppDbContextFactory contextFactory)
     {
         _contextFactory = contextFactory;
-        _nonQueryDataService = new NonQueryDataService<T>(contextFactory);
+        _nonQueryDataService = new NonQueryDataService<Deck>(contextFactory);
     }
 
-    public async Task<T> Create(T entity)
+    public async Task<Deck> Create(Deck entity)
     {
         return await _nonQueryDataService.Create(entity);
     }
@@ -32,27 +32,33 @@ public class GenericDataService<T> : IDataService<T>
         return await _nonQueryDataService.Delete(id);
     }
 
-    public async Task<T> Get(int id)
+    public async Task<Deck> Get(int id)
     {
         using (FlashcardAppDbContext context = _contextFactory.CreateDbContext())
         {
-            T entity = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
+            Deck entity = await context.Decks
+                .Include(d => d.Cards)
+                .ThenInclude(c => c.CardTemplate)
+                .FirstOrDefaultAsync(e => e.Id == id);
 
             return entity;
         }
     }
 
-    public async Task<IEnumerable<T>> GetAll()
+    public async Task<IEnumerable<Deck>> GetAll()
     {
         using (FlashcardAppDbContext context = _contextFactory.CreateDbContext())
         {
-            IEnumerable<T> entities = await context.Set<T>().ToListAsync();
+            IEnumerable<Deck> entities = await context.Decks
+                .Include(d => d.Cards)
+                .ThenInclude(c => c.CardTemplate)
+                .ToListAsync();
 
             return entities;
         }
     }
 
-    public async Task<T> Update(int id, T entity)
+    public async Task<Deck> Update(int id, Deck entity)
     {
         return await _nonQueryDataService.Update(id, entity);
     }
