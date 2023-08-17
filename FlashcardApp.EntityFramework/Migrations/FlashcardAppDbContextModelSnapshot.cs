@@ -45,7 +45,7 @@ namespace FlashcardApp.EntityFramework.Migrations
 
                     b.HasIndex("DeckId");
 
-                    b.ToTable("Cards");
+                    b.ToTable("Cards", (string)null);
                 });
 
             modelBuilder.Entity("FlashcardApp.Domain.Models.CardTemplate", b =>
@@ -69,7 +69,7 @@ namespace FlashcardApp.EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CardTemplates");
+                    b.ToTable("CardTemplates", (string)null);
                 });
 
             modelBuilder.Entity("FlashcardApp.Domain.Models.Deck", b =>
@@ -89,7 +89,7 @@ namespace FlashcardApp.EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Decks");
+                    b.ToTable("Decks", (string)null);
                 });
 
             modelBuilder.Entity("FlashcardApp.Domain.Models.Card", b =>

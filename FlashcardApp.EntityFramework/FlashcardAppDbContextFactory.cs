@@ -8,12 +8,19 @@ using System.Threading.Tasks;
 
 namespace FlashcardApp.EntityFramework;
 
-public class FlashcardAppDbContextFactory : IDesignTimeDbContextFactory<FlashcardAppDbContext>
+public class FlashcardAppDbContextFactory
 {
-    public FlashcardAppDbContext CreateDbContext(string[]? args = null)
+    private readonly string _connectionString;
+
+    public FlashcardAppDbContextFactory(string connectionString)
+    {
+        _connectionString = connectionString;
+    }
+
+    public FlashcardAppDbContext CreateDbContext()
     {
         var options = new DbContextOptionsBuilder<FlashcardAppDbContext>();
-        options.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=FlashcardAppDB;Trusted_Connection=True;");
+        options.UseSqlServer(_connectionString);
 
         return new FlashcardAppDbContext(options.Options);
     }
