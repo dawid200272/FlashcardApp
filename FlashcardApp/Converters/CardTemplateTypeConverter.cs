@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace FlashcardApp.Converters;
+namespace FlashcardApp.WPF.Converters;
 
 public class CardTemplateTypeConverter : IValueConverter
 {

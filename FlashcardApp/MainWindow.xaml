@@ -1,12 +1,12 @@
-﻿<Window x:Class="FlashcardApp.MainWindow"
+﻿<Window x:Class="FlashcardApp.WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FlashcardApp"
+        xmlns:local="clr-namespace:FlashcardApp.WPF"
         
-        xmlns:viewmodels="clr-namespace:FlashcardApp.ViewModels"
-        xmlns:controls="clr-namespace:FlashcardApp.Controls"
+        xmlns:viewmodels="clr-namespace:FlashcardApp.WPF.ViewModels"
+        xmlns:controls="clr-namespace:FlashcardApp.WPF.Controls"
         
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
         

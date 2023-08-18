@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlashcardApp.ViewModels;
+namespace FlashcardApp.WPF.ViewModels;
 
 public class CardViewModel : ViewModelBase
 {

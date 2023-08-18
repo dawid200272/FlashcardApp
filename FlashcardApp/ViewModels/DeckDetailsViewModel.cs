@@ -1,6 +1,5 @@
-﻿using FlashcardApp.Commands;
-using FlashcardApp.Domain.Models;
-using FlashcardApp.State.Navigators;
+﻿using FlashcardApp.Domain.Models;
+using FlashcardApp.WPF.Commands;
 using FlashcardApp.WPF.State.Navigators;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System;
@@ -10,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace FlashcardApp.ViewModels;
+namespace FlashcardApp.WPF.ViewModels;
 
 public class DeckDetailsViewModel : ViewModelBase
 {

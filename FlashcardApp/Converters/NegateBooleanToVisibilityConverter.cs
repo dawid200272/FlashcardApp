@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
-namespace FlashcardApp.Converters;
+namespace FlashcardApp.WPF.Converters;
 
 public class NegateBooleanToVisibilityConverter : IValueConverter
 {

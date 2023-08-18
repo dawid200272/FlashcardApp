@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FlashcardApp.Controls;
+namespace FlashcardApp.WPF.Controls;
 
 /// <summary>
 /// Interaction logic for NavigationBar.xaml

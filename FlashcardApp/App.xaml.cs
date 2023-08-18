@@ -2,8 +2,6 @@
 using FlashcardApp.Domain.Services;
 using FlashcardApp.EntityFramework;
 using FlashcardApp.EntityFramework.Services;
-using FlashcardApp.State.Navigators;
-using FlashcardApp.ViewModels;
 using FlashcardApp.WPF.State.Navigators;
 using FlashcardApp.WPF.Stores;
 using FlashcardApp.WPF.ViewModels;
@@ -20,7 +18,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace FlashcardApp;
+namespace FlashcardApp.WPF;
 
 /// <summary>
 /// Interaction logic for App.xaml
@@ -112,9 +110,7 @@ public partial class App : Application
                 {
                     return () => new AddCardViewModel(
                         services.GetRequiredService<ViewModelDelegateRenavigator<DeckListingViewModel>>(),
-                        services.GetRequiredService<DeckStore>(),
-                        services.GetRequiredService<ICardService>(),
-                        services.GetRequiredService<ICardTemplateService>());
+                        services.GetRequiredService<DeckStore>());
                 });
 
                 services.AddSingleton<INavigator, Navigator>();

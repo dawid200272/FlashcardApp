@@ -1,7 +1,5 @@
 ﻿using FlashcardApp.Domain.Models;
-using FlashcardApp.State.Navigators;
-using FlashcardApp.ViewModels;
-using FlashcardApp.WPF.ViewModels;
+using FlashcardApp.WPF.State.Navigators;
 using System;
 using System.Collections.Generic;
 using System.Linq;

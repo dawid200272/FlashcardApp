@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace FlashcardApp.ViewModels;
+namespace FlashcardApp.WPF.ViewModels;
 
 public class ObservableObject : INotifyPropertyChanged
 {

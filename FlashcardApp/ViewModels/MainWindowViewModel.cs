@@ -1,7 +1,7 @@
-﻿using FlashcardApp.Commands;
+﻿using FlashcardApp.WPF.Commands;
 using FlashcardApp.Domain.Models;
 using FlashcardApp.Domain.Services;
-using FlashcardApp.State.Navigators;
+using FlashcardApp.WPF.State.Navigators;
 using FlashcardApp.WPF.ViewModels.Factories;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace FlashcardApp.ViewModels;
+namespace FlashcardApp.WPF.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {

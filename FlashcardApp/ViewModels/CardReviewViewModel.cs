@@ -1,4 +1,4 @@
-﻿using FlashcardApp.Commands;
+﻿using FlashcardApp.WPF.Commands;
 using FlashcardApp.Domain.Models;
 using FlashcardApp.WPF.State.Navigators;
 using System;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace FlashcardApp.ViewModels;
+namespace FlashcardApp.WPF.ViewModels;
 
 public class CardReviewViewModel : ViewModelBase
 {

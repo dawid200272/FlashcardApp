@@ -1,6 +1,4 @@
-﻿using FlashcardApp.ViewModels;
-
-namespace FlashcardApp.State.Navigators;
+﻿namespace FlashcardApp.WPF.State.Navigators;
 
 public interface IRenavigator
 {

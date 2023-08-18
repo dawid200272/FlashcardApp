@@ -1,4 +1,4 @@
-﻿using FlashcardApp.Commands;
+﻿using FlashcardApp.WPF.Commands;
 using FlashcardApp.Domain.Models;
 using FlashcardApp.Domain.Models.Enums;
 using FlashcardApp.WPF.State.Navigators;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace FlashcardApp.ViewModels;
+namespace FlashcardApp.WPF.ViewModels;
 
 public class DeckViewModel : ViewModelBase
 {

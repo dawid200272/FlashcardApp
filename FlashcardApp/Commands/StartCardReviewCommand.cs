@@ -1,8 +1,6 @@
 ﻿using FlashcardApp.Domain.Models;
-using FlashcardApp.State.Navigators;
-using FlashcardApp.ViewModels;
-using FlashcardApp.WPF.Commands;
 using FlashcardApp.WPF.State.Navigators;
+using FlashcardApp.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace FlashcardApp.Commands;
+namespace FlashcardApp.WPF.Commands;
 
 public class StartCardReviewCommand : CommandBase
 {

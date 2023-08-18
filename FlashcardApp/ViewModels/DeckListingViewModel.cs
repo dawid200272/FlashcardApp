@@ -1,4 +1,4 @@
-﻿using FlashcardApp.Commands;
+﻿using FlashcardApp.WPF.Commands;
 using FlashcardApp.Domain.Models;
 using FlashcardApp.Domain.Services;
 using FlashcardApp.WPF.State.Navigators;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace FlashcardApp.ViewModels;
+namespace FlashcardApp.WPF.ViewModels;
 
 public class DeckListingViewModel : ViewModelBase
 {
@@ -23,7 +23,7 @@ public class DeckListingViewModel : ViewModelBase
 
     private ObservableCollection<DeckViewModel> _decks;
 
-    public DeckListingViewModel(IParameterRenavigator renavigator, 
+    public DeckListingViewModel(IParameterRenavigator renavigator,
         DeckStore deckStore, IDeckService deckService)
     {
         _renavigator = renavigator;
