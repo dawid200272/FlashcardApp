@@ -10,4 +10,8 @@ namespace FlashcardApp.WPF.ViewModels;
 
 public class ViewModelBase : ObservableObject
 {
+    /// <summary>
+    /// Method for disposing view models
+    /// </summary>
+    public virtual void Dispose() { }
 }

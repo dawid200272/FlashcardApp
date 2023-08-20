@@ -31,7 +31,34 @@ public class DeckListingViewModel : ViewModelBase
         _deckStore = deckStore;
         _deckService = deckService;
 
+        _deckStore.DeckAdded += DeckStore_DeckCollectionChanged;
+        _deckStore.DeckUpdated += DeckStore_DeckCollectionChanged;
+        _deckStore.DeckDeleted += DeckStore_DeckCollectionChanged;
+
+        _deckStore.CardAdded += DeckStore_CardAdded;
+
         UpdateDecks(_deckStore);
+    }
+
+    private void DeckStore_CardAdded(Card obj)
+    {
+        UpdateDecks(_deckStore);
+    }
+
+    private void DeckStore_DeckCollectionChanged(Deck obj)
+    {
+        UpdateDecks(_deckStore);
+    }
+
+    public override void Dispose()
+    {
+        _deckStore.DeckAdded -= DeckStore_DeckCollectionChanged;
+        _deckStore.DeckUpdated -= DeckStore_DeckCollectionChanged;
+        _deckStore.DeckDeleted -= DeckStore_DeckCollectionChanged;
+
+        _deckStore.CardAdded -= DeckStore_CardAdded;
+
+        base.Dispose();
     }
 
     public ObservableCollection<DeckViewModel> Decks
@@ -52,7 +79,7 @@ public class DeckListingViewModel : ViewModelBase
 
         await _deckStore.AddAsync(createdDeck);
 
-        UpdateDecks(_deckStore);
+        //UpdateDecks(_deckStore);
     }
 
     private void UpdateDecks(DeckStore deckStore)
