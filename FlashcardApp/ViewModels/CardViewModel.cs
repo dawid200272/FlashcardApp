@@ -1,4 +1,5 @@
 ﻿using FlashcardApp.Domain.Models;
+using FlashcardApp.Domain.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,4 +19,6 @@ public class CardViewModel : ViewModelBase
 
     public string Front => _card.Front;
     public string Back => _card.Back;
+
+    public Card Card => _card;
 }

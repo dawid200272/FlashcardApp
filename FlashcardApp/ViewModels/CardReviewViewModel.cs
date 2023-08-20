@@ -13,6 +13,8 @@ namespace FlashcardApp.WPF.ViewModels;
 public class CardReviewViewModel : ViewModelBase
 {
     private readonly DeckViewModel _deckViewModel;
+    private readonly IParameterRenavigator _renavigator;
+
     private Deck _deck;
     private List<CardViewModel> _reviewCards;
 
@@ -21,14 +23,14 @@ public class CardReviewViewModel : ViewModelBase
     private bool _isLastReviewCard = false;
     private bool _isAnswerHidden = true;
     private bool _isAnswered = false;
-    private readonly IParameterRenavigator _renavigator;
 
-    public CardReviewViewModel()
+    public CardReviewViewModel(IParameterRenavigator renavigator)
     {
-        //_renavigator = renavigator;
+        _renavigator = renavigator;
 
         ShowAnswerCommand = new ShowAnswerCommand(this);
         NextReviewCardCommand = new NextReviewCardCommand(this);
+        AnswerCommand = new AnswerCommand(this);
     }
 
     private CardViewModel _currentReviewCard;
@@ -49,6 +51,7 @@ public class CardReviewViewModel : ViewModelBase
     public ICommand ShowAnswerCommand { get; set; }
     public ICommand NextReviewCardCommand { get; set; }
     public ICommand EndReviewCommand { get; set; }
+    public ICommand AnswerCommand { get; set; }
 
     public bool IsLastReviewCard
     {
@@ -59,6 +62,7 @@ public class CardReviewViewModel : ViewModelBase
             {
                 _isLastReviewCard = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(IsReviewEnded));
             }
         }
     }
@@ -83,13 +87,19 @@ public class CardReviewViewModel : ViewModelBase
             {
                 _isAnswered = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(IsReviewEnded));
             }
         }
     }
 
+    public bool IsReviewEnded => IsLastReviewCard && IsAnswered;
+
     public void LoadReviewCards(DeckViewModel deckViewModel, int reviewCardNumber)
     {
-        //EndReviewCommand = new SelectDeckCommand(_renavigator, _deckViewModel);
+        if (EndReviewCommand is null)
+        {
+            EndReviewCommand = new SelectDeckCommand(_renavigator, deckViewModel);
+        }
 
         _deck = deckViewModel.Deck;
 
@@ -123,6 +133,7 @@ public class CardReviewViewModel : ViewModelBase
     {
         if (IsLastReviewCard == true)
         {
+            EndReviewCommand.Execute(null);
             return;
         }
 

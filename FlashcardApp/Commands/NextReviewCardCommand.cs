@@ -18,6 +18,8 @@ public class NextReviewCardCommand : CommandBase
 
     public override void Execute(object? parameter)
     {
+        // TODO: Move logic for selecting next review card into that command
+        // instead of being inside view model
         _viewModel.NextReviewCard();
     }
 }

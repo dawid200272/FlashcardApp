@@ -28,23 +28,24 @@
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center"
                     Visibility="{Binding IsAnswered,
                         Converter={StaticResource BooleanToVisibilityConverter},
-                        FallbackValue=Visibility}">
+                        FallbackValue=Visible}">
             <Button Content="Next" Command="{Binding NextReviewCardCommand}" Padding="10 5"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center"
+        <!--<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center"
                     Visibility="{Binding IsLastReviewCard,
                         Converter={StaticResource BooleanToVisibilityConverter},
-                        FallbackValue=Visibility}">
-            <Button Content="End review" Command="{Binding NextReviewCardCommand}" Padding="10 5"/>
-        </StackPanel>
+                        FallbackValue=Visible}">
+            <Button Content="End review" Command="{Binding EndReviewCommand}" Padding="10 5"/>
+        </StackPanel>-->
 
-        <!--<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center"
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center"
                     Visibility="{Binding IsAnswerHidden,
                         Converter={StaticResource NegateBooleanToVisibilityConverter},
                         FallbackValue=Collapsed}">
-            <Button Content="Right" Command="{Binding NextReviewCardCommand}" Padding="10 5"/>
-        </StackPanel>-->
+            <Button Content="Right" TextBlock.Foreground="DarkGreen" Command="{Binding AnswerCommand}" CommandParameter="right" Padding="10 5"/>
+            <Button Content="Wrong" TextBlock.Foreground="DarkRed" Command="{Binding AnswerCommand}" CommandParameter="wrong" Padding="10 5" Margin="20 0"/>
+        </StackPanel>
 
     </Grid>
 </UserControl>
