@@ -90,12 +90,21 @@ public partial class App : Application
                         services.GetRequiredService<ViewModelDelegateRenavigator<DeckDetailsViewModel>>());
                 });
 
+                services.AddSingleton<CreateViewModel<CardBrowsingViewModel>>(services =>
+                {
+                    return () => new CardBrowsingViewModel(
+                        services.GetRequiredService<ViewModelDelegateRenavigator<DeckDetailsViewModel>>());
+                });
+
                 services.AddSingleton<ViewModelDelegateRenavigator<CardReviewViewModel>>();
+
+                services.AddSingleton<ViewModelDelegateRenavigator<CardBrowsingViewModel>>();
 
                 services.AddSingleton<CreateViewModel<DeckDetailsViewModel>>(services =>
                 {
                     return () => new DeckDetailsViewModel(
-                        services.GetRequiredService<ViewModelDelegateRenavigator<CardReviewViewModel>>());
+                        services.GetRequiredService<ViewModelDelegateRenavigator<CardReviewViewModel>>(),
+                        services.GetRequiredService<ViewModelDelegateRenavigator<CardBrowsingViewModel>>());
                 });
 
                 services.AddSingleton<ViewModelDelegateRenavigator<DeckDetailsViewModel>>();

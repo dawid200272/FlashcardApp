@@ -31,6 +31,7 @@ public class DeckDetailsViewModel : ViewModelBase
         _deckViewModel.UpdateCardsInfo();
 
         StartCardReviewCommand = new StartCardReviewCommand(_cardReviewRenavigator, _deckViewModel);
+        StartCardBrowsingCommand = new StartCardBrowsingCommand(_cardBrowsingRenavigator, _deckViewModel);
 
         UpdateCardsInfo();
     }

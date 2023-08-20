@@ -29,6 +29,10 @@
                 <views:CardReviewView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewmodels:CardBrowsingViewModel}">
+                <views:CardBrowsingView/>
+            </DataTemplate>
+
         </ResourceDictionary>
         
     </Application.Resources>

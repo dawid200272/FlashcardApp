@@ -19,6 +19,9 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <!--deck name and description-->
@@ -74,7 +77,13 @@
                         Command="{Binding StartCardReviewCommand}"/>
 
             </Grid>
-            
+
+            <Button Grid.Row="3" Content="Browse cards" Background="Aquamarine"
+                    VerticalAlignment="Center"
+                    MaxWidth="250"
+                    IsEnabled="{Binding HasCards, FallbackValue=True}"
+                    Command="{Binding StartCardBrowsingCommand}"/>
+
         </Grid>
     </Border>
 </UserControl>
