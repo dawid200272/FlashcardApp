@@ -45,7 +45,7 @@
                 <StackPanel Grid.Row="1" Margin="0 10"
                             Visibility="{Binding IsAnswerHidden,
                                 Converter={StaticResource NegateBooleanToVisibilityConverter},
-                                FallbackValue=True}">
+                                FallbackValue=Visible}">
                     <Rectangle  HorizontalAlignment="Stretch"  VerticalAlignment="Center" Fill="DarkGray" Height="4"/>
 
                     <TextBlock FontSize="18" Text="{Binding CurrentReviewCard.Back, FallbackValue=Answer}" Margin="0 10"/>
@@ -55,7 +55,7 @@
             <!--#endregion-->
 
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center"
-                        Visibility="{Binding IsAnswerHidden, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=True}">
+                        Visibility="{Binding IsAnswerHidden, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Visible}">
                 <Button Content="Show answer" Command="{Binding ShowAnswerCommand}"/>
             </StackPanel>
             
