@@ -36,7 +36,14 @@ public class GenericDataService<T> : IDataService<T>
     {
         using (FlashcardAppDbContext context = _contextFactory.CreateDbContext())
         {
-            T entity = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
+            T? entity = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
+
+            Type type = typeof(T);
+
+            if (entity is null)
+            {
+                throw new Exception($"none {type} of given id found");
+            }
 
             return entity;
         }

@@ -36,10 +36,15 @@ public class DeckDataService : IDataService<Deck>
     {
         using (FlashcardAppDbContext context = _contextFactory.CreateDbContext())
         {
-            Deck entity = await context.Decks
+            Deck? entity = await context.Decks
                 .Include(d => d.Cards)
                 .ThenInclude(c => c.CardTemplate)
                 .FirstOrDefaultAsync(e => e.Id == id);
+
+            if (entity is null)
+            {
+                throw new Exception("none deck of given id found");
+            }
 
             return entity;
         }

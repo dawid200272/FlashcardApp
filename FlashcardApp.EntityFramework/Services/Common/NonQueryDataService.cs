@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FlashcardApp.Domain.Models;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace FlashcardApp.EntityFramework.Services.Common;
 
@@ -26,7 +27,7 @@ public class NonQueryDataService<T>
     {
         using (FlashcardAppDbContext context = _contextFactory.CreateDbContext())
         {
-            var createdResult = await context.Set<T>().AddAsync(entity);
+            EntityEntry<T> createdResult = await context.Set<T>().AddAsync(entity);
             await context.SaveChangesAsync();
 
             return createdResult.Entity;
@@ -50,7 +51,13 @@ public class NonQueryDataService<T>
     {
         using (FlashcardAppDbContext context = _contextFactory.CreateDbContext())
         {
-            T entity = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
+            T? entity = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
+
+            if (entity is null)
+            {
+                return false;
+            }
+
             context.Set<T>().Remove(entity);
             await context.SaveChangesAsync();
 
