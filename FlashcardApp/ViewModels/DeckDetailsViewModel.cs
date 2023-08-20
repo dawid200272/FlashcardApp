@@ -13,19 +13,26 @@ namespace FlashcardApp.WPF.ViewModels;
 
 public class DeckDetailsViewModel : ViewModelBase
 {
-    private readonly IParameterRenavigator _renavigator;
+    private readonly IParameterRenavigator _cardReviewRenavigator;
+    private readonly IParameterRenavigator _cardBrowsingRenavigator;
     private DeckViewModel _deckViewModel;
 
-    public DeckDetailsViewModel(IParameterRenavigator renavigator)
+    public DeckDetailsViewModel(IParameterRenavigator cardReviewRenavigator,
+        IParameterRenavigator cardBrowsingRenavigator)
     {
-        _renavigator = renavigator;
+        _cardReviewRenavigator = cardReviewRenavigator;
+        _cardBrowsingRenavigator = cardBrowsingRenavigator;
     }
 
     public void LoadDeckDetailsViewModel(DeckViewModel deckViewModel)
     {
         _deckViewModel = deckViewModel;
 
-        StartCardReviewCommand = new StartCardReviewCommand(_renavigator, _deckViewModel);
+        _deckViewModel.UpdateCardsInfo();
+
+        StartCardReviewCommand = new StartCardReviewCommand(_cardReviewRenavigator, _deckViewModel);
+
+        UpdateCardsInfo();
     }
 
     public ICommand StartCardReviewCommand { get; set; }

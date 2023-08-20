@@ -22,6 +22,11 @@ public class DeckViewModel : ViewModelBase
         _name = _deck.Name;
         _description = _deck.Description;
 
+        UpdateCardsInfo();
+    }
+
+    public void UpdateCardsInfo()
+    {
         _newCardsNumber = _deck.Cards.Count(c => c.State == CardState.newCard);
         _cardsNumber = _deck.Cards.Count();
     }
