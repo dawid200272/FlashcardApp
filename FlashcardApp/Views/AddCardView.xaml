@@ -51,12 +51,12 @@
 
             <StackPanel Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center">
                 <TextBlock Text="Front" HorizontalAlignment="Left"/>
-                <TextBox Text="{Binding Front}" MinWidth="450" Margin="0 10"/>
+                <TextBox Text="{Binding Front, UpdateSourceTrigger=PropertyChanged}" MinWidth="450" Margin="0 10"/>
             </StackPanel>
 
             <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
                 <TextBlock Text="Back" HorizontalAlignment="Left"/>
-                <TextBox Text="{Binding Back}" MinWidth="450" Margin="0 10"/>
+                <TextBox Text="{Binding Back, UpdateSourceTrigger=PropertyChanged}" MinWidth="450" Margin="0 10"/>
             </StackPanel>
         </Grid>
 

@@ -1,5 +1,8 @@
 ﻿using FlashcardApp.Domain.Models;
 using FlashcardApp.Domain.Models.Enums;
+using FlashcardApp.Domain.Services;
+using FlashcardApp.WPF.ViewModels;
+using FlashcardApp.WPF.Commands;
 using FlashcardApp.WPF.State.Navigators;
 using FlashcardApp.WPF.Stores;
 using System;
@@ -9,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace FlashcardApp.WPF.ViewModels;
 
@@ -17,14 +21,21 @@ public class AddCardViewModel : ViewModelBase
     private readonly IRenavigator _renavigator;
     private readonly DeckStore _deckStore;
 
-    public AddCardViewModel(IRenavigator renavigator, DeckStore deckStore)
+    public AddCardViewModel(IRenavigator renavigator,
+        DeckStore deckStore)
     {
         _renavigator = renavigator;
         _deckStore = deckStore;
+
+        AddCardCommand = new AddCardCommand(this, deckStore);
+        CloseCommand = new CloseCommand(_renavigator);
     }
 
-    public ICommand AddCardCommand { get; set; }
-    public ICommand CloseCommand { get; set; }
+    // TODO: Add command to add card and implement all logic in it
+    public ICommand AddCardCommand { get; }
+
+    // TODO: Add command to close the add card view and implement all logic in it
+    public ICommand CloseCommand { get; }
 
     private CardTemplateType _selectedtemplateType = CardTemplateType.Basic;
 
@@ -55,6 +66,8 @@ public class AddCardViewModel : ViewModelBase
             {
                 _selectedDeckName = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(SelectedDeck));
+                OnPropertyChanged(nameof(CanAddCard));
             }
         }
     }
@@ -69,6 +82,7 @@ public class AddCardViewModel : ViewModelBase
             {
                 _front = value;
                 OnPropertyChanged(nameof(Front));
+                OnPropertyChanged(nameof(CanAddCard));
             }
         }
     }
@@ -84,9 +98,14 @@ public class AddCardViewModel : ViewModelBase
             {
                 _back = value;
                 OnPropertyChanged(nameof(Back));
+                OnPropertyChanged(nameof(CanAddCard));
             }
         }
     }
+
+    public bool CanAddCard => !string.IsNullOrWhiteSpace(Front) && 
+        !string.IsNullOrWhiteSpace(Back) &&
+        SelectedDeck is not null;
 
     private IEnumerable<string> GetDeckNames(DeckStore deckStore)
     {
@@ -105,6 +124,7 @@ public class AddCardViewModel : ViewModelBase
         return deckStore.Decks.FirstOrDefault(d => d.Name == name);
     }
 
+    // TODO: Reconsider this (maybe you can come up with sth better)
     public void ResetForm()
     {
         _front = string.Empty;
