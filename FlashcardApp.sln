@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlashcardApp.TestConsole", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlashcardApp.Domain", "FlashcardApp.Domain\FlashcardApp.Domain.csproj", "{1399B53D-858C-4334-84F4-6D1DDC187C69}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF.CustomControls", "WPF.CustomControls", "{3A3792CE-33A7-4DE8-9C12-5089ABD7E93A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DropdownMenu", "WPF.CustomControls\DropdownMenu\DropdownMenu.csproj", "{BFC01C90-BD3F-456C-8247-3DEB86A8F777}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,9 +37,16 @@ Global
 		{1399B53D-858C-4334-84F4-6D1DDC187C69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1399B53D-858C-4334-84F4-6D1DDC187C69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1399B53D-858C-4334-84F4-6D1DDC187C69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFC01C90-BD3F-456C-8247-3DEB86A8F777}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFC01C90-BD3F-456C-8247-3DEB86A8F777}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFC01C90-BD3F-456C-8247-3DEB86A8F777}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFC01C90-BD3F-456C-8247-3DEB86A8F777}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BFC01C90-BD3F-456C-8247-3DEB86A8F777} = {3A3792CE-33A7-4DE8-9C12-5089ABD7E93A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8824EA70-DB56-414E-AC52-3113CF2E5F65}
