@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using FlashcardApp.Domain.Models.Enums;
+using FlashcardApp.WPF.Stores;
 
 namespace FlashcardApp.WPF.ViewModels;
 
@@ -14,6 +16,7 @@ public class CardReviewViewModel : ViewModelBase
 {
     private readonly DeckViewModel _deckViewModel;
     private readonly IParameterRenavigator _renavigator;
+    private readonly DeckStore _deckStore;
 
     private Deck _deck;
     private List<CardViewModel> _reviewCards;
@@ -24,13 +27,22 @@ public class CardReviewViewModel : ViewModelBase
     private bool _isAnswerHidden = true;
     private bool _isAnswered = false;
 
-    public CardReviewViewModel(IParameterRenavigator renavigator)
+    private readonly List<Card> _cardsToUpdate = new List<Card>();
+
+    public CardReviewViewModel(IParameterRenavigator renavigator,
+        DeckStore deckStore)
     {
         _renavigator = renavigator;
 
         ShowAnswerCommand = new ShowAnswerCommand(this);
         NextReviewCardCommand = new NextReviewCardCommand(this);
         AnswerCommand = new AnswerCommand(this);
+        _deckStore = deckStore;
+    }
+
+    ~CardReviewViewModel()
+    {
+        UpdateCards();
     }
 
     private CardViewModel _currentReviewCard;
@@ -47,7 +59,8 @@ public class CardReviewViewModel : ViewModelBase
         }
     }
 
-
+    // TODO: Make commands for this 2 actions
+    // and update next review card command
     public ICommand ShowAnswerCommand { get; set; }
     public ICommand NextReviewCardCommand { get; set; }
     public ICommand EndReviewCommand { get; set; }
@@ -147,5 +160,26 @@ public class CardReviewViewModel : ViewModelBase
     public void ShowAnswer()
     {
         IsAnswerHidden = false;
+    }
+
+    public void SetAnswer(CardReviewAnswerResult? answerResult = null)
+    {
+        Card card = CurrentReviewCard.Card;
+
+        if (card.State == CardState.newCard)
+        {
+            card.State = CardState.learning;
+        }
+
+        _cardsToUpdate.Add(card);
+
+        IsAnswered = true;
+
+        NextReviewCardCommand.Execute(null);
+    }
+
+    private async Task UpdateCards()
+    {
+        await _deckStore.UpdateAsync(_deck);
     }
 }

@@ -18,10 +18,18 @@ public class AnswerCommand : CommandBase
 
     public override void Execute(object? parameter)
     {
-        _viewModel.IsAnswered = true;
+        if (parameter is CardReviewAnswerResult answerResult)
+        {
+            _viewModel.SetAnswer(answerResult);
+        }
 
-        _viewModel.CurrentReviewCard.Card.State = CardState.learning;
-
-        _viewModel.NextReviewCardCommand.Execute(null);
+            _viewModel.SetAnswer();
     }
+}
+
+// TODO: Move to separate file
+public enum CardReviewAnswerResult
+{
+    Right,
+    Wrong
 }

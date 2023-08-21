@@ -87,7 +87,8 @@ public partial class App : Application
                 services.AddSingleton<CreateViewModel<CardReviewViewModel>>(services =>
                 {
                     return () => new CardReviewViewModel(
-                        services.GetRequiredService<ViewModelDelegateRenavigator<DeckDetailsViewModel>>());
+                        services.GetRequiredService<ViewModelDelegateRenavigator<DeckDetailsViewModel>>(),
+                        services.GetRequiredService<DeckStore>());
                 });
 
                 services.AddSingleton<CreateViewModel<CardBrowsingViewModel>>(services =>
