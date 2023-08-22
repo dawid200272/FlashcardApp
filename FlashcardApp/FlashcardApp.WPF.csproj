@@ -23,6 +23,8 @@
 	<ItemGroup>
 		<ProjectReference Include="..\FlashcardApp.Domain\FlashcardApp.Domain.csproj" />
 		<ProjectReference Include="..\FlashcardApp.EntityFramework\FlashcardApp.EntityFramework.csproj" />
+		<ProjectReference Include="..\WPF.CustomControls\ModalControl\ModalControl.csproj" />
+		<ProjectReference Include="..\WPF.CustomControls\DropdownMenu\DropdownMenu.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -33,6 +33,18 @@
                 <views:CardBrowsingView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewmodels:AddEmptyDeckViewModel}">
+                <views:AddEmptyDeckView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodels:EditDeckDescriptionViewModel}">
+                <views:EditDeckDescriptionView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodels:ChangeDeckNameViewModel}">
+                <views:ChangeDeckNameView/>
+            </DataTemplate>
+
         </ResourceDictionary>
         
     </Application.Resources>

@@ -26,6 +26,8 @@ public class UpdateCurrentViewModelCommand : CommandBase
     {
         if (parameter is ViewType viewType)
         {
+            _navigator.CurrentViewModel?.Dispose();
+
             _navigator.CurrentViewModel = _viewModelFactory.CreateViewModel(viewType);
         }
     }

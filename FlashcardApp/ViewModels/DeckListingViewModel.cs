@@ -20,16 +20,28 @@ public class DeckListingViewModel : ViewModelBase
 
     private readonly DeckStore _deckStore;
     private readonly IDeckService _deckService;
+    private readonly ModalNavigationStore _modalNavigationStore;
+    private readonly CreateViewModel<AddEmptyDeckViewModel> _createViewModel;
+    private readonly CreateViewModel<ChangeDeckNameViewModel> _createChangeDeckNameViewModel;
 
     private ObservableCollection<DeckViewModel> _decks;
 
     public DeckListingViewModel(IParameterRenavigator renavigator,
-        DeckStore deckStore, IDeckService deckService)
+        DeckStore deckStore,
+        IDeckService deckService,
+        ModalNavigationStore modalNavigationStore,
+        CreateViewModel<AddEmptyDeckViewModel> createViewModel,
+        CreateViewModel<ChangeDeckNameViewModel> createChangeDeckNameViewModel)
     {
         _renavigator = renavigator;
 
         _deckStore = deckStore;
         _deckService = deckService;
+        _modalNavigationStore = modalNavigationStore;
+        _createViewModel = createViewModel;
+        _createChangeDeckNameViewModel = createChangeDeckNameViewModel;
+
+        OpenAddEmptyDeckModalCommand = new OpenAddEmptyDeckModalCommand(_modalNavigationStore, _createViewModel);
 
         _deckStore.DeckAdded += DeckStore_DeckCollectionChanged;
         _deckStore.DeckUpdated += DeckStore_DeckCollectionChanged;
@@ -50,16 +62,19 @@ public class DeckListingViewModel : ViewModelBase
         UpdateDecks(_deckStore);
     }
 
-    public override void Dispose()
-    {
-        _deckStore.DeckAdded -= DeckStore_DeckCollectionChanged;
-        _deckStore.DeckUpdated -= DeckStore_DeckCollectionChanged;
-        _deckStore.DeckDeleted -= DeckStore_DeckCollectionChanged;
+    // Use Dispose method only when view model is a transient,
+    // it is not a singleton
 
-        _deckStore.CardAdded -= DeckStore_CardAdded;
+    //public override void Dispose()
+    //{
+    //    _deckStore.DeckAdded -= DeckStore_DeckCollectionChanged;
+    //    _deckStore.DeckUpdated -= DeckStore_DeckCollectionChanged;
+    //    _deckStore.DeckDeleted -= DeckStore_DeckCollectionChanged;
 
-        base.Dispose();
-    }
+    //    _deckStore.CardAdded -= DeckStore_CardAdded;
+
+    //    base.Dispose();
+    //}
 
     public ObservableCollection<DeckViewModel> Decks
     {
@@ -71,7 +86,7 @@ public class DeckListingViewModel : ViewModelBase
         }
     }
 
-    public ICommand AddEmptyDeckCommand => new AddEmptyDeckCommand(this);
+    public ICommand OpenAddEmptyDeckModalCommand { get; }
 
     public async Task AddDeck(string deckName)
     {
@@ -88,9 +103,15 @@ public class DeckListingViewModel : ViewModelBase
 
         foreach (Deck deck in deckStore)
         {
-            deckViewModels.Add(new DeckViewModel(_renavigator, deck));
+            deckViewModels.Add(new DeckViewModel(_renavigator,
+                deck,
+                _modalNavigationStore,
+                _createChangeDeckNameViewModel,
+                _deckStore));
         }
 
         _decks = new ObservableCollection<DeckViewModel>(deckViewModels);
+
+        OnPropertyChanged(nameof(Decks));
     }
 }

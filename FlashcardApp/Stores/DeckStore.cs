@@ -75,6 +75,18 @@ public class DeckStore : IEnumerable<Deck>
 
     #endregion
 
+    public async Task AddAsync(string deckName)
+    {
+        Deck deck = await _deckService.CreateEmptyDeck(deckName);
+
+        Deck result = await _deckDataService.Create(deck);
+
+        _decks.Add(result);
+
+        DeckAdded?.Invoke(result);
+    }
+
+    // TODO: Get rid of that method after UI testing complete
     public async Task AddAsync(Deck deck)
     {
         Deck result = await _deckDataService.Create(deck);
@@ -113,7 +125,7 @@ public class DeckStore : IEnumerable<Deck>
             _decks.Add(result);
         }
 
-        DeckAdded?.Invoke(result);
+        DeckUpdated?.Invoke(result);
     }
 
     public async Task RemoveAsync(Deck deck)

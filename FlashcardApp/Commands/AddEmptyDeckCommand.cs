@@ -1,4 +1,5 @@
-﻿using FlashcardApp.WPF.ViewModels;
+﻿using FlashcardApp.WPF.Stores;
+using FlashcardApp.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,20 +9,23 @@ using System.Windows.Input;
 
 namespace FlashcardApp.WPF.Commands;
 
-public class AddEmptyDeckCommand : CommandBase
+public class AddEmptyDeckCommand : AsyncCommandBase
 {
-    private readonly DeckListingViewModel _viewModel;
+    private readonly AddEmptyDeckViewModel _viewModel;
+    private readonly DeckStore _deckStore;
 
-    public AddEmptyDeckCommand(DeckListingViewModel viewModel)
+    public AddEmptyDeckCommand(AddEmptyDeckViewModel viewModel, DeckStore deckStore)
     {
         _viewModel = viewModel;
+        _deckStore = deckStore;
     }
 
-    public override async void Execute(object? parameter)
+    public override async Task ExecuteAsync(object? parameter)
     {
-        if (parameter is string deckName)
-        {
-            await _viewModel.AddDeck(deckName);
-        }
+        string deckName = _viewModel.NewDeckName;
+
+        await _deckStore.AddAsync(deckName);
+
+        _viewModel.CloseCommand.Execute(null);
     }
 }

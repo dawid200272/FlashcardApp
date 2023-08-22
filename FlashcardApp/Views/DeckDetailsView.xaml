@@ -22,6 +22,8 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <!--deck name and description-->
@@ -83,6 +85,11 @@
                     MaxWidth="250"
                     IsEnabled="{Binding HasCards, FallbackValue=True}"
                     Command="{Binding StartCardBrowsingCommand}"/>
+
+            <Button Grid.Row="5" Content="Edit Description"
+                VerticalAlignment="Center"
+                MaxWidth="250"
+                Command="{Binding OpenEditDeckDescriptionModalCommand}"/>
 
         </Grid>
     </Border>

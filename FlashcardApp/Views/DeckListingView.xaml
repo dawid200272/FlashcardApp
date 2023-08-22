@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:FlashcardApp.WPF.Views"
              
              xmlns:viewmodels="clr-namespace:FlashcardApp.WPF.ViewModels"
+             xmlns:dropdownmenu="clr-namespace:DropdownMenu;assembly=DropdownMenu"
+             
              d:DataContext="{d:DesignInstance Type=viewmodels:DeckListingViewModel}"
              
              mc:Ignorable="d" 
@@ -40,11 +42,45 @@
     <Grid Background="{StaticResource BrushPrimaryDark}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <ListView Grid.Row="1" ItemsSource="{Binding Decks}">
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <ListView Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Decks}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Focusable" Value="false"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <!--<ListView.Style>
+                <Style TargetType="ListView">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListView">
+                                <Border CornerRadius="5">
+                                    <ScrollViewer>
+                                        <ItemsPresenter />
+                                    </ScrollViewer>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.Style>-->
+            <!--<d:ListView.ItemsSource>
+                <x:Array Type="{x:Type viewmodels:DeckViewModel}">
+                    <viewmodels:DeckViewModel Name="Default" NewCardsNumber="3" CardsNumber="5"/>
+                </x:Array>
+            </d:ListView.ItemsSource>-->
+
             <ListView.View>
 
                 <GridView>
@@ -61,7 +97,8 @@
                         </Style>
                     </GridView.ColumnHeaderContainerStyle>-->
 
-                    <GridViewColumn Header="Deck Name">
+                    <!-- TODO: Make this header to grow to largest name when collection of decks changed -->
+                    <GridViewColumn Header="Deck Name" Width="auto">
                         <!--DisplayMemberBinding="{Binding Name}-->
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -88,10 +125,81 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
+                    <GridViewColumn Header="">
+                        <!--DisplayMemberBinding="{Binding CardsNumber}-->
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <dropdownmenu:DropdownMenu Foreground="White">
+                                    <dropdownmenu:DropdownMenu.Resources>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="Padding" Value="20 10"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border
+                                                            Padding="{TemplateBinding Padding}"
+                                                            Background="{TemplateBinding Background}"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                                            <TextBlock Foreground="Black">
+                                                                <ContentPresenter Content="{TemplateBinding Content}"/>
+                                                            </TextBlock>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Trigger.EnterActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <ColorAnimation
+                                                                    Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
+                                                                    To="LightGray"
+                                                                    Duration="0:0:0.1"/>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </Trigger.EnterActions>
+                                                    <Trigger.ExitActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <ColorAnimation
+                                                                    Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
+                                                                    To="Transparent"
+                                                                    Duration="0:0:0.1"/>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </Trigger.ExitActions>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </dropdownmenu:DropdownMenu.Resources>
+                                    <Border
+                                        Background="{StaticResource BrushPrimaryDark}"
+                                        BorderBrush="LightGray"
+                                        BorderThickness="1">
+                                        <StackPanel
+                                            TextBlock.TextAlignment="Center">
+                                            <Button Content="Change Name" Command="{Binding ChangeDeckNameCommand}"/>
+                                            <Button Content="Delete" Command="{Binding DeleteDeckCommand}"/>
+                                        </StackPanel>
+                                    </Border>
+                                </dropdownmenu:DropdownMenu>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
                 </GridView>
                 
             </ListView.View>
             
         </ListView>
+
+        <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center">
+            <Button Content="Add deck" Command="{Binding OpenAddEmptyDeckModalCommand}"/>
+        </StackPanel>
     </Grid>
 </UserControl>

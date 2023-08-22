@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="FlashcardApp.WPF.Controls.DeckNameForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FlashcardApp.WPF.Controls"
+             mc:Ignorable="d"
+             Width="500" Height="160"
+             x:Name="root">
+    <Border
+        Background="{StaticResource BrushPrimaryLight}"
+        BorderBrush="{StaticResource BrushPrimaryDark}"
+        BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 10">
+                <TextBlock Text="New deck name:" HorizontalAlignment="Left"/>
+                <TextBox Text="{Binding ElementName=root, Path=DeckName, UpdateSourceTrigger=PropertyChanged}" MinWidth="450" Margin="0 5"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button IsEnabled="{Binding ElementName=root, Path=CanSubmit}" Content="OK" Command="{Binding ElementName=root, Path=SubmitCommand}" Margin="10 5" Padding="10 5"/>
+                <Button Content="Cancel" Command="{Binding ElementName=root, Path=CloseCommand}" Margin="10 5" Padding="10 5"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

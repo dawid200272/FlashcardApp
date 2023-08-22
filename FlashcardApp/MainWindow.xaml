@@ -7,6 +7,7 @@
         
         xmlns:viewmodels="clr-namespace:FlashcardApp.WPF.ViewModels"
         xmlns:controls="clr-namespace:FlashcardApp.WPF.Controls"
+        xmlns:modalcontrol="clr-namespace:ModalControl;assembly=ModalControl"
         
         d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
         
@@ -14,15 +15,23 @@
         Title="{Binding Title}" Height="450" Width="800">
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <Grid Background="{StaticResource BrushPrimaryDark}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <controls:NavigationBar Grid.Row="0"/>
+            <modalcontrol:Modal
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                IsOpen="{Binding IsModalOpen}"
+                Panel.ZIndex="1">
+                <ContentControl Content="{Binding CurrentModalViewModel}" />
+            </modalcontrol:Modal>
 
-        <ContentControl Grid.Row="1" Content="{Binding Navigator.CurrentViewModel}" Margin="10, 5"/>
+            <controls:NavigationBar Grid.Row="0"/>
 
-    </Grid>
+            <ContentControl Grid.Row="1" Content="{Binding Navigator.CurrentViewModel}" Margin="10, 10, 10 ,5"/>
+
+        </Grid>
     </ScrollViewer>
 </Window>

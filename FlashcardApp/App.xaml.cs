@@ -82,7 +82,17 @@ public partial class App : Application
                 services.AddSingleton<DeckListingViewModel>(services => new DeckListingViewModel(
                         services.GetRequiredService<ViewModelDelegateRenavigator<DeckDetailsViewModel>>(),
                         services.GetRequiredService<DeckStore>(),
-                        services.GetRequiredService<IDeckService>()));
+                        services.GetRequiredService<IDeckService>(),
+                        services.GetRequiredService<ModalNavigationStore>(),
+                        services.GetRequiredService<CreateViewModel<AddEmptyDeckViewModel>>(),
+                        services.GetRequiredService<CreateViewModel<ChangeDeckNameViewModel>>()));
+
+                services.AddSingleton<CreateViewModel<AddEmptyDeckViewModel>>(services =>
+                {
+                    return () => new AddEmptyDeckViewModel(
+                        services.GetRequiredService<DeckStore>(),
+                        services.GetRequiredService<ModalNavigationStore>());
+                });
 
                 services.AddSingleton<CreateViewModel<CardReviewViewModel>>(services =>
                 {
@@ -105,7 +115,26 @@ public partial class App : Application
                 {
                     return () => new DeckDetailsViewModel(
                         services.GetRequiredService<ViewModelDelegateRenavigator<CardReviewViewModel>>(),
-                        services.GetRequiredService<ViewModelDelegateRenavigator<CardBrowsingViewModel>>());
+                        services.GetRequiredService<ViewModelDelegateRenavigator<CardBrowsingViewModel>>(),
+                        services.GetRequiredService<ModalNavigationStore>(),
+                        services.GetRequiredService<CreateViewModel<EditDeckDescriptionViewModel>>(),
+                        services.GetRequiredService<DeckStore>(),
+                        services.GetRequiredService<ViewModelDelegateRenavigator<DeckDetailsViewModel>>(),
+                        services.GetRequiredService<CreateViewModel<ChangeDeckNameViewModel>>());
+                });
+
+                services.AddSingleton<CreateViewModel<ChangeDeckNameViewModel>>(services =>
+                {
+                    return () => new ChangeDeckNameViewModel(
+                        services.GetRequiredService<DeckStore>(),
+                        services.GetRequiredService<ModalNavigationStore>());
+                });
+
+                services.AddSingleton <CreateViewModel<EditDeckDescriptionViewModel>>(services =>
+                {
+                    return () => new EditDeckDescriptionViewModel(
+                        services.GetRequiredService<DeckStore>(),
+                        services.GetRequiredService<ModalNavigationStore>());
                 });
 
                 services.AddSingleton<ViewModelDelegateRenavigator<DeckDetailsViewModel>>();
@@ -128,7 +157,8 @@ public partial class App : Application
                 services.AddSingleton<MainWindowViewModel>((services) =>
                     new MainWindowViewModel(services.GetRequiredService<INavigator>(),
                         services.GetRequiredService<IFlashcardAppViewModelFactory>(),
-                        appTitle)
+                        appTitle,
+                        services.GetRequiredService<ModalNavigationStore>())
                 );
 
                 services.AddSingleton<MainWindow>((services) =>
@@ -136,6 +166,7 @@ public partial class App : Application
                 );
 
                 services.AddSingleton<DeckStore>();
+                services.AddSingleton<ModalNavigationStore>();
             });
     }
 

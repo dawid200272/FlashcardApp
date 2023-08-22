@@ -5,6 +5,7 @@ using FlashcardApp.WPF.State.Navigators;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
+using FlashcardApp.WPF.Stores;
 
 namespace FlashcardApp.WPF.ViewModels;
 
@@ -12,26 +13,45 @@ public class DeckViewModel : ViewModelBase
 {
     private readonly IParameterRenavigator _renavigator;
     private readonly Deck _deck;
+    private readonly ModalNavigationStore _modalNavigationStore;
+    private readonly CreateViewModel<ChangeDeckNameViewModel> _createViewModel;
+    private readonly DeckStore _deckStore;
 
     public DeckViewModel(IParameterRenavigator renavigator,
-        Deck deck)
+        Deck deck,
+        ModalNavigationStore modalNavigationStore,
+        CreateViewModel<ChangeDeckNameViewModel> createViewModel,
+        DeckStore deckStore)
     {
         _renavigator = renavigator;
         _deck = deck;
+        _modalNavigationStore = modalNavigationStore;
+        _createViewModel = createViewModel;
+        _deckStore = deckStore;
 
         _name = _deck.Name;
         _description = _deck.Description;
 
+        SelectDeckCommand = new SelectDeckCommand(_renavigator, this);
+
+        ChangeDeckNameCommand = new OpenChangeDeckNameModalCommand(_modalNavigationStore,
+            _createViewModel,
+            this);
+        DeleteDeckCommand = new DeleteDeckCommand(this, _deckStore);
+
         UpdateCardsInfo();
     }
+
+    public ICommand ChangeDeckNameCommand { get; }
+    public ICommand DeleteDeckCommand { get; }
+
+    public ICommand SelectDeckCommand { get; }
 
     public void UpdateCardsInfo()
     {
         _newCardsNumber = _deck.Cards.Count(c => c.State == CardState.newCard);
         _cardsNumber = _deck.Cards.Count();
     }
-
-    public ICommand SelectDeckCommand => new SelectDeckCommand(_renavigator, this);
 
     public Deck Deck => _deck;
 
