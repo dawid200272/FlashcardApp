@@ -12,7 +12,8 @@
         
         mc:Ignorable="d"
         Title="{Binding Title}" Height="450" Width="800">
-    <Grid Background="{StaticResource BrushPrimary1}">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <Grid Background="{StaticResource BrushPrimaryDark}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
@@ -23,4 +24,5 @@
         <ContentControl Grid.Row="1" Content="{Binding Navigator.CurrentViewModel}" Margin="10, 5"/>
 
     </Grid>
+    </ScrollViewer>
 </Window>

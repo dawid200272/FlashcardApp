@@ -2,12 +2,12 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
     <!--Colors-->
-    <Color x:Key="ColorPrimary1">#353535</Color>
-    <Color x:Key="ColorPrimary2">#505050</Color>
+    <Color x:Key="ColorPrimaryDark">#353535</Color>
+    <Color x:Key="ColorPrimaryLight">#505050</Color>
     
     <!--Brushes-->
-    <SolidColorBrush x:Key="BrushPrimary1" Color="{StaticResource ColorPrimary1}" />
-    <SolidColorBrush x:Key="BrushPrimary2" Color="{StaticResource ColorPrimary2}" />
+    <SolidColorBrush x:Key="BrushPrimaryDark" Color="{StaticResource ColorPrimaryDark}" />
+    <SolidColorBrush x:Key="BrushPrimaryLight" Color="{StaticResource ColorPrimaryLight}" />
     
     <!--TextBlock-->
     <Style TargetType="TextBlock">

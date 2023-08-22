@@ -13,14 +13,14 @@
     <UserControl.Resources>
 
         <Style TargetType="ListView">
-            <Setter Property="Background" Value="{StaticResource BrushPrimary1}"/>
+            <Setter Property="Background" Value="{StaticResource BrushPrimaryDark}"/>
         </Style>
 
         <Style TargetType="{x:Type GridViewColumnHeader}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
-                        <Border BorderThickness="0, 0, 0, 1" BorderBrush="{StaticResource BrushPrimary1}"
+                        <Border BorderThickness="0, 0, 0, 1" BorderBrush="{StaticResource BrushPrimaryDark}"
                                 Background="Transparent">
                             <TextBlock Text="{TemplateBinding Content}" Padding="5, 5, 5, 0"
                                        Width="{TemplateBinding Width}" TextAlignment="Center"
@@ -37,7 +37,7 @@
         
     </UserControl.Resources>
 
-    <Grid Background="{StaticResource BrushPrimary1}">
+    <Grid Background="{StaticResource BrushPrimaryDark}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
