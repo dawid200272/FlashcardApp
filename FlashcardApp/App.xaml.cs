@@ -1,4 +1,6 @@
-﻿using FlashcardApp.Domain.Models;
+﻿//#define TEST_PURPOSE
+
+using FlashcardApp.Domain.Models;
 using FlashcardApp.Domain.Services;
 using FlashcardApp.EntityFramework;
 using FlashcardApp.EntityFramework.Services;
@@ -40,8 +42,10 @@ public partial class App : Application
 
     // TODO: Do prototype of UI in figma
 
+#if TEST_PURPOSE
     private ICardTemplateService _cardTemplateService;
     private ICardService _cardService;
+#endif
 
     #endregion
 
@@ -63,6 +67,8 @@ public partial class App : Application
                 string appTitle = "FlashcardApp";
                 string connectionString = context.Configuration.GetConnectionString("Default");
 
+                #region Services
+
                 services.AddSingleton<ICardService, CardService>();
                 services.AddSingleton<ICardTemplateService, CardTemplateService>();
                 services.AddSingleton<IDeckService, DeckService>();
@@ -73,19 +79,9 @@ public partial class App : Application
                 //TODO: Solve entity framework problem (probably solved)
                 services.AddSingleton<IDataService<Deck>, DeckDataService>();
 
-                services.AddDbContext<FlashcardAppDbContext>(options => options.UseSqlServer(connectionString));
-                services.AddSingleton<FlashcardAppDbContextFactory>(
-                    new FlashcardAppDbContextFactory(connectionString));
+                #endregion
 
-                services.AddSingleton<IFlashcardAppViewModelFactory, FlashcardAppViewModelFactory>();
-
-                services.AddSingleton<DeckListingViewModel>(services => new DeckListingViewModel(
-                        services.GetRequiredService<ViewModelDelegateRenavigator<DeckDetailsViewModel>>(),
-                        services.GetRequiredService<DeckStore>(),
-                        services.GetRequiredService<IDeckService>(),
-                        services.GetRequiredService<ModalNavigationStore>(),
-                        services.GetRequiredService<CreateViewModel<AddEmptyDeckViewModel>>(),
-                        services.GetRequiredService<CreateViewModel<ChangeDeckNameViewModel>>()));
+                #region Create View Model Delegates
 
                 services.AddSingleton<CreateViewModel<AddEmptyDeckViewModel>>(services =>
                 {
@@ -107,10 +103,6 @@ public partial class App : Application
                         services.GetRequiredService<ViewModelDelegateRenavigator<DeckDetailsViewModel>>());
                 });
 
-                services.AddSingleton<ViewModelDelegateRenavigator<CardReviewViewModel>>();
-
-                services.AddSingleton<ViewModelDelegateRenavigator<CardBrowsingViewModel>>();
-
                 services.AddSingleton<CreateViewModel<DeckDetailsViewModel>>(services =>
                 {
                     return () => new DeckDetailsViewModel(
@@ -130,21 +122,17 @@ public partial class App : Application
                         services.GetRequiredService<ModalNavigationStore>());
                 });
 
-                services.AddSingleton <CreateViewModel<EditDeckDescriptionViewModel>>(services =>
+                services.AddSingleton<CreateViewModel<EditDeckDescriptionViewModel>>(services =>
                 {
                     return () => new EditDeckDescriptionViewModel(
                         services.GetRequiredService<DeckStore>(),
                         services.GetRequiredService<ModalNavigationStore>());
                 });
 
-                services.AddSingleton<ViewModelDelegateRenavigator<DeckDetailsViewModel>>();
-
                 services.AddSingleton<CreateViewModel<DeckListingViewModel>>(services =>
                 {
                     return () => services.GetRequiredService<DeckListingViewModel>();
                 });
-
-                services.AddSingleton<ViewModelDelegateRenavigator<DeckListingViewModel>>();
 
                 services.AddSingleton<CreateViewModel<AddCardViewModel>>(services =>
                 {
@@ -152,6 +140,40 @@ public partial class App : Application
                         services.GetRequiredService<ViewModelDelegateRenavigator<DeckListingViewModel>>(),
                         services.GetRequiredService<DeckStore>());
                 });
+
+
+                #endregion
+
+                #region Renavigators
+
+                services.AddSingleton<ViewModelDelegateRenavigator<CardReviewViewModel>>();
+                services.AddSingleton<ViewModelDelegateRenavigator<CardBrowsingViewModel>>();
+                services.AddSingleton<ViewModelDelegateRenavigator<DeckDetailsViewModel>>();
+                services.AddSingleton<ViewModelDelegateRenavigator<DeckListingViewModel>>();
+
+                #endregion
+
+                #region Stores
+
+                services.AddSingleton<DeckStore>();
+                services.AddSingleton<ModalNavigationStore>();
+                services.AddSingleton<SelectedCardStore>();
+
+                #endregion
+
+                services.AddDbContext<FlashcardAppDbContext>(options => options.UseSqlServer(connectionString));
+                services.AddSingleton<FlashcardAppDbContextFactory>(
+                    new FlashcardAppDbContextFactory(connectionString));
+
+                services.AddSingleton<IFlashcardAppViewModelFactory, FlashcardAppViewModelFactory>();
+
+                services.AddSingleton<DeckListingViewModel>(services => new DeckListingViewModel(
+                        services.GetRequiredService<ViewModelDelegateRenavigator<DeckDetailsViewModel>>(),
+                        services.GetRequiredService<DeckStore>(),
+                        services.GetRequiredService<IDeckService>(),
+                        services.GetRequiredService<ModalNavigationStore>(),
+                        services.GetRequiredService<CreateViewModel<AddEmptyDeckViewModel>>(),
+                        services.GetRequiredService<CreateViewModel<ChangeDeckNameViewModel>>()));
 
                 services.AddSingleton<INavigator, Navigator>();
                 services.AddSingleton<MainWindowViewModel>((services) =>
@@ -165,8 +187,6 @@ public partial class App : Application
                     new MainWindow(services.GetRequiredService<MainWindowViewModel>())
                 );
 
-                services.AddSingleton<DeckStore>();
-                services.AddSingleton<ModalNavigationStore>();
             });
     }
 
@@ -187,6 +207,7 @@ public partial class App : Application
 
             #region Test
 
+#if TEST_PURPOSE
             _cardTemplateService = new CardTemplateService();
             _cardService = new CardService();
 
@@ -198,6 +219,7 @@ public partial class App : Application
             Card testCard = await _cardService.CreateCard(testTemplate, defaultDeck);
 
             defaultDeck.AddCard(testCard);
+#endif
 
             #endregion
 
@@ -206,6 +228,8 @@ public partial class App : Application
         }
 
         #region Test
+
+#if TEST_PURPOSE
         if (!_deckStore.Decks.Any(d => d.Name == "test"))
         {
 
@@ -234,6 +258,7 @@ public partial class App : Application
 
             await _deckStore.AddAsync(testDeck); 
         }
+#endif
 
         #endregion
 
@@ -254,6 +279,11 @@ public partial class App : Application
     // Use probably null values in appsettings.json file
     // when app should get values from appsettings.default.json
     // and use non null values when app should override default setting with user defined value
+
+    // TODO: Add error handling
+    // TODO: Add loading spinners
+
+    // TODO: Add card templates removal from databasa
 
     protected override async void OnExit(ExitEventArgs e)
     {
