@@ -55,6 +55,8 @@ public class DeckStore : IEnumerable<Deck>
     #region test purpose
 
     public event Action<Card> CardAdded;
+    public event Action<Card> CardUpdated;
+    public event Action<Card> CardDeleted;
 
     public async Task AddCardAsync(CardTemplateType templateType, string front, string back, Deck deck)
     {
@@ -71,6 +73,51 @@ public class DeckStore : IEnumerable<Deck>
         await UpdateAsync(deck);
 
         CardAdded?.Invoke(card);
+    }
+
+    public async Task UpdateCardAsync(Card card, string front, string back)
+    {
+        CardTemplate template = card.CardTemplate;
+
+        int id = template.Id;
+
+        template.Front = front;
+        template.Back = back;
+        
+        Deck deck = card.Deck;
+
+        //Card newCard = await _cardService.CreateCard(template, deck);
+
+        CardTemplate result = await _cardTemplateDataService.Update(id, template);
+
+        //Card result = await _cardDataService.Update(id, newCard);
+
+        //await UpdateAsync(deck);
+
+        CardUpdated?.Invoke(card);
+    }
+
+    public async Task RemoveCardAsync(Card card)
+    {
+        bool isDeleted = await _cardDataService.Delete(card.Id);
+
+        if (!isDeleted)
+        {
+            return;
+        }
+
+        Deck deck = card.Deck;
+
+        if (deck.Cards.Contains(card))
+        {
+            deck.RemoveCard(card);
+        }
+
+        CardTemplate cardTemplate = card.CardTemplate;
+
+        bool result = await _cardTemplateDataService.Delete(cardTemplate.Id);
+
+        CardDeleted?.Invoke(card);
     }
 
     #endregion
@@ -144,15 +191,15 @@ public class DeckStore : IEnumerable<Deck>
             return;
         }
 
-            _decks.Remove(deck);
+        _decks.Remove(deck);
 
         foreach (CardTemplate cardTemplate in cardTemplates)
         {
             bool result = await _cardTemplateDataService.Delete(cardTemplate.Id);
         }
 
-            DeckDeleted?.Invoke(deck);
-        }
+        DeckDeleted?.Invoke(deck);
+    }
 
     public IEnumerator<Deck> GetEnumerator()
     {

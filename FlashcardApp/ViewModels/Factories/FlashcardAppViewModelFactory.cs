@@ -14,16 +14,19 @@ public class FlashcardAppViewModelFactory : IFlashcardAppViewModelFactory
     private readonly CreateViewModel<CardReviewViewModel> _createCardReviewViewModel;
     private readonly CreateViewModel<DeckDetailsViewModel> _createDeckDetailsViewModel;
     private readonly CreateViewModel<AddCardViewModel> _createAddCardViewModel;
+    private readonly CreateViewModel<CardViewerViewModel> _createCardViewerViewModel;
 
     public FlashcardAppViewModelFactory(CreateViewModel<DeckListingViewModel> createDeckListingViewModel,
         CreateViewModel<CardReviewViewModel> createCardReviewViewModel,
         CreateViewModel<DeckDetailsViewModel> createDeckDetailsViewModel,
-        CreateViewModel<AddCardViewModel> createAddCardViewModel)
+        CreateViewModel<AddCardViewModel> createAddCardViewModel,
+        CreateViewModel<CardViewerViewModel> createCardViewerViewModel)
     {
         _createDeckListingViewModel = createDeckListingViewModel;
         _createCardReviewViewModel = createCardReviewViewModel;
         _createDeckDetailsViewModel = createDeckDetailsViewModel;
         _createAddCardViewModel = createAddCardViewModel;
+        _createCardViewerViewModel = createCardViewerViewModel;
     }
 
     public ViewModelBase CreateViewModel(ViewType viewType)
@@ -34,6 +37,7 @@ public class FlashcardAppViewModelFactory : IFlashcardAppViewModelFactory
             ViewType.CardReview => _createCardReviewViewModel(),
             ViewType.DeckDetails => _createDeckDetailsViewModel(),
             ViewType.AddCard => _createAddCardViewModel(),
+            ViewType.CardViewer => _createCardViewerViewModel(),
             _ => throw new ArgumentException("The ViewType does not have a ViewModel.",
                 nameof(viewType)),
         };

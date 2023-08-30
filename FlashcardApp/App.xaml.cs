@@ -44,7 +44,7 @@ public partial class App : Application
 
 #if TEST_PURPOSE
     private ICardTemplateService _cardTemplateService;
-    private ICardService _cardService;
+    private ICardService _cardService; 
 #endif
 
     #endregion
@@ -141,6 +141,22 @@ public partial class App : Application
                         services.GetRequiredService<DeckStore>());
                 });
 
+                services.AddSingleton<CreateViewModel<CardViewerViewModel>>(services =>
+                {
+                    return () => new CardViewerViewModel(
+                        services.GetRequiredService<ViewModelDelegateRenavigator<DeckListingViewModel>>(),
+                        services.GetRequiredService<DeckStore>(),
+                        services.GetRequiredService<SelectedCardStore>(),
+                        services.GetRequiredService<ModalNavigationStore>(),
+                        services.GetRequiredService<CreateViewModel<EditCardViewModel>>());
+                });
+
+                services.AddSingleton<CreateViewModel<EditCardViewModel>>(services =>
+                {
+                    return () => new EditCardViewModel(
+                        services.GetRequiredService<DeckStore>(),
+                        services.GetRequiredService<ModalNavigationStore>());
+                });
 
                 #endregion
 
@@ -218,7 +234,7 @@ public partial class App : Application
 
             Card testCard = await _cardService.CreateCard(testTemplate, defaultDeck);
 
-            defaultDeck.AddCard(testCard);
+            defaultDeck.AddCard(testCard); 
 #endif
 
             #endregion
@@ -256,7 +272,7 @@ public partial class App : Application
             testDeck.AddCard(testCard1);
             testDeck.AddCard(testCard2);
 
-            await _deckStore.AddAsync(testDeck); 
+            await _deckStore.AddAsync(testDeck);
         }
 #endif
 

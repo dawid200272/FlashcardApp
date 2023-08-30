@@ -18,5 +18,6 @@ public enum ViewType
     DeckListing,
     DeckDetails,
     CardReview,
-    AddCard
+    AddCard,
+    CardViewer
 }

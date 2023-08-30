@@ -47,12 +47,27 @@ public class DeckListingViewModel : ViewModelBase
         _deckStore.DeckUpdated += DeckStore_DeckCollectionChanged;
         _deckStore.DeckDeleted += DeckStore_DeckCollectionChanged;
 
-        _deckStore.CardAdded += DeckStore_CardAdded;
+        _deckStore.CardAdded += DeckStore_DeckCardCollectionChanged;
+        _deckStore.CardDeleted += DeckStore_CardDeleted;
 
         UpdateDecks(_deckStore);
     }
 
-    private void DeckStore_CardAdded(Card obj)
+    private void DeckStore_CardDeleted(Card obj)
+    {
+        Deck deck = obj.Deck;
+
+        DeckViewModel? deckViewModel = _decks.FirstOrDefault(dvm => dvm.Deck.Id == deck.Id);
+
+        if (deckViewModel is null)
+        {
+            return;
+        }
+
+        deckViewModel.UpdateCardsInfo();
+    }
+
+    private void DeckStore_DeckCardCollectionChanged(Card obj)
     {
         UpdateDecks(_deckStore);
     }

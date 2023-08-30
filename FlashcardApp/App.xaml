@@ -44,6 +44,14 @@
             <DataTemplate DataType="{x:Type viewmodels:ChangeDeckNameViewModel}">
                 <views:ChangeDeckNameView/>
             </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type viewmodels:CardViewerViewModel}">
+                <views:CardViewerView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodels:EditCardViewModel}">
+                <views:EditCardView/>
+            </DataTemplate>
 
         </ResourceDictionary>
         
