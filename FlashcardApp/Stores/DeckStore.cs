@@ -132,13 +132,27 @@ public class DeckStore : IEnumerable<Deck>
     {
         bool isDeleted = await _deckDataService.Delete(deck.Id);
 
-        if (isDeleted)
+        List<CardTemplate> cardTemplates = new List<CardTemplate>();
+
+        foreach (Card card in deck.Cards)
         {
+            cardTemplates.Add(card.CardTemplate);
+        }
+
+        if (!isDeleted)
+        {
+            return;
+        }
+
             _decks.Remove(deck);
+
+        foreach (CardTemplate cardTemplate in cardTemplates)
+        {
+            bool result = await _cardTemplateDataService.Delete(cardTemplate.Id);
+        }
 
             DeckDeleted?.Invoke(deck);
         }
-    }
 
     public IEnumerator<Deck> GetEnumerator()
     {
