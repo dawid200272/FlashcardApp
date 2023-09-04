@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace FlashcardApp.AnkiConnectAPI.JsonDTOs;
-public class requestJsonDTO
+public class requestJsonDto
 {
     [JsonPropertyName("action")]
     public string Action { get; set; }
@@ -15,7 +15,7 @@ public class requestJsonDTO
     public int Version { get; set; }
 }
 
-public class requestWithParamsJsonDTO
+public class requestWithParamsJsonDto
 {
     [JsonPropertyName("action")]
     public string Action { get; set; }
