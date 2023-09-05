@@ -185,6 +185,7 @@
                                             TextBlock.TextAlignment="Center">
                                             <Button Content="Change Name" Command="{Binding ChangeDeckNameCommand}"/>
                                             <Button Content="Delete" Command="{Binding DeleteDeckCommand}"/>
+                                            <Button Content="Export" Command="{Binding ExportDeckCommand}"/>
                                         </StackPanel>
                                     </Border>
                                 </dropdownmenu:DropdownMenu>

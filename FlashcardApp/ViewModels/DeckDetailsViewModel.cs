@@ -1,4 +1,5 @@
 ﻿using FlashcardApp.Domain.Models;
+using FlashcardApp.Domain.Services;
 using FlashcardApp.WPF.Commands;
 using FlashcardApp.WPF.State.Navigators;
 using FlashcardApp.WPF.Stores;
@@ -21,6 +22,7 @@ public class DeckDetailsViewModel : ViewModelBase
     private readonly CreateViewModel<ChangeDeckNameViewModel> _createChangeDeckNameViewModel;
     private readonly DeckStore _deckStore;
     private readonly IParameterRenavigator _deckDetailsRenavigator;
+    private readonly IDeckExportService _deckExportService;
 
     private DeckViewModel _deckViewModel;
 
@@ -30,7 +32,8 @@ public class DeckDetailsViewModel : ViewModelBase
         CreateViewModel<EditDeckDescriptionViewModel> createEditDeckDescriptionViewModel,
         DeckStore deckStore,
         IParameterRenavigator deckDetailsRenavigator,
-        CreateViewModel<ChangeDeckNameViewModel> createChangeDeckNameViewModel)
+        CreateViewModel<ChangeDeckNameViewModel> createChangeDeckNameViewModel,
+        IDeckExportService deckExportService)
     {
         _cardReviewRenavigator = cardReviewRenavigator;
         _cardBrowsingRenavigator = cardBrowsingRenavigator;
@@ -39,6 +42,7 @@ public class DeckDetailsViewModel : ViewModelBase
         _deckStore = deckStore;
         _deckDetailsRenavigator = deckDetailsRenavigator;
         _createChangeDeckNameViewModel = createChangeDeckNameViewModel;
+        _deckExportService = deckExportService;
 
         _deckStore.DeckUpdated += DeckStore_DeckUpdated;
     }
@@ -63,7 +67,8 @@ public class DeckDetailsViewModel : ViewModelBase
             updatedDeck,
             _modalNavigationStore,
             _createChangeDeckNameViewModel,
-            _deckStore);
+            _deckStore,
+            _deckExportService);
 
         LoadDeckDetailsViewModel(newDeckViewModel);
     }

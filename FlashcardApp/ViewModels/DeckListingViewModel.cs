@@ -17,12 +17,12 @@ namespace FlashcardApp.WPF.ViewModels;
 public class DeckListingViewModel : ViewModelBase
 {
     private readonly IParameterRenavigator _renavigator;
-
     private readonly DeckStore _deckStore;
     private readonly IDeckService _deckService;
     private readonly ModalNavigationStore _modalNavigationStore;
     private readonly CreateViewModel<AddEmptyDeckViewModel> _createViewModel;
     private readonly CreateViewModel<ChangeDeckNameViewModel> _createChangeDeckNameViewModel;
+    private readonly IDeckExportService _deckExportService;
 
     private ObservableCollection<DeckViewModel> _decks;
 
@@ -31,15 +31,16 @@ public class DeckListingViewModel : ViewModelBase
         IDeckService deckService,
         ModalNavigationStore modalNavigationStore,
         CreateViewModel<AddEmptyDeckViewModel> createViewModel,
-        CreateViewModel<ChangeDeckNameViewModel> createChangeDeckNameViewModel)
+        CreateViewModel<ChangeDeckNameViewModel> createChangeDeckNameViewModel,
+        IDeckExportService deckExportService)
     {
         _renavigator = renavigator;
-
         _deckStore = deckStore;
         _deckService = deckService;
         _modalNavigationStore = modalNavigationStore;
         _createViewModel = createViewModel;
         _createChangeDeckNameViewModel = createChangeDeckNameViewModel;
+        _deckExportService = deckExportService;
 
         OpenAddEmptyDeckModalCommand = new OpenAddEmptyDeckModalCommand(_modalNavigationStore, _createViewModel);
 
@@ -122,7 +123,8 @@ public class DeckListingViewModel : ViewModelBase
                 deck,
                 _modalNavigationStore,
                 _createChangeDeckNameViewModel,
-                _deckStore));
+                _deckStore,
+                _deckExportService));
         }
 
         _decks = new ObservableCollection<DeckViewModel>(deckViewModels);
