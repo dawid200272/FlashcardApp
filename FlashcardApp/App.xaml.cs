@@ -1,5 +1,6 @@
 ﻿//#define TEST_PURPOSE
 
+using FlashcardApp.AnkiConnectAPI.Services;
 using FlashcardApp.Domain.Models;
 using FlashcardApp.Domain.Services;
 using FlashcardApp.EntityFramework;
@@ -79,6 +80,8 @@ public partial class App : Application
                 //TODO: Solve entity framework problem (probably solved)
                 services.AddSingleton<IDataService<Deck>, DeckDataService>();
 
+                services.AddSingleton<IDeckExportService, DeckExportService>();
+
                 #endregion
 
                 #region Create View Model Delegates
@@ -112,7 +115,8 @@ public partial class App : Application
                         services.GetRequiredService<CreateViewModel<EditDeckDescriptionViewModel>>(),
                         services.GetRequiredService<DeckStore>(),
                         services.GetRequiredService<ViewModelDelegateRenavigator<DeckDetailsViewModel>>(),
-                        services.GetRequiredService<CreateViewModel<ChangeDeckNameViewModel>>());
+                        services.GetRequiredService<CreateViewModel<ChangeDeckNameViewModel>>(),
+                        services.GetRequiredService<IDeckExportService>());
                 });
 
                 services.AddSingleton<CreateViewModel<ChangeDeckNameViewModel>>(services =>
@@ -189,7 +193,8 @@ public partial class App : Application
                         services.GetRequiredService<IDeckService>(),
                         services.GetRequiredService<ModalNavigationStore>(),
                         services.GetRequiredService<CreateViewModel<AddEmptyDeckViewModel>>(),
-                        services.GetRequiredService<CreateViewModel<ChangeDeckNameViewModel>>()));
+                        services.GetRequiredService<CreateViewModel<ChangeDeckNameViewModel>>(),
+                        services.GetRequiredService<IDeckExportService>()));
 
                 services.AddSingleton<INavigator, Navigator>();
                 services.AddSingleton<MainWindowViewModel>((services) =>

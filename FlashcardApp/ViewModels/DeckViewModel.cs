@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 using FlashcardApp.WPF.Stores;
+using FlashcardApp.Domain.Services;
 
 namespace FlashcardApp.WPF.ViewModels;
 
@@ -16,18 +17,21 @@ public class DeckViewModel : ViewModelBase
     private readonly ModalNavigationStore _modalNavigationStore;
     private readonly CreateViewModel<ChangeDeckNameViewModel> _createViewModel;
     private readonly DeckStore _deckStore;
+    private readonly IDeckExportService _deckExportService;
 
     public DeckViewModel(IParameterRenavigator renavigator,
         Deck deck,
         ModalNavigationStore modalNavigationStore,
         CreateViewModel<ChangeDeckNameViewModel> createViewModel,
-        DeckStore deckStore)
+        DeckStore deckStore,
+        IDeckExportService deckExportService)
     {
         _renavigator = renavigator;
         _deck = deck;
         _modalNavigationStore = modalNavigationStore;
         _createViewModel = createViewModel;
         _deckStore = deckStore;
+        _deckExportService = deckExportService;
 
         _name = _deck.Name;
         _description = _deck.Description;
@@ -39,11 +43,14 @@ public class DeckViewModel : ViewModelBase
             this);
         DeleteDeckCommand = new DeleteDeckCommand(this, _deckStore);
 
+        ExportDeckCommand = new ExportDeckCommand(_deckExportService, this);
+
         UpdateCardsInfo();
     }
 
     public ICommand ChangeDeckNameCommand { get; }
     public ICommand DeleteDeckCommand { get; }
+    public ICommand ExportDeckCommand { get; }
 
     public ICommand SelectDeckCommand { get; }
 

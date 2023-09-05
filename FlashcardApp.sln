@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlashcardApp.Domain", "Flas
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF.CustomControls", "WPF.CustomControls", "{3A3792CE-33A7-4DE8-9C12-5089ABD7E93A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DropdownMenu", "WPF.CustomControls\DropdownMenu\DropdownMenu.csproj", "{BFC01C90-BD3F-456C-8247-3DEB86A8F777}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DropdownMenu", "WPF.CustomControls\DropdownMenu\DropdownMenu.csproj", "{BFC01C90-BD3F-456C-8247-3DEB86A8F777}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModalControl", "WPF.CustomControls\ModalControl\ModalControl.csproj", "{6A8360D8-8B1C-4CD8-AB43-A48BA21ECF82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModalControl", "WPF.CustomControls\ModalControl\ModalControl.csproj", "{6A8360D8-8B1C-4CD8-AB43-A48BA21ECF82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashcardApp.AnkiConnectAPI", "FlashcardApp.AnkiConnectAPI\FlashcardApp.AnkiConnectAPI.csproj", "{66303409-70A4-4E5D-8442-251E3331A175}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{6A8360D8-8B1C-4CD8-AB43-A48BA21ECF82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A8360D8-8B1C-4CD8-AB43-A48BA21ECF82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A8360D8-8B1C-4CD8-AB43-A48BA21ECF82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66303409-70A4-4E5D-8442-251E3331A175}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66303409-70A4-4E5D-8442-251E3331A175}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66303409-70A4-4E5D-8442-251E3331A175}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66303409-70A4-4E5D-8442-251E3331A175}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
