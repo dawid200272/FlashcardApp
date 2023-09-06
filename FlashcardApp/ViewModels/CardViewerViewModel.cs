@@ -15,20 +15,23 @@ public class CardViewerViewModel : ViewModelBase
     private readonly SelectedCardStore _selectedCardStore;
     private readonly ModalNavigationStore _modalNavigationStore;
     private readonly CreateViewModel<EditCardViewModel> _createViewModel;
+    private readonly GlobalMessageStore _globalMessageStore;
 
     public CardViewerViewModel(IRenavigator renavigator,
         DeckStore deckStore,
         SelectedCardStore selectedCardStore,
         ModalNavigationStore modalNavigationStore,
-        CreateViewModel<EditCardViewModel> createViewModel)
+        CreateViewModel<EditCardViewModel> createViewModel,
+        GlobalMessageStore globalMessageStore)
     {
         _renavigator = renavigator;
         _deckStore = deckStore;
         _selectedCardStore = selectedCardStore;
         _modalNavigationStore = modalNavigationStore;
         _createViewModel = createViewModel;
+        _globalMessageStore = globalMessageStore;
 
-        CardListingViewModel = new CardListingViewModel(_deckStore, _selectedCardStore, _modalNavigationStore, _createViewModel);
+        CardListingViewModel = new CardListingViewModel(_deckStore, _selectedCardStore, _modalNavigationStore, _createViewModel, _globalMessageStore);
         CardDetailsViewModel = new CardDetailsViewModel(_selectedCardStore);
     }
 

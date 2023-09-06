@@ -13,15 +13,18 @@ public class EditDeckDescriptionViewModel : ViewModelBase
 {
     private readonly DeckStore _deckStore;
     private readonly ModalNavigationStore _modalNavigationStore;
+    private readonly GlobalMessageStore _globalMessageStore;
 
     private DeckViewModel _deckViewModel;
     private string? _deckDescription;
 
     public EditDeckDescriptionViewModel(DeckStore deckStore,
-        ModalNavigationStore modalNavigationStore)
+        ModalNavigationStore modalNavigationStore,
+        GlobalMessageStore globalMessageStore)
     {
         _deckStore = deckStore;
         _modalNavigationStore = modalNavigationStore;
+        _globalMessageStore = globalMessageStore;
 
         CloseCommand = new CloseModalCommand(_modalNavigationStore);
     }
@@ -31,7 +34,7 @@ public class EditDeckDescriptionViewModel : ViewModelBase
         _deckViewModel = deckViewModel;
         _deckDescription = _deckViewModel.Description;
 
-        EditDeckDescriptionCommand = new EditDeckDescriptionCommand(this, _deckStore);
+        EditDeckDescriptionCommand = new EditDeckDescriptionCommand(this, _deckStore, _globalMessageStore);
     }
 
     public ICommand EditDeckDescriptionCommand { get; set; }

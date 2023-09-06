@@ -18,13 +18,15 @@ public class DeckViewModel : ViewModelBase
     private readonly CreateViewModel<ChangeDeckNameViewModel> _createViewModel;
     private readonly DeckStore _deckStore;
     private readonly IDeckExportService _deckExportService;
+    private readonly GlobalMessageStore _globalMessageStore;
 
     public DeckViewModel(IParameterRenavigator renavigator,
         Deck deck,
         ModalNavigationStore modalNavigationStore,
         CreateViewModel<ChangeDeckNameViewModel> createViewModel,
         DeckStore deckStore,
-        IDeckExportService deckExportService)
+        IDeckExportService deckExportService,
+        GlobalMessageStore globalMessageStore)
     {
         _renavigator = renavigator;
         _deck = deck;
@@ -32,6 +34,7 @@ public class DeckViewModel : ViewModelBase
         _createViewModel = createViewModel;
         _deckStore = deckStore;
         _deckExportService = deckExportService;
+        _globalMessageStore = globalMessageStore;
 
         _name = _deck.Name;
         _description = _deck.Description;
@@ -41,9 +44,9 @@ public class DeckViewModel : ViewModelBase
         ChangeDeckNameCommand = new OpenChangeDeckNameModalCommand(_modalNavigationStore,
             _createViewModel,
             this);
-        DeleteDeckCommand = new DeleteDeckCommand(this, _deckStore);
+        DeleteDeckCommand = new DeleteDeckCommand(this, _deckStore, _globalMessageStore);
 
-        ExportDeckCommand = new ExportDeckCommand(_deckExportService, this);
+        ExportDeckCommand = new ExportDeckCommand(_deckExportService, this, _globalMessageStore);
 
         UpdateCardsInfo();
     }

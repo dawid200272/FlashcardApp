@@ -12,23 +12,38 @@ public class ChangeDeckNameCommand : AsyncCommandBase
 {
     private readonly ChangeDeckNameViewModel _viewModel;
     private readonly DeckStore _deckStore;
+    private readonly GlobalMessageStore _globalMessageStore;
 
-    public ChangeDeckNameCommand(ChangeDeckNameViewModel viewModel, DeckStore deckStore)
+    public ChangeDeckNameCommand(ChangeDeckNameViewModel viewModel,
+        DeckStore deckStore,
+        GlobalMessageStore globalMessageStore)
     {
         _viewModel = viewModel;
         _deckStore = deckStore;
+        _globalMessageStore = globalMessageStore;
     }
 
     public override async Task ExecuteAsync (object? parameter)
     {
-        Deck deck = _viewModel.DeckViewModel.Deck;
+        try
+        {
+            _globalMessageStore.ClearCurrentMessage();
 
-        string newDeckName = _viewModel.NewDeckName;
+            Deck deck = _viewModel.DeckViewModel.Deck;
 
-        deck.Name = newDeckName;
+            string newDeckName = _viewModel.NewDeckName;
 
-        await _deckStore.UpdateAsync(deck);
+            deck.Name = newDeckName;
 
-        _viewModel.CloseCommand.Execute(null);
+            await _deckStore.UpdateAsync(deck);
+
+            _viewModel.CloseCommand.Execute(null);
+
+            _globalMessageStore.SetCurrentMessage("Deck name was changed.", MessageType.Status);
+        }
+        catch (Exception)
+        {
+            _globalMessageStore.SetCurrentMessage("Changing deck name failed.", MessageType.Error);
+        }
     }
 }

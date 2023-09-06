@@ -14,11 +14,15 @@ public class EditCardCommand : AsyncCommandBase
 {
     private readonly EditCardViewModel _viewModel;
     private readonly DeckStore _deckStore;
+    private readonly GlobalMessageStore _globalMessageStore;
 
-    public EditCardCommand(EditCardViewModel viewModel, DeckStore deckStore)
+    public EditCardCommand(EditCardViewModel viewModel,
+        DeckStore deckStore,
+        GlobalMessageStore globalMessageStore)
     {
         _viewModel = viewModel;
         _deckStore = deckStore;
+        _globalMessageStore = globalMessageStore;
 
         _viewModel.PropertyChanged += ViewModel_PropertyChanged;
     }
@@ -30,14 +34,25 @@ public class EditCardCommand : AsyncCommandBase
 
     public override async Task ExecuteAsync(object? parameter)
     {
-        string front = _viewModel.Front;
-        string back = _viewModel.Back;
+        try
+        {
+            _globalMessageStore.ClearCurrentMessage();
 
-        Card card = _viewModel.CardListingItemViewModel.Card;
+            string front = _viewModel.Front;
+            string back = _viewModel.Back;
 
-        await _deckStore.UpdateCardAsync(card, front, back);
+            Card card = _viewModel.CardListingItemViewModel.Card;
 
-        _viewModel.CloseCommand.Execute(null);
+            await _deckStore.UpdateCardAsync(card, front, back);
+
+            _viewModel.CloseCommand.Execute(null);
+
+            _globalMessageStore.SetCurrentMessage("Card was edited.", MessageType.Status);
+        }
+        catch (Exception)
+        {
+            _globalMessageStore.SetCurrentMessage("Editing card failed.", MessageType.Error);
+        }
     }
 
     private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)

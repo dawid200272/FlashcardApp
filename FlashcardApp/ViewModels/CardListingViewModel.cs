@@ -15,6 +15,7 @@ public class CardListingViewModel : ViewModelBase
     private readonly SelectedCardStore _selectedCardStore;
     private readonly ModalNavigationStore _modalNavigationStore;
     private readonly CreateViewModel<EditCardViewModel> _createViewModel;
+    private readonly GlobalMessageStore _globalMessageStore;
 
     private DeckViewModel _deckViewModel;
     private ObservableCollection<CardListingItemViewModel> _cardListingItemViewModels;
@@ -22,12 +23,14 @@ public class CardListingViewModel : ViewModelBase
     public CardListingViewModel(DeckStore deckStore,
         SelectedCardStore selectedCardStore,
         ModalNavigationStore modalNavigationStore,
-        CreateViewModel<EditCardViewModel> createViewModel)
+        CreateViewModel<EditCardViewModel> createViewModel,
+        GlobalMessageStore globalMessageStore)
     {
         _deckStore = deckStore;
         _selectedCardStore = selectedCardStore;
         _modalNavigationStore = modalNavigationStore;
         _createViewModel = createViewModel;
+        _globalMessageStore = globalMessageStore;
 
         _cardListingItemViewModels = new ObservableCollection<CardListingItemViewModel>();
 
@@ -105,7 +108,7 @@ public class CardListingViewModel : ViewModelBase
             {
                 string cardDisplayName = $"Card { cardIndex + 1 }";
 
-                cardListingItemViewModels.Add(new CardListingItemViewModel(_modalNavigationStore, _createViewModel, _deckStore, card, cardDisplayName));
+                cardListingItemViewModels.Add(new CardListingItemViewModel(_modalNavigationStore, _createViewModel, _deckStore, card, cardDisplayName, _globalMessageStore));
 
                 cardIndex++;
             }

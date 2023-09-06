@@ -12,14 +12,18 @@ public class ChangeDeckNameViewModel : ViewModelBase
 {
     private readonly DeckStore _deckStore;
     private readonly ModalNavigationStore _modalNavigationStore;
+    private readonly GlobalMessageStore _globalMessageStore;
 
     private DeckViewModel _deckViewModel;
     private string _newDeckName;
 
-    public ChangeDeckNameViewModel(DeckStore deckStore, ModalNavigationStore modalNavigationStore)
+    public ChangeDeckNameViewModel(DeckStore deckStore,
+        ModalNavigationStore modalNavigationStore,
+        GlobalMessageStore globalMessageStore)
     {
         _deckStore = deckStore;
         _modalNavigationStore = modalNavigationStore;
+        _globalMessageStore = globalMessageStore;
 
         CloseCommand = new CloseModalCommand(_modalNavigationStore);
     }
@@ -29,7 +33,7 @@ public class ChangeDeckNameViewModel : ViewModelBase
         _deckViewModel = deckViewModel;
         _newDeckName = _deckViewModel.Name;
 
-        ChangeDeckNameCommand = new ChangeDeckNameCommand(this, _deckStore);
+        ChangeDeckNameCommand = new ChangeDeckNameCommand(this, _deckStore, _globalMessageStore);
     }
 
     public ICommand ChangeDeckNameCommand { get; set; }

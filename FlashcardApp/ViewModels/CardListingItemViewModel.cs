@@ -15,23 +15,26 @@ public class CardListingItemViewModel : ViewModelBase
     private readonly CreateViewModel<EditCardViewModel> _createViewModel;
     private readonly DeckStore _deckStore;
     private readonly Card _card;
+    private readonly GlobalMessageStore _globalMessageStore;
 
     public CardListingItemViewModel(ModalNavigationStore modalNavigationStore,
         CreateViewModel<EditCardViewModel> createViewModel,
         DeckStore deckStore,
         Card card,
-        string cardDisplayName)
+        string cardDisplayName,
+        GlobalMessageStore globalMessageStore)
     {
         _modalNavigationStore = modalNavigationStore;
         _createViewModel = createViewModel;
         _deckStore = deckStore;
         _card = card;
+        _globalMessageStore = globalMessageStore;
 
         CardDisplayName = cardDisplayName;
         DeckName = card.Deck.Name;
 
         EditCardCommand = new OpenEditCardModalCommand(_modalNavigationStore, _createViewModel, this);
-        DeleteCardCommand = new DeleteCardCommand(this, _deckStore);
+        DeleteCardCommand = new DeleteCardCommand(this, _deckStore, _globalMessageStore);
     }
 
     public string CardDisplayName { get; }

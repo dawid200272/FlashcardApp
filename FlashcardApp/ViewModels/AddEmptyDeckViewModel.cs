@@ -13,16 +13,19 @@ public class AddEmptyDeckViewModel : ViewModelBase
 {
     private readonly DeckStore _deckStore;
     private readonly ModalNavigationStore _modalNavigationStore;
+    private readonly GlobalMessageStore _globalMessageStore;
 
     private string _newDeckName;
 
     public AddEmptyDeckViewModel(DeckStore deckStore,
-        ModalNavigationStore modalNavigationStore)
+        ModalNavigationStore modalNavigationStore,
+        GlobalMessageStore globalMessageStore)
     {
         _deckStore = deckStore;
         _modalNavigationStore = modalNavigationStore;
+        _globalMessageStore = globalMessageStore;
 
-        AddEmptyDeckCommand = new AddEmptyDeckCommand(this, _deckStore);
+        AddEmptyDeckCommand = new AddEmptyDeckCommand(this, _deckStore, _globalMessageStore);
         CloseCommand = new CloseModalCommand(_modalNavigationStore);
     }
 

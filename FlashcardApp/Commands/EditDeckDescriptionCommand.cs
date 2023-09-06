@@ -13,23 +13,38 @@ public class EditDeckDescriptionCommand : AsyncCommandBase
 {
     private readonly EditDeckDescriptionViewModel _viewModel;
     private readonly DeckStore _deckStore;
+    private readonly GlobalMessageStore _globalMessageStore;
 
-    public EditDeckDescriptionCommand(EditDeckDescriptionViewModel viewModel, DeckStore deckStore)
+    public EditDeckDescriptionCommand(EditDeckDescriptionViewModel viewModel,
+        DeckStore deckStore,
+        GlobalMessageStore globalMessageStore)
     {
         _viewModel = viewModel;
         _deckStore = deckStore;
+        _globalMessageStore = globalMessageStore;
     }
 
     public override async Task ExecuteAsync(object? parameter)
     {
-        Deck deck = _viewModel.DeckViewModel.Deck;
+        try
+        {
+            _globalMessageStore.ClearCurrentMessage();
 
-        string? newDeckDescription = _viewModel.DeckDescription;
+            Deck deck = _viewModel.DeckViewModel.Deck;
 
-        deck.Description = newDeckDescription;
+            string? newDeckDescription = _viewModel.DeckDescription;
 
-        await _deckStore.UpdateAsync(deck);
+            deck.Description = newDeckDescription;
 
-        _viewModel.CloseCommand.Execute(null);
+            await _deckStore.UpdateAsync(deck);
+
+            _viewModel.CloseCommand.Execute(null);
+
+            _globalMessageStore.SetCurrentMessage("Desription was edited.", MessageType.Status);
+        }
+        catch (Exception)
+        {
+            _globalMessageStore.SetCurrentMessage("Editing description failed.", MessageType.Error);
+        }
     }
 }

@@ -15,14 +15,17 @@ public class EditCardViewModel : ViewModelBase
 {
     private readonly DeckStore _deckStore;
     private readonly ModalNavigationStore _modalNavigationStore;
+    private readonly GlobalMessageStore _globalMessageStore;
 
     private CardListingItemViewModel _cardListingItemViewModel;
 
     public EditCardViewModel(DeckStore deckStore,
-        ModalNavigationStore modalNavigationStore)
+        ModalNavigationStore modalNavigationStore,
+        GlobalMessageStore globalMessageStore)
     {
         _deckStore = deckStore;
         _modalNavigationStore = modalNavigationStore;
+        _globalMessageStore = globalMessageStore;
 
         CloseCommand = new CloseModalCommand(_modalNavigationStore);
     }
@@ -34,7 +37,7 @@ public class EditCardViewModel : ViewModelBase
         _front = _cardListingItemViewModel.Front;
         _back = _cardListingItemViewModel.Back;
 
-        EditCardCommand = new EditCardCommand(this, _deckStore);
+        EditCardCommand = new EditCardCommand(this, _deckStore, _globalMessageStore);
     }
 
     public ICommand EditCardCommand { get; private set; }

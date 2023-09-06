@@ -13,19 +13,34 @@ public class AddEmptyDeckCommand : AsyncCommandBase
 {
     private readonly AddEmptyDeckViewModel _viewModel;
     private readonly DeckStore _deckStore;
+    private readonly GlobalMessageStore _globalMessageStore;
 
-    public AddEmptyDeckCommand(AddEmptyDeckViewModel viewModel, DeckStore deckStore)
+    public AddEmptyDeckCommand(AddEmptyDeckViewModel viewModel,
+        DeckStore deckStore,
+        GlobalMessageStore globalMessageStore)
     {
         _viewModel = viewModel;
         _deckStore = deckStore;
+        _globalMessageStore = globalMessageStore;
     }
 
     public override async Task ExecuteAsync(object? parameter)
     {
-        string deckName = _viewModel.NewDeckName;
+        try
+        {
+            _globalMessageStore.ClearCurrentMessage();
 
-        await _deckStore.AddAsync(deckName);
+            string deckName = _viewModel.NewDeckName;
 
-        _viewModel.CloseCommand.Execute(null);
+            await _deckStore.AddAsync(deckName);
+
+            _viewModel.CloseCommand.Execute(null);
+
+            _globalMessageStore.SetCurrentMessage("Deck was added.", MessageType.Status);
+        }
+        catch (Exception)
+        {
+            _globalMessageStore.SetCurrentMessage("Adding deck failed.", MessageType.Error);
+        }
     }
 }

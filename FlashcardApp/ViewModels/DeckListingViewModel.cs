@@ -23,6 +23,7 @@ public class DeckListingViewModel : ViewModelBase
     private readonly CreateViewModel<AddEmptyDeckViewModel> _createViewModel;
     private readonly CreateViewModel<ChangeDeckNameViewModel> _createChangeDeckNameViewModel;
     private readonly IDeckExportService _deckExportService;
+    private readonly GlobalMessageStore _globalMessageStore;
 
     private ObservableCollection<DeckViewModel> _decks;
 
@@ -32,7 +33,8 @@ public class DeckListingViewModel : ViewModelBase
         ModalNavigationStore modalNavigationStore,
         CreateViewModel<AddEmptyDeckViewModel> createViewModel,
         CreateViewModel<ChangeDeckNameViewModel> createChangeDeckNameViewModel,
-        IDeckExportService deckExportService)
+        IDeckExportService deckExportService,
+        GlobalMessageStore globalMessageStore)
     {
         _renavigator = renavigator;
         _deckStore = deckStore;
@@ -41,6 +43,7 @@ public class DeckListingViewModel : ViewModelBase
         _createViewModel = createViewModel;
         _createChangeDeckNameViewModel = createChangeDeckNameViewModel;
         _deckExportService = deckExportService;
+        _globalMessageStore = globalMessageStore;
 
         OpenAddEmptyDeckModalCommand = new OpenAddEmptyDeckModalCommand(_modalNavigationStore, _createViewModel);
 
@@ -124,7 +127,8 @@ public class DeckListingViewModel : ViewModelBase
                 _modalNavigationStore,
                 _createChangeDeckNameViewModel,
                 _deckStore,
-                _deckExportService));
+                _deckExportService,
+                _globalMessageStore));
         }
 
         _decks = new ObservableCollection<DeckViewModel>(deckViewModels);

@@ -90,7 +90,8 @@ public partial class App : Application
                 {
                     return () => new AddEmptyDeckViewModel(
                         services.GetRequiredService<DeckStore>(),
-                        services.GetRequiredService<ModalNavigationStore>());
+                        services.GetRequiredService<ModalNavigationStore>(),
+                        services.GetRequiredService<GlobalMessageStore>());
                 });
 
                 services.AddSingleton<CreateViewModel<CardReviewViewModel>>(services =>
@@ -116,21 +117,24 @@ public partial class App : Application
                         services.GetRequiredService<DeckStore>(),
                         services.GetRequiredService<ViewModelDelegateRenavigator<DeckDetailsViewModel>>(),
                         services.GetRequiredService<CreateViewModel<ChangeDeckNameViewModel>>(),
-                        services.GetRequiredService<IDeckExportService>());
+                        services.GetRequiredService<IDeckExportService>(),
+                        services.GetRequiredService<GlobalMessageStore>());
                 });
 
                 services.AddSingleton<CreateViewModel<ChangeDeckNameViewModel>>(services =>
                 {
                     return () => new ChangeDeckNameViewModel(
                         services.GetRequiredService<DeckStore>(),
-                        services.GetRequiredService<ModalNavigationStore>());
+                        services.GetRequiredService<ModalNavigationStore>(),
+                        services.GetRequiredService<GlobalMessageStore>());
                 });
 
                 services.AddSingleton<CreateViewModel<EditDeckDescriptionViewModel>>(services =>
                 {
                     return () => new EditDeckDescriptionViewModel(
                         services.GetRequiredService<DeckStore>(),
-                        services.GetRequiredService<ModalNavigationStore>());
+                        services.GetRequiredService<ModalNavigationStore>(),
+                        services.GetRequiredService<GlobalMessageStore>());
                 });
 
                 services.AddSingleton<CreateViewModel<DeckListingViewModel>>(services =>
@@ -142,7 +146,8 @@ public partial class App : Application
                 {
                     return () => new AddCardViewModel(
                         services.GetRequiredService<ViewModelDelegateRenavigator<DeckListingViewModel>>(),
-                        services.GetRequiredService<DeckStore>());
+                        services.GetRequiredService<DeckStore>(),
+                        services.GetRequiredService<GlobalMessageStore>());
                 });
 
                 services.AddSingleton<CreateViewModel<CardViewerViewModel>>(services =>
@@ -152,14 +157,16 @@ public partial class App : Application
                         services.GetRequiredService<DeckStore>(),
                         services.GetRequiredService<SelectedCardStore>(),
                         services.GetRequiredService<ModalNavigationStore>(),
-                        services.GetRequiredService<CreateViewModel<EditCardViewModel>>());
+                        services.GetRequiredService<CreateViewModel<EditCardViewModel>>(),
+                        services.GetRequiredService<GlobalMessageStore>());
                 });
 
                 services.AddSingleton<CreateViewModel<EditCardViewModel>>(services =>
                 {
                     return () => new EditCardViewModel(
                         services.GetRequiredService<DeckStore>(),
-                        services.GetRequiredService<ModalNavigationStore>());
+                        services.GetRequiredService<ModalNavigationStore>(),
+                        services.GetRequiredService<GlobalMessageStore>());
                 });
 
                 #endregion
@@ -178,6 +185,7 @@ public partial class App : Application
                 services.AddSingleton<DeckStore>();
                 services.AddSingleton<ModalNavigationStore>();
                 services.AddSingleton<SelectedCardStore>();
+                services.AddSingleton<GlobalMessageStore>();
 
                 #endregion
 
@@ -194,7 +202,8 @@ public partial class App : Application
                         services.GetRequiredService<ModalNavigationStore>(),
                         services.GetRequiredService<CreateViewModel<AddEmptyDeckViewModel>>(),
                         services.GetRequiredService<CreateViewModel<ChangeDeckNameViewModel>>(),
-                        services.GetRequiredService<IDeckExportService>()));
+                        services.GetRequiredService<IDeckExportService>(),
+                        services.GetRequiredService<GlobalMessageStore>()));
 
                 services.AddSingleton<INavigator, Navigator>();
                 services.AddSingleton<MainWindowViewModel>((services) =>

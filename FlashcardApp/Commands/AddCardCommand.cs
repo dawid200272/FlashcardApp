@@ -15,12 +15,15 @@ public class AddCardCommand : AsyncCommandBase
 {
     private readonly AddCardViewModel _viewModel;
     private readonly DeckStore _deckStore;
+    private readonly GlobalMessageStore _globalMessageStore;
 
     public AddCardCommand(AddCardViewModel viewModel,
-        DeckStore deckStore)
+        DeckStore deckStore,
+        GlobalMessageStore globalMessageStore)
     {
         _viewModel = viewModel;
         _deckStore = deckStore;
+        _globalMessageStore = globalMessageStore;
 
         _viewModel.PropertyChanged += ViewModel_PropertyChanged;
     }
@@ -32,15 +35,26 @@ public class AddCardCommand : AsyncCommandBase
 
     public override async Task ExecuteAsync(object? parameter)
     {
-        string front = _viewModel.Front;
-        string back = _viewModel.Back;
-        CardTemplateType templateType = _viewModel.SelectedTemplateType;
+        try
+        {
+            _globalMessageStore.ClearCurrentMessage();
 
-        Deck? selectedDeck = _viewModel.SelectedDeck;
+            string front = _viewModel.Front;
+            string back = _viewModel.Back;
+            CardTemplateType templateType = _viewModel.SelectedTemplateType;
 
-        await _deckStore.AddCardAsync(templateType, front, back, selectedDeck);
+            Deck? selectedDeck = _viewModel.SelectedDeck;
 
-        _viewModel.ResetForm();
+            await _deckStore.AddCardAsync(templateType, front, back, selectedDeck);
+
+            _viewModel.ResetForm();
+
+            _globalMessageStore.SetCurrentMessage("Card was added.", MessageType.Status);
+        }
+        catch (Exception)
+        {
+            _globalMessageStore.SetCurrentMessage("Adding card failed.", MessageType.Error);
+        }
     }
 
     private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)

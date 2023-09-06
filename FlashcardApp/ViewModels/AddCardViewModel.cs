@@ -20,14 +20,17 @@ public class AddCardViewModel : ViewModelBase
 {
     private readonly IRenavigator _renavigator;
     private readonly DeckStore _deckStore;
+    private readonly GlobalMessageStore _globalMessageStore;
 
     public AddCardViewModel(IRenavigator renavigator,
-        DeckStore deckStore)
+        DeckStore deckStore,
+        GlobalMessageStore globalMessageStore)
     {
         _renavigator = renavigator;
         _deckStore = deckStore;
+        _globalMessageStore = globalMessageStore;
 
-        AddCardCommand = new AddCardCommand(this, deckStore);
+        AddCardCommand = new AddCardCommand(this, _deckStore, _globalMessageStore);
         CloseCommand = new CloseCommand(_renavigator);
     }
 

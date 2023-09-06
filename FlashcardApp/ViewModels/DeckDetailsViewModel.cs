@@ -23,6 +23,7 @@ public class DeckDetailsViewModel : ViewModelBase
     private readonly DeckStore _deckStore;
     private readonly IParameterRenavigator _deckDetailsRenavigator;
     private readonly IDeckExportService _deckExportService;
+    private readonly GlobalMessageStore _globalMessageStore;
 
     private DeckViewModel _deckViewModel;
 
@@ -33,7 +34,8 @@ public class DeckDetailsViewModel : ViewModelBase
         DeckStore deckStore,
         IParameterRenavigator deckDetailsRenavigator,
         CreateViewModel<ChangeDeckNameViewModel> createChangeDeckNameViewModel,
-        IDeckExportService deckExportService)
+        IDeckExportService deckExportService,
+        GlobalMessageStore globalMessageStore)
     {
         _cardReviewRenavigator = cardReviewRenavigator;
         _cardBrowsingRenavigator = cardBrowsingRenavigator;
@@ -43,6 +45,7 @@ public class DeckDetailsViewModel : ViewModelBase
         _deckDetailsRenavigator = deckDetailsRenavigator;
         _createChangeDeckNameViewModel = createChangeDeckNameViewModel;
         _deckExportService = deckExportService;
+        _globalMessageStore = globalMessageStore;
 
         _deckStore.DeckUpdated += DeckStore_DeckUpdated;
     }
@@ -68,7 +71,8 @@ public class DeckDetailsViewModel : ViewModelBase
             _modalNavigationStore,
             _createChangeDeckNameViewModel,
             _deckStore,
-            _deckExportService);
+            _deckExportService,
+            _globalMessageStore);
 
         LoadDeckDetailsViewModel(newDeckViewModel);
     }
