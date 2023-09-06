@@ -205,12 +205,17 @@ public partial class App : Application
                         services.GetRequiredService<IDeckExportService>(),
                         services.GetRequiredService<GlobalMessageStore>()));
 
+                services.AddSingleton<GlobalMessageViewModel>(services => new GlobalMessageViewModel(
+                    services.GetRequiredService<GlobalMessageStore>())
+                );
+
                 services.AddSingleton<INavigator, Navigator>();
                 services.AddSingleton<MainWindowViewModel>((services) =>
                     new MainWindowViewModel(services.GetRequiredService<INavigator>(),
                         services.GetRequiredService<IFlashcardAppViewModelFactory>(),
                         appTitle,
-                        services.GetRequiredService<ModalNavigationStore>())
+                        services.GetRequiredService<ModalNavigationStore>(),
+                        services.GetRequiredService<GlobalMessageViewModel>())
                 );
 
                 services.AddSingleton<MainWindow>((services) =>

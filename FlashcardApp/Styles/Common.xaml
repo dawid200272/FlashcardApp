@@ -14,6 +14,10 @@
         <Setter Property="Foreground" Value="White"/>
     </Style>
 
+    <Style x:Key="errorText" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="Red"/>
+    </Style>
+
     <!--Buttons-->
     <Style TargetType="Button">
         <Setter Property="Margin" Value="5, 0"/>

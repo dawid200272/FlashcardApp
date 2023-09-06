@@ -17,12 +17,13 @@
         <Grid Background="{StaticResource BrushPrimaryDark}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <modalcontrol:Modal
                 Grid.Row="0"
-                Grid.RowSpan="2"
+                Grid.RowSpan="3"
                 IsOpen="{Binding IsModalOpen}"
                 Panel.ZIndex="1">
                 <ContentControl Content="{Binding CurrentModalViewModel}" />
@@ -30,7 +31,9 @@
 
             <controls:NavigationBar Grid.Row="0"/>
 
-            <ContentControl Grid.Row="1" Content="{Binding Navigator.CurrentViewModel}" Margin="10, 10, 10 ,5"/>
+            <controls:GlobalMessageBanner Grid.Row="1" DataContext="{Binding GlobalMessageViewModel}"/>
+
+            <ContentControl Grid.Row="2" Content="{Binding Navigator.CurrentViewModel}" Margin="10, 10, 10 ,5"/>
 
         </Grid>
     </ScrollViewer>

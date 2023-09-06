@@ -23,11 +23,13 @@ public class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel(INavigator navigator,
         IFlashcardAppViewModelFactory viewModelFactory,
         string title,
-        ModalNavigationStore modalNavigationStore)
+        ModalNavigationStore modalNavigationStore,
+        GlobalMessageViewModel globalMessageViewModel)
     {
         Navigator = navigator;
         _viewModelFactory = viewModelFactory;
         _title = title;
+        GlobalMessageViewModel = globalMessageViewModel;
 
         UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(navigator, _viewModelFactory);
         UpdateCurrentViewModelCommand.Execute(ViewType.DeckListing);
@@ -39,6 +41,8 @@ public class MainWindowViewModel : ViewModelBase
     public override void Dispose()
     {
         _modalNavigationStore.CurrentViewModelChanged -= ModalNavigationStore_CurrentViewModelChanged;
+
+        GlobalMessageViewModel.Dispose();
 
         base.Dispose();
     }
@@ -64,4 +68,6 @@ public class MainWindowViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
+
+    public GlobalMessageViewModel GlobalMessageViewModel { get; }
 }
