@@ -14,8 +14,11 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
 
+        <Style TargetType="TextBlock" BasedOn="{StaticResource whiteFont}" />
+
         <Style TargetType="ListView">
             <Setter Property="Background" Value="{StaticResource BrushPrimaryDark}"/>
+            <Setter Property="Foreground" Value="{StaticResource BrushAppFont}" />
         </Style>
 
         <Style TargetType="{x:Type GridViewColumnHeader}">
@@ -26,7 +29,7 @@
                                 Background="Transparent">
                             <TextBlock Text="{TemplateBinding Content}" Padding="5, 5, 5, 0"
                                        Width="{TemplateBinding Width}" TextAlignment="Center"
-                                       Foreground="White"/>
+                                       Foreground="{StaticResource BrushAppFont}"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -36,7 +39,7 @@
         <Style TargetType="GridViewRowPresenter">
             <Setter Property="TextBlock.Foreground" Value="White"/>
         </Style>
-        
+
     </UserControl.Resources>
 
     <Grid Background="{StaticResource BrushPrimaryDark}">
@@ -143,7 +146,7 @@
                                                             Background="{TemplateBinding Background}"
                                                             BorderBrush="{TemplateBinding BorderBrush}"
                                                             BorderThickness="{TemplateBinding BorderThickness}">
-                                                            <TextBlock Foreground="Black">
+                                                            <TextBlock Foreground="{StaticResource BrushAppFont}">
                                                                 <ContentPresenter Content="{TemplateBinding Content}"/>
                                                             </TextBlock>
                                                         </Border>

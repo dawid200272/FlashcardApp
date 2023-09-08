@@ -13,6 +13,9 @@
         
         mc:Ignorable="d"
         Title="{Binding Title}" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="TextBlock" BasedOn="{StaticResource whiteFont}" />
+    </Window.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <Grid Background="{StaticResource BrushPrimaryDark}">
             <Grid.RowDefinitions>

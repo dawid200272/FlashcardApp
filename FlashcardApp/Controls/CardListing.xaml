@@ -167,7 +167,7 @@
                                                                     Background="{TemplateBinding Background}"
                                                                     BorderBrush="{TemplateBinding BorderBrush}"
                                                                     BorderThickness="{TemplateBinding BorderThickness}">
-                                                                    <TextBlock Foreground="Black">
+                                                                    <TextBlock Foreground="{StaticResource BrushAppFont}">
                                                                         <ContentPresenter Content="{TemplateBinding Content}"/>
                                                                     </TextBlock>
                                                                 </Border>

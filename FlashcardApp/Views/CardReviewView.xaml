@@ -16,6 +16,8 @@
     <UserControl.Resources>
         <converters:NegateBooleanToVisibilityConverter x:Key="NegateBooleanToVisibilityConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+        <Style TargetType="TextBlock" BasedOn="{StaticResource whiteFont}" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -43,8 +45,8 @@
                     Visibility="{Binding IsAnswerHidden,
                         Converter={StaticResource NegateBooleanToVisibilityConverter},
                         FallbackValue=Collapsed}">
-            <Button Content="Right" TextBlock.Foreground="DarkGreen" Command="{Binding AnswerCommand}" CommandParameter="right" Padding="10 5"/>
-            <Button Content="Wrong" TextBlock.Foreground="DarkRed" Command="{Binding AnswerCommand}" CommandParameter="wrong" Padding="10 5" Margin="20 0"/>
+            <Button Content="Right" Command="{Binding AnswerCommand}" CommandParameter="right" Padding="10 5"/>
+            <Button Content="Wrong" Command="{Binding AnswerCommand}" CommandParameter="wrong" Padding="10 5" Margin="20 0"/>
         </StackPanel>
 
     </Grid>
