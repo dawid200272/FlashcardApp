@@ -34,22 +34,7 @@
 
     <!--#region Buttons -->
 
-    <!--Default Button Style-->
-    <Style TargetType="Button">
-        <Setter Property="Margin" Value="5, 0"/>
-        <Setter Property="Padding" Value="20 8"/>
-
-        <Setter Property="Foreground" Value="White"/>
-
-        <Setter Property="Background" Value="{StaticResource BrushPrimaryDark}"/>
-        <Setter Property="BorderThickness" Value="0"/>
-
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
+    <ControlTemplate x:Key="DefaultButtonTemplate" TargetType="Button">
                     <Border
                         Margin="{TemplateBinding Margin}"
                         Padding="{TemplateBinding Padding}"
@@ -61,37 +46,46 @@
                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                             TextBlock.Foreground="{TemplateBinding Foreground}"
                             />
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Cursor" Value="Hand" />
-
-                <Trigger.EnterActions>
-                    <BeginStoryboard>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="MouseOver">
                         <Storyboard>
                             <ColorAnimation
                                 Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
                                 To="Gray"
                                 Duration="0:0:0.1" />
                         </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.EnterActions>
-                <Trigger.ExitActions>
-                    <BeginStoryboard>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
                         <Storyboard>
                             <ColorAnimation
                                 Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
-                                To="{StaticResource ColorPrimaryDark}"
+                                To="Gray"
                                 Duration="0:0:0.1" />
                         </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.ExitActions>
-            </Trigger>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+        </Border>
+    </ControlTemplate>
 
+    <!--Default Button Style-->
+    <Style TargetType="Button">
+        <Setter Property="Margin" Value="5, 0"/>
+        <Setter Property="Padding" Value="20 8"/>
+
+        <Setter Property="Foreground" Value="{StaticResource BrushAppFont}"/>
+
+        <Setter Property="Background" Value="{StaticResource BrushPrimaryDark}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+        <Setter Property="Template" Value="{StaticResource DefaultButtonTemplate}" />
+
+        <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Opacity" Value="0.7" />
             </Trigger>
