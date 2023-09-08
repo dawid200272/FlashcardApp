@@ -12,6 +12,9 @@
              
              mc:Ignorable="d" 
              Width="500" Height="160">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock" BasedOn="{StaticResource whiteFont}" />
+    </UserControl.Resources>
     <Grid>
         <controls:DeckNameForm
             DeckName="{Binding NewDeckName}"

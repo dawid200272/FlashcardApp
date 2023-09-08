@@ -16,6 +16,8 @@
     <UserControl.Resources>
         <converters:NegateBooleanToVisibilityConverter x:Key="NegateBooleanToVisibilityConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        
+        <Style TargetType="TextBlock" BasedOn="{StaticResource whiteFont}" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
